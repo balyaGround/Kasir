@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('index');
+
+Route::resource('master/bahan', \App\Http\Controllers\Master\BahanController::class);
+Route::resource('master/produk',\App\Http\Controllers\Master\ProdukController::class);
+Route::resource('master/toko',\App\Http\Controllers\Master\TokoController::class);
+Route::resource('master/role',\App\Http\Controllers\User\RoleController::class);

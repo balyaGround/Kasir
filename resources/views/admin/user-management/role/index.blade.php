@@ -8,18 +8,18 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Master Toko</h4>
+                    <h4 class="card-title">Master Role</h4>
                 </div>
                 <div class="card-content">
                     <div class="card-body card-dashboard">
-                        <p class="card-text">Tambah toko</p>
-                        <button class="btn btn-success" data-toggle="modal" data-target="#modalAdd">Tambah Toko</button>
+                        <p class="card-text">Tambah Role</p>
+                        <button class="btn btn-success" data-toggle="modal" data-target="#modalAdd">Tambah Role</button>
                         <div class="table-responsive">
                             <table class="table zero-configuration table-striped table-bordered     ">
                                 <thead>
                                 <tr>
                                     <th class="text-center">Nama</th>
-                                    <th class="text-center">Logo</th>
+
                                     <th class="text-center">Action</th>
                                 </tr>
                                 </thead>
@@ -27,9 +27,6 @@
                                 @foreach($data as $dt)
                                     <tr>
                                         <td class="text-center">{{$dt->nama}}</td>
-                                        <td class="text-center"><img
-                                                src="{{asset('storage/images/logostoko/small').'/'.$dt->logos_uri}}"
-                                                alt=""></td>
                                         <td class="text-center">
                                             <button class="btn btn-info" data-toggle="modal" data-target="#modalEdit"
                                                     data-json='{{json_encode($dt)}}'><i class="fa fa-pencil"></i>
@@ -57,22 +54,17 @@
         <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Nama Toko</h5>
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Nama Role</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{route('toko.store')}}" enctype="multipart/form-data" method="post">
+                <form action="{{route('role.store')}}" enctype="multipart/form-data" method="post">
                     <div class="modal-body">
                         @csrf
-                        <label>Nama Toko: </label>
+                        <label>Nama Role: </label>
                         <div class="form-group">
-                            <input type="text" placeholder="Nama Toko" name="nama" class="form-control">
-                        </div>
-
-                        <label>Logo Toko: </label>
-                        <div class="form-group">
-                            <input type="file" placeholder="file" name="logo" class="form-control">
+                            <input type="text" placeholder="Nama Role" name="nama" class="form-control">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -86,7 +78,7 @@
         <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Nama Toko</h5>
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Nama Role</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -95,15 +87,11 @@
                     <div class="modal-body">
                         @csrf
                         @method('PUT')
-                        <label>Nama Toko: </label>
+                        <label>Nama Role: </label>
                         <div class="form-group">
-                            <input type="text" id="editname" placeholder="Nama Toko" name="nama" class="form-control">
+                            <input type="text" id="editname" placeholder="Nama Role" name="nama" class="form-control">
                         </div>
 
-                        <label>Logo Toko: </label>
-                        <div class="form-group">
-                            <input type="file" id="editlogosuri" placeholder="file" name="logo" class="form-control">
-                        </div>
                         <input type="text" name="id" id="editid" hidden>
                     </div>
                     <div class="modal-footer">
@@ -117,7 +105,7 @@
         <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Delete Toko</h5>
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Delete Role</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -126,7 +114,7 @@
                     <div class="modal-body">
                         @method('delete')
                         @csrf
-                        <p>Apakah kamu yakin ingin hapus toko ?</p>
+                        <p>Apakah kamu yakin ingin hapus Role ?</p>
                         <input type="text" id="deleteid" name="id" hidden>
                     </div>
                     <div class="modal-footer">
@@ -179,7 +167,7 @@
                 let Id = formData.get('id');
                 console.log(formData);
                 $.ajax({
-                    url: '{{env('APP_URL')}}/master/toko/' + Id,
+                    url: '{{env('APP_URL')}}/master/role/' + Id,
                     type: 'DELETE',
                     dataType: 'HTML',
                     success: function (resp) {
@@ -198,7 +186,7 @@
                 let Id = formData.get('id');
                 $.ajax({
                     type: 'POST',
-                    url: "{{env('APP_URL')}}/master/toko/" + Id,
+                    url: "{{env('APP_URL')}}/master/role/" + Id,
                     processData: false,
                     contentType: false,
                     data: formData,

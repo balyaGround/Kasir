@@ -8,28 +8,32 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Master Toko</h4>
+                    <h4 class="card-title">Master user</h4>
                 </div>
                 <div class="card-content">
                     <div class="card-body card-dashboard">
-                        <p class="card-text">Tambah toko</p>
-                        <button class="btn btn-success" data-toggle="modal" data-target="#modalAdd">Tambah Toko</button>
+                        <p class="card-text">Tambah user</p>
+                        <button class="btn btn-success" data-toggle="modal" data-target="#modalAdd">Tambah user</button>
                         <div class="table-responsive">
                             <table class="table zero-configuration table-striped table-bordered     ">
                                 <thead>
                                 <tr>
                                     <th class="text-center">Nama</th>
-                                    <th class="text-center">Logo</th>
+                                    <th class="text-center">Email</th>
+                                    <th class="text-center">Username</th>
+                                    <th class="text-center">Role</th>
+                                    <th class="text-center">Toko</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($data as $dt)
+                                @foreach($data['userAll'] as $dt)
                                     <tr>
-                                        <td class="text-center">{{$dt->nama}}</td>
-                                        <td class="text-center"><img
-                                                src="{{asset('storage/images/logostoko/small').'/'.$dt->logos_uri}}"
-                                                alt=""></td>
+                                        <td class="text-center">{{$dt->name}}</td>
+                                        <td class="text-center">{{$dt->email}}</td>
+                                        <td class="text-center">{{$dt->username}}</td>
+                                        <td class="text-center">{{$dt->role->nama}}</td>
+                                        <td class="text-center">{{$dt->toko->nama}}</td>
                                         <td class="text-center">
                                             <button class="btn btn-info" data-toggle="modal" data-target="#modalEdit"
                                                     data-json='{{json_encode($dt)}}'><i class="fa fa-pencil"></i>
@@ -53,26 +57,49 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
+    <div class="modal fade" id="modalAdd" tabindex="-1" user="dialog" aria-labelledby="modalAdd" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" user="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Nama Toko</h5>
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Nama user</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{route('toko.store')}}" enctype="multipart/form-data" method="post">
+                <form action="{{route('users.store')}}" enctype="multipart/form-data" method="post">
                     <div class="modal-body">
                         @csrf
-                        <label>Nama Toko: </label>
+                        <label>Nama user: </label>
                         <div class="form-group">
-                            <input type="text" placeholder="Nama Toko" name="nama" class="form-control">
+                            <input type="text" placeholder="Nama user"  name="name" class="form-control">
                         </div>
-
-                        <label>Logo Toko: </label>
+                        <label>Email user: </label>
                         <div class="form-group">
-                            <input type="file" placeholder="file" name="logo" class="form-control">
+                            <input type="text" placeholder="email" name="email" class="form-control">
+                        </div>
+                        <label>Username: </label>
+                        <div class="form-group">
+                            <input type="text" placeholder="username" name="username" class="form-control">
+                        </div>
+                        <label>Password user: </label>
+                        <div class="form-group">
+                            <input type="password" placeholder="Password user"  name="password" class="form-control">
+                        </div>
+                        <label>Toko : </label>
+                        <div class="form-group">
+                            <select class="form-control valid" id="add-type" name="toko_id" aria-invalid="false">
+                                @foreach($data['toko'] as $toko)
+                                    <option value="{{$toko->id}}">{{$toko->nama}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <label>Role : </label>
+                        <div class="form-group">
+                            <select class="form-control valid" id="add-type" name="role_id" aria-invalid="false">
+                                @foreach($data['role'] as $role)
+                                    <option value="{{$role->id}}">{{$role->nama}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -82,11 +109,11 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
+    <div class="modal fade" id="modalEdit" tabindex="-1" user="dialog" aria-labelledby="modalAdd" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" user="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Nama Toko</h5>
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Nama user</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -95,15 +122,39 @@
                     <div class="modal-body">
                         @csrf
                         @method('PUT')
-                        <label>Nama Toko: </label>
+                        <label>Nama user: </label>
                         <div class="form-group">
-                            <input type="text" id="editname" placeholder="Nama Toko" name="nama" class="form-control">
+                            <input type="text" placeholder="Nama user" id="editname" name="name" class="form-control">
+                        </div>
+                        <label>Email user: </label>
+                        <div class="form-group">
+                            <input type="text" placeholder="email" id="editemail" name="email" class="form-control">
+                        </div>
+                        <label>Username: </label>
+                        <div class="form-group">
+                            <input type="text" placeholder="username" id="editusername" name="username" class="form-control">
+                        </div>
+                        <label>Password user: </label>
+                        <div class="form-group">
+                            <input type="password" placeholder="Password user" id="editpassword" name="password" class="form-control">
+                        </div>
+                        <label>Toko : </label>
+                        <div class="form-group">
+                            <select class="form-control valid" id="edittoko" name="toko_id" aria-invalid="false">
+                                @foreach($data['toko'] as $toko)
+                                    <option value="{{$toko->id}}">{{$toko->nama}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <label>Role : </label>
+                        <div class="form-group">
+                            <select class="form-control valid" id="editrole" name="role_id" aria-invalid="false">
+                                @foreach($data['role'] as $role)
+                                    <option value="{{$role->id}}">{{$role->nama}}</option>
+                                @endforeach
+                            </select>
                         </div>
 
-                        <label>Logo Toko: </label>
-                        <div class="form-group">
-                            <input type="file" id="editlogosuri" placeholder="file" name="logo" class="form-control">
-                        </div>
                         <input type="text" name="id" id="editid" hidden>
                     </div>
                     <div class="modal-footer">
@@ -113,11 +164,11 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
+    <div class="modal fade" id="modalDelete" tabindex="-1" user="dialog" aria-labelledby="modalAdd" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" user="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Delete Toko</h5>
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Delete user</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -126,7 +177,7 @@
                     <div class="modal-body">
                         @method('delete')
                         @csrf
-                        <p>Apakah kamu yakin ingin hapus toko ?</p>
+                        <p>Apakah kamu yakin ingin hapus user ?</p>
                         <input type="text" id="deleteid" name="id" hidden>
                     </div>
                     <div class="modal-footer">
@@ -168,9 +219,12 @@
             $('#modalEdit').on('show.bs.modal', function (e) {
                 {{--    oTable.ajax.reload(null, false);--}}
                 let data = $(e.relatedTarget).data('json');
-
                 $('#editid').val(data.id.toString());
-                $('#editname').val(data.nama.toString());
+                $('#editname').val(data.name.toString());
+                $('#editusername').val(data.username.toString());
+                $('#editemail').val(data.email.toString());
+                $('#edittoko').val(data.toko_id.toString());
+                $('#editrole').val(data.role_id.toString());
 
             });
             $('#delete-form').submit(function (e) {
@@ -179,7 +233,7 @@
                 let Id = formData.get('id');
                 console.log(formData);
                 $.ajax({
-                    url: '{{env('APP_URL')}}/master/toko/' + Id,
+                    url: '{{env('APP_URL')}}/user-management/users/' + Id,
                     type: 'DELETE',
                     dataType: 'HTML',
                     success: function (resp) {
@@ -198,7 +252,7 @@
                 let Id = formData.get('id');
                 $.ajax({
                     type: 'POST',
-                    url: "{{env('APP_URL')}}/master/toko/" + Id,
+                    url: "{{env('APP_URL')}}/user-management/users/" + Id,
                     processData: false,
                     contentType: false,
                     data: formData,

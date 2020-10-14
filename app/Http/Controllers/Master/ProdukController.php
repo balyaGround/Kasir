@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
+use App\Models\Master\Bahan;
+use App\Models\Master\Produk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class ProdukController extends Controller
 {
@@ -14,7 +18,13 @@ class ProdukController extends Controller
      */
     public function index()
     {
-        return view('admin.master.produk.index');
+        $dataProduk = Produk::all();
+        $dataBahan = Bahan::all();
+        $data = [
+            'dataProduk' => $dataProduk,
+            'dataBahan' => $dataBahan
+        ];
+        return view('admin.master.produk.index', ['data' => $data]);
     }
 
     /**
@@ -35,7 +45,21 @@ class ProdukController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $image = $request->file('logo');
+        $fileName = "";
+        if ($image) {
+            $fileName = time() . '.' . $image->getClientOriginalExtension();
+            $img = Image::make($image->getRealPath());
+            $img->resize(120, 120, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            $img->stream(); // <-- Key point
+            Storage::disk('local')->put('public/images/imageProduk/small' . '/' . $fileName, $img, 'public');
+            Storage::disk('local')->put('public/images/imageProduk/big' . '/' . $fileName, file_get_contents($image->getRealPath()), 'public');
+
+        }
+        $data = Produk::create(['nama' => $request->nama, 'harga_jual' => $request->harga_jual, 'harga_modal' => $request->harga_modal, 'image_uri' => $fileName]);
+        return redirect(route('produk.index'));
     }
 
     /**
@@ -69,7 +93,27 @@ class ProdukController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $toUpdate = Produk::find($id);
+        $toUpdate->nama = $request->nama;
+        $toUpdate->harga_jual = $request->harga_jual;
+        $toUpdate->harga_modal = $request->harga_modal;
+
+        $image = $request->file('logo');
+        if ($image) {
+            $fileName = time() . '.' . $image->getClientOriginalExtension();
+            $img = Image::make($image->getRealPath());
+            $img->resize(120, 120, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            $img->stream(); // <-- Key point
+
+            Storage::disk('local')->put('public/images/imageProduk/small' . '/' . $fileName, $img, 'public');
+            Storage::disk('local')->put('public/images/imageProduk/big' . '/' . $fileName, file_get_contents($image->getRealPath()), 'public');
+            $toUpdate->image_uri = $fileName;
+        }
+
+        $toUpdate->save();
     }
 
     /**
@@ -80,6 +124,8 @@ class ProdukController extends Controller
      */
     public function destroy($id)
     {
+        Produk::find($id)->delete();
+        return response('success delete', 200);
         //
     }
 }

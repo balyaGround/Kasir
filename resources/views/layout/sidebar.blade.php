@@ -21,13 +21,13 @@
 
 <li class=" navigation-header"><span>Master</span>
 </li>
-<li class=" nav-item"><a href="{{route('bahan.index')}}"><i class="feather icon-mail"></i><span class="menu-title"
+<li class="nav-item" ><a href="{{route('bahan.index')}}"><i class="feather icon-mail"></i><span class="menu-title"
                                                                                                 data-i18n="Email">Bahan</span></a>
 </li>
 <li class=" nav-item"><a href="{{route('produk.index')}}"><i class="feather icon-message-square"></i><span
             class="menu-title" data-i18n="Chat">Produk</span></a>
 </li>
-<li class=" nav-item"><a href="{{route('toko.index')}}"><i class="feather icon-message-square"></i><span
+<li class=" nav-item"><a href="{{route('toko.index')}}"><i class="feather icon-archive"></i><span
             class="menu-title" data-i18n="Chat">Toko</span></a>
 </li>
 
@@ -45,9 +45,9 @@
 
 <li class=" navigation-header"><span>User Management</span>
 </li>
-<li class=" nav-item"><a href="{{route('role.index')}}"><i class="feather icon-mail"></i>
+<li class=" nav-item"><a href="{{route('role.index')}}"><i class="feather icon-users"></i>
         <span class="menu-title" data-i18n="Email">Role</span></a>
 </li>
-<li class=" nav-item"><a href="app-email.html"><i class="feather icon-mail"></i>
+<li class=" nav-item"><a href="{{route('users.index')}}"><i class="feather icon-mail"></i>
         <span class="menu-title" data-i18n="Email">User</span></a>
 </li>

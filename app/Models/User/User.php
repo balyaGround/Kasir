@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\User;
 
+use App\Models\Master\Produk;
+use App\Models\Master\Toko;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -20,7 +22,17 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'username',
+        'role_id',
+        'toko_id'
     ];
+
+    public function Toko(){
+        return $this->belongsTo(Toko::class);
+    }
+    public function Role(){
+        return $this->belongsTo(Role::class);
+    }
 
     /**
      * The attributes that should be hidden for arrays.

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\User\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class RoleController extends Controller
 {
@@ -16,7 +18,7 @@ class RoleController extends Controller
     public function index()
     {
         $data = Role::all();
-        return view('admin.master.role.index',['data'=>$data]);
+        return view('admin.user-management.role.index',['data'=>$data]);
     }
 
     /**
@@ -26,7 +28,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-
+        //
     }
 
     /**
@@ -37,7 +39,8 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-
+      $data = Role::create(['nama'=>$request->nama]);
+        return redirect(route('role.index'));
     }
 
     /**
@@ -71,7 +74,12 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $toUpdate = Role::find($id);
+        $toUpdate->nama = $request->nama;
+
+
+        $toUpdate->save();
     }
 
     /**
@@ -82,6 +90,8 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
+        Role::find($id)->delete();
+        return response('success delete',200);
         //
     }
 }

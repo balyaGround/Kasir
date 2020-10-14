@@ -39,7 +39,6 @@ class TokoController extends Controller
      */
     public function store(Request $request)
     {
-//        dd($request->all());
         $image      = $request->file('logo');
         $fileName   = time() . '.' . $image->getClientOriginalExtension();
         $img = Image::make($image->getRealPath());
@@ -88,6 +87,7 @@ class TokoController extends Controller
 
         $toUpdate = Toko::find($id);
         $toUpdate->nama = $request->nama;
+
 
 
         $image      = $request->file('logo');

@@ -13,9 +13,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('index');
+Route::middleware([\App\Http\Middleware\Authenticate::class])->group(function () {
+    Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('index');
 
-Route::resource('master/bahan', \App\Http\Controllers\Master\BahanController::class);
-Route::resource('master/produk',\App\Http\Controllers\Master\ProdukController::class);
-Route::resource('master/toko',\App\Http\Controllers\Master\TokoController::class);
-Route::resource('master/role',\App\Http\Controllers\User\RoleController::class);
+    Route::resource('master/produk/receipt',\App\Http\Controllers\ProdukJualController::class);
+    Route::get('master/produk/receipt/dataTable/{produk_id}',[\App\Http\Controllers\ProdukJualController::class,'dataTable']);
+
+
+    Route::resource('master/bahan', \App\Http\Controllers\Master\BahanController::class);
+    Route::resource('master/produk',\App\Http\Controllers\Master\ProdukController::class);
+    Route::resource('master/toko',\App\Http\Controllers\Master\TokoController::class);
+    Route::resource('master/role',\App\Http\Controllers\User\RoleController::class);
+
+    Route::resource('user-management/role',\App\Http\Controllers\User\RoleController::class);
+    Route::resource('user-management/users',\App\Http\Controllers\User\UserController::class);
+
+
+
+//    Route::post('master/produk/receipt/post',[\App\Http\Controllers\ProdukJualController::class,'insertBahan'])->name('receipt.insert');
+
+});
+
+
+Route::get('login',[\App\Http\Controllers\LoginController::class,'index'])->name('login');
+Route::get('logout',[\App\Http\Controllers\LoginController::class,'logout'])->name('logout');
+Route::post('login/process',[\App\Http\Controllers\LoginController::class,'loginProcess'])->name('login.process');
+
+

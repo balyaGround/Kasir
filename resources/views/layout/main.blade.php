@@ -25,7 +25,7 @@
     <!-- BEGIN: Theme CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('assets')}}/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/bootstrap-extended.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('assets')}}/css/colors.css">
+{{--    <link rel="stylesheet" type="text/css" href="{{asset('assets')}}/css/colors.css">--}}
     <link rel="stylesheet" type="text/css" href="{{asset('assets')}}/css/components.css">
 
 
@@ -37,7 +37,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('assets')}}/css/plugins/tour/tour.css">
     <!-- END: Page CSS-->
 
-
+{{--    <button class="btn-suc"></button>--}}
     <!-- BEGIN: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('custom-assets')}}/css/style.css">
     <!-- END: Custom CSS-->
@@ -206,7 +206,7 @@
                             <div class="user-nav d-sm-flex d-none"><span class="user-name text-bold-600">John Doe</span><span class="user-status">Available</span></div><span><img class="round" src="{{asset('assets')}}/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="40" width="40"></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="page-user-profile.html"><i class="feather icon-user"></i> Edit Profile</a><a class="dropdown-item" href="app-email.html"><i class="feather icon-mail"></i> My Inbox</a><a class="dropdown-item" href="app-todo.html"><i class="feather icon-check-square"></i> Task</a><a class="dropdown-item" href="app-chat.html"><i class="feather icon-message-square"></i> Chats</a>
-                            <div class="dropdown-divider"></div><a class="dropdown-item" href="auth-login.html"><i class="feather icon-power"></i> Logout</a>
+                            <div class="dropdown-divider"></div><a class="dropdown-item" href="{{route('logout')}}"><i class="feather icon-power"></i> Logout</a>
                         </div>
                     </li>
                 </ul>
@@ -292,18 +292,22 @@
         </a></li>
 </ul>
 <!-- END: Header-->
-
+{{--    <li class="nav-item active"></li>--}}
 
 <!-- BEGIN: Main Menu-->
 <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
-    <div class="navbar-header">
-        <ul class="nav navbar-nav flex-row">
-            <li class="nav-item mr-auto"><a class="navbar-brand" href="../../../html/ltr/vertical-menu-template/index.html">
-                    <div class="brand-logo"></div>
-                    <h2 class="brand-text mb-0">Vuexy</h2>
-                </a></li>
-            <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse"><i class="feather icon-x d-block d-xl-none font-medium-4 primary toggle-icon"></i><i class="toggle-icon feather icon-disc font-medium-4 d-none d-xl-block collapse-toggle-icon primary" data-ticon="icon-disc"></i></a></li>
-        </ul>
+{{--    <img src="{{asset('original-asset/logo.png')}}" class="" >--}}
+    <div class="navbar-header" style="height: 100px">
+{{--        <ul class="nav navbar-nav flex-row">--}}
+{{--            <li class="nav-item mr-auto class">--}}
+                <img src="{{asset('original-asset/logo.png')}}" class="ml-5" >
+{{--            </li>--}}
+{{--            <li class="nav-item mr-auto"><a class="navbar-brand" href="../../../html/ltr/vertical-menu-template/index.html">--}}
+{{--                    <div class="brand-logo"></div>--}}
+{{--                    <h2 class="brand-text mb-0">Vuexy</h2>--}}
+{{--                </a></li>--}}
+{{--            <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse"><i class="feather icon-x d-block d-xl-none font-medium-4 primary toggle-icon"></i><i class="toggle-icon feather icon-disc font-medium-4 d-none d-xl-block collapse-toggle-icon primary" data-ticon="icon-disc"></i></a></li>--}}
+{{--        </ul>--}}
     </div>
     <div class="shadow-bottom"></div>
 
@@ -361,9 +365,10 @@
     $(".navigation>li").each(function() {
         {{--console.log('{{env('APP_URL')}}/'+location.pathname)--}}
         let tes='{{env('APP_URL')}}'+location.pathname;
+        // console.log(tes)
         var navItem = $(this);
         if (navItem.find("a").attr("href") === tes) {
-            // console.log('benergak');
+            console.log('benergak');
             navItem.addClass("active");
         }
     });

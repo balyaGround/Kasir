@@ -13,9 +13,9 @@
                 <div class="card-content">
                     <div class="card-body card-dashboard">
                         <p class="card-text">Tambah bahan</p>
-                        <button class="btn btn-success" data-toggle="modal" data-target="#modalAdd">Tambah bahan</button>
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#modalAdd">Tambah bahan</button>
                         <div class="table-responsive">
-                            <table class="table zero-configuration table-striped table-bordered     ">
+                            <table class="table zero-configuration table-striped table-bordered">
                                 <thead>
                                 <tr>
                                     <th class="text-center">Nama</th>
@@ -69,17 +69,17 @@
                         @csrf
                         <label>Nama bahan: </label>
                         <div class="form-group">
-                            <input type="text" placeholder="Nama bahan" name="nama" class="form-control">
+                            <input type="text" placeholder="Nama bahan" name="nama" class="form-control" required>
                         </div>
 
                         <label>Stok : </label>
                         <div class="form-group">
-                            <input type="number" placeholder="Stock bahan" name="quantity" class="form-control">
+                            <input type="number" placeholder="Stock bahan" name="quantity" class="form-control" required>
                         </div>
 
                         <label>Image bahan: </label>
                         <div class="form-group">
-                            <input type="file" placeholder="file" name="logo" class="form-control">
+                            <input type="file" placeholder="file" name="logo" class="form-control" required>
                         </div>
                     </div>
                     <div class="modal-footer">

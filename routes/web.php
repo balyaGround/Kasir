@@ -25,6 +25,8 @@ Route::middleware([\App\Http\Middleware\Authenticate::class])->group(function ()
     Route::resource('master/toko',\App\Http\Controllers\Master\TokoController::class);
     Route::resource('master/role',\App\Http\Controllers\User\RoleController::class);
 
+    Route::get('user-management/users/password', [\App\Http\Controllers\User\UserController::class, 'passwordView'])->name('password.index');
+    Route::post('user-management/users/passwordprocess', [\App\Http\Controllers\User\UserController::class, 'passwordProcess'])->name('password.process');
     Route::resource('user-management/role',\App\Http\Controllers\User\RoleController::class);
     Route::resource('user-management/users',\App\Http\Controllers\User\UserController::class);
 

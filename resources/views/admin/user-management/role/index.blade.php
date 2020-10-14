@@ -13,7 +13,7 @@
                 <div class="card-content">
                     <div class="card-body card-dashboard">
                         <p class="card-text">Tambah Role</p>
-                        <button class="btn btn-success" data-toggle="modal" data-target="#modalAdd">Tambah Role</button>
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#modalAdd">Tambah Role</button>
                         <div class="table-responsive">
                             <table class="table zero-configuration table-striped table-bordered     ">
                                 <thead>

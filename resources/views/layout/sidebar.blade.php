@@ -13,9 +13,9 @@
 
 <li class=" navigation-header"><span>Cashier</span>
 </li>
-<li class=" nav-item"><a href="app-email.html">
-        <i class="feather icon-mail"></i>
-        <span class="menu-title" data-i18n="Email">Pesanan</span>
+<li class=" nav-item"><a href="{{route('index')}}/">
+        <i class="feather icon-home"></i>
+        <span class="menu-title" data-i18n="Email">Dashboard</span>
     </a>
 </li>
 
@@ -32,16 +32,20 @@
 </li>
 
 {{-- management stok--}}
-<li class=" navigation-header"><span>Management Stok</span>
+<li class=" navigation-header"><span>Stock Management</span>
 </li>
-<li class=" nav-item"><a href="app-email.html"><i class="feather icon-mail"></i>
-        <span class="menu-title" data-i18n="Email">Stok</span></a>
-</li>
-<li class=" nav-item"><a href="app-email.html"><i class="feather icon-mail"></i>
+<li class=" nav-item"><a href="app-email.html"><i class="feather icon-shopping-bag"></i>
         <span class="menu-title" data-i18n="Email">Stok</span></a>
 </li>
 {{-- end of management stock--}}
 
+{{-- Laporan --}}
+<li class=" navigation-header"><span>Report Management</span>
+</li>
+<li class=" nav-item"><a href="app-email.html"><i class="feather icon-bar-chart"></i>
+        <span class="menu-title" data-i18n="Email">Laporan</span></a>
+</li>
+{{----}}
 
 <li class=" navigation-header"><span>User Management</span>
 </li>

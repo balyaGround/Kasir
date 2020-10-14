@@ -12,8 +12,8 @@
                 </div>
                 <div class="card-content">
                     <div class="card-body card-dashboard">
-                        <p class="card-text">Tambah user</p>
-                        <button class="btn btn-success" data-toggle="modal" data-target="#modalAdd">Tambah user</button>
+                        <p class="card-text">Tambah User</p>
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#modalAdd">Tambah User</button>
                         <div class="table-responsive">
                             <table class="table zero-configuration table-striped table-bordered     ">
                                 <thead>

@@ -9,6 +9,7 @@ use App\Models\User\User;
 
 //use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -95,7 +96,7 @@ class UserController extends Controller
         $toUpdate = User::find($id);
         $toUpdate->name = $request->name;
         $toUpdate->username = $request->username;
-        $toUpdate->password = $request->password;
+        if($request->password){$toUpdate->password = Hash::make($request->password);}
         $toUpdate->email = $request->email;
         $toUpdate->role_id = $request->role_id;
         $toUpdate->toko_id = $request->toko_id;
@@ -113,5 +114,16 @@ class UserController extends Controller
         User::find($id)->delete();
         return response('success delete', 200);
         //
+    }
+
+    public function passwordView(){
+        return view('admin.user-management.user.password');
+    }
+
+    public function passwordProcess(Request $request){
+        $ubahPass =User::find(Auth::id());
+        $ubahPass->password = Hash::make($request->new_password);
+        $ubahPass->save();
+        return redirect()->route('password.index');
     }
 }

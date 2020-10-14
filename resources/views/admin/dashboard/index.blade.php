@@ -1,8 +1,9 @@
-@extends('layout.main')
+@extends('layout.main',['pesan'=>'<h1 class="ml-1">Haloo, <span style="color:#e37e57;">'.auth()->user()['username'].' !</span></h1>'])
 @section('content')
 <div class="content-wrapper">
     <div class="content-header row">
     </div>
+
     <div class="content-body">
         <!-- Dashboard Analytics Start -->
         <section id="dashboard-analytics">

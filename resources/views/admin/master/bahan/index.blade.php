@@ -30,7 +30,7 @@
                                         <td class="text-center">{{$dt->nama}}</td>
                                         <td class="text-center">{{$dt->quantity}}</td>
                                         <td class="text-center"><img
-                                                src="{{asset('storage/images/imageBahan/small').'/'.$dt->image_uri}}"
+                                                    src="{{asset('storage/images/imageBahan/small').'/'.$dt->image_uri}}"
                                                 alt=""></td>
                                         <td class="text-center">
                                             <button class="btn btn-info" data-toggle="modal" data-target="#modalEdit"

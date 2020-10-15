@@ -13,26 +13,6 @@
                 </div>
                 <div class="card-content">
                     <div class="card-body card-dashboard">
-                        {{--                        <p class="card-text">Tambah toko</p>--}}
-                        {{--                        <button class="btn btn-primary" data-toggle="modal" data-target="#modalAdd">Tambah Toko</button>--}}
-                        {{--                        <div class="table-responsive">--}}
-                        {{--                            <table class="table zero-configuration table-striped table-bordered     ">--}}
-                        {{--                                <thead>--}}
-                        {{--                                <tr>--}}
-                        {{--                                    <th class="text-center">Nomor Invoice</th>--}}
-                        {{--                                    <th class="text-center">Logo</th>--}}
-                        {{--                                    <th class="text-center">Action</th>--}}
-                        {{--                                </tr>--}}
-                        {{--                                </thead>--}}
-                        {{--                                <tbody>--}}
-                        {{--                                    <tr>--}}
-                        {{--                                        <td >tes</td>--}}
-                        {{--                                        <td>tes</td>--}}
-                        {{--                                    </tr>--}}
-                        {{--                                </tbody>--}}
-
-                        {{--                            </table>--}}
-                        {{--                        </div>--}}
 
                         <div class="row">
                             <div class="col-sm-12">

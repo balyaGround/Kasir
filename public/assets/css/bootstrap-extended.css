@@ -2902,15 +2902,17 @@ body[data-col='1-column'] .header-navbar.floating-nav {
   border : none;
   margin-bottom : 1rem;
   position : relative;
+    /*padding: 0 10px 0 20px;*/
 
 }
 .nav.nav-tabs .nav-item {
   position : relative;
     border : 2px solid #D25627;
-    border-radius : 20px;
+    border-radius : 25px;
     /*margin-outside: 10px;*/
     margin-right: 10px;
     margin-top:10px;
+
 }
 
 .nav.nav-tabs .nav-item:hover  {
@@ -2928,12 +2930,13 @@ body[data-col='1-column'] .header-navbar.floating-nav {
 
 .nav.nav-tabs .nav-item .nav-link.active {
   border : none;
-  border-radius: 18px;
+  border-radius: 24px;
   position : relative;
   color : #ffffff;
   -webkit-transition : all 0.3s ease;
           transition : all 0.3s ease;
   background-color : #D25627;
+    /*padding: 0 10px 0 0;*/
 }
 .nav.nav-tabs .nav-item .nav-link.active:after {
   content : attr(data-before);

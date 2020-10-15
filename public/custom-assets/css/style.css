@@ -33,3 +33,71 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     outline : 0;
     box-shadow : 0 3px 10px 0 rgba(0, 0, 0, 0.15);
 }
+.form-control:focus ~ .form-control-position i {
+    color : #e37e57;
+}
+
+
+body.vertical-layout.vertical-menu-modern.menu-expanded .main-menu {
+    width :190px !important;
+}
+
+
+.navigation li a i {
+    font-size : 50px;
+    margin-right : 0rem !important;
+}
+.navigation li {
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+
+html body .content {
+    padding : 0;
+    position : relative;
+    -webkit-transition : 300ms ease all;
+    transition : 300ms ease all;
+    -webkit-backface-visibility : hidden;
+    backface-visibility : hidden;
+    min-height : calc(100% - 4rem);
+    margin-left : 190px;
+}
+
+.header-navbar.floating-nav {
+    margin : 1.3rem 2.2rem 0  ;
+    border-radius : 0.5rem;
+    position : fixed;
+    width : calc( 100vw - (100vw - 100%) - calc(2.2rem * 2) - 190px);
+    z-index : 12;
+    right : 0;
+}
+
+.margin-side{
+    margin-bottom: 8px;
+}
+
+.nav.nav-tabs .nav-item {
+    position : relative;
+    border : 2px solid #D25627;
+    border-radius : 25px;
+    /*margin-outside: 10px;*/
+    margin-right: 10px;
+    margin-top:10px;
+
+}
+
+
+.nav.nav-tabs .nav-item:hover  {
+    box-shadow : 0 8px 25px -8px #D25627;
+}
+.nav.nav-tabs .nav-item .nav-link.active {
+    border-radius: 23px;
+    position : relative;
+    color : #ffffff;
+    -webkit-transition : all 0.3s ease;
+    transition : all 0.3s ease;
+    background-color : #D25627;
+    /*border : 2px solid #000000;*/
+    /*padding: 0 10px 0 0;*/
+}

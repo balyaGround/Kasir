@@ -30,7 +30,7 @@ Route::middleware([\App\Http\Middleware\Authenticate::class])->group(function ()
     Route::resource('user-management/role',\App\Http\Controllers\User\RoleController::class);
     Route::resource('user-management/users',\App\Http\Controllers\User\UserController::class);
 
-
+    Route::get('report-management/report',[\App\Http\Controllers\Laporan\LaporanController::class,'index'])->name('laporan.index');
 
 //    Route::post('master/produk/receipt/post',[\App\Http\Controllers\ProdukJualController::class,'insertBahan'])->name('receipt.insert');
 

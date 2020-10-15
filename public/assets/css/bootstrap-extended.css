@@ -2898,13 +2898,23 @@ body[data-col='1-column'] .header-navbar.floating-nav {
   background-color : #FFFFFF;
 }
 .nav.nav-tabs {
+
   border : none;
   margin-bottom : 1rem;
   position : relative;
-  border-radius : 0;
+
 }
 .nav.nav-tabs .nav-item {
   position : relative;
+    border : 2px solid #D25627;
+    border-radius : 20px;
+    /*margin-outside: 10px;*/
+    margin-right: 10px;
+    margin-top:10px;
+}
+
+.nav.nav-tabs .nav-item:hover  {
+    box-shadow : 0 8px 25px -8px #D25627;
 }
 .nav.nav-tabs .nav-item .nav-link {
   color : #626262;
@@ -2913,15 +2923,17 @@ body[data-col='1-column'] .header-navbar.floating-nav {
   min-width : auto;
   font-weight : 450;
   padding : 0.61rem 0.635rem;
-  border-radius : 0;
+  /*border-radius : 0;*/
 }
+
 .nav.nav-tabs .nav-item .nav-link.active {
   border : none;
+  border-radius: 18px;
   position : relative;
-  color : #7367F0;
-  -webkit-transition : all 0.2s ease;
-          transition : all 0.2s ease;
-  background-color : transparent;
+  color : #ffffff;
+  -webkit-transition : all 0.3s ease;
+          transition : all 0.3s ease;
+  background-color : #D25627;
 }
 .nav.nav-tabs .nav-item .nav-link.active:after {
   content : attr(data-before);
@@ -2931,9 +2943,9 @@ body[data-col='1-column'] .header-navbar.floating-nav {
   position : absolute;
   bottom : 0;
   top : 100%;
-  background : -webkit-linear-gradient(60deg, #7367F0, rgba(115, 103, 240, 0.5)) !important;
-  background :         linear-gradient(30deg, #7367F0, rgba(115, 103, 240, 0.5)) !important;
-  box-shadow : 0 0 8px 0 rgba(115, 103, 240, 0.5) !important;
+  /*background : -webkit-linear-gradient(60deg, #7367F0, rgba(115, 103, 240, 0.5)) !important;*/
+  /*background :         linear-gradient(30deg, #7367F0, rgba(115, 103, 240, 0.5)) !important;*/
+  /*box-shadow : 0 0 8px 0 rgba(115, 103, 240, 0.5) !important;*/
   -webkit-transform : translateY(0px);
       -ms-transform : translateY(0px);
           transform : translateY(0px);

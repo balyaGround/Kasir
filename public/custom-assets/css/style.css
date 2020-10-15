@@ -9,14 +9,27 @@ NOTE:
 ------
 PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
 WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+.btn{
+    border-radius: 20px !important;
+}
 
 .btn-primary {
     border-color : #D25627 !important;
-    background-color : #e37e57 !important;
+    /*background-color : #e37e57 !important;*/
+    background-color : #D25627 !important;
+
     color : #FFFFFF;
 }
 .btn-primary:hover {
     border-color : #e37e57 !important;
     color : #FFFFFF !important;
     box-shadow : 0 8px 25px -8px #D25627;
+}
+
+.form-control:focus {
+    color : #4E5154;
+    background-color : #FFFFFF;
+    border-color : #e37e57 !important;
+    outline : 0;
+    box-shadow : 0 3px 10px 0 rgba(0, 0, 0, 0.15);
 }

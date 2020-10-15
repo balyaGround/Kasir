@@ -21,10 +21,10 @@
 
 <li class=" navigation-header"><span>Master</span>
 </li>
-<li class="nav-item" ><a href="{{route('bahan.index')}}"><i class="feather icon-mail"></i><span class="menu-title"
+<li class="nav-item" ><a href="{{route('bahan.index')}}"><i class="feather icon-box"></i><span class="menu-title"
                                                                                                 data-i18n="Email">Bahan</span></a>
 </li>
-<li class=" nav-item"><a href="{{route('produk.index')}}"><i class="feather icon-message-square"></i><span
+<li class=" nav-item"><a href="{{route('produk.index')}}"><i class="feather icon-shopping-bag"></i><span
             class="menu-title" data-i18n="Chat">Produk</span></a>
 </li>
 <li class=" nav-item"><a href="{{route('toko.index')}}"><i class="feather icon-archive"></i><span
@@ -42,7 +42,7 @@
 {{-- Laporan --}}
 <li class=" navigation-header"><span>Report Management</span>
 </li>
-<li class=" nav-item"><a href="app-email.html"><i class="feather icon-bar-chart"></i>
+<li class=" nav-item"><a href="{{route('laporan.index')}}"><i class="feather icon-bar-chart"></i>
         <span class="menu-title" data-i18n="Email">Laporan</span></a>
 </li>
 {{----}}

@@ -73,7 +73,6 @@
 
                     <ul class="nav navbar-nav">
                             <li>
-
                                 {!! $pesan ?? ''!!}
                             </li>
 {{--                        <li class="nav-item d-none d-lg-block"><a class="nav-link bookmark-star"><i class="ficon feather icon-star warning"></i></a>--}}
@@ -85,7 +84,7 @@
 {{--                            <!-- select.bookmark-select-->--}}
 {{--                            <!--   option Chat-->--}}
 {{--                            <!--   option email-->--}}
-{{--                            <!--   option todo-->--}}
+{{--                            <!--   option todo -->--}}
 {{--                            <!--   option Calendar-->--}}
 {{--                        </li>--}}
                     </ul>

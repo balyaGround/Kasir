@@ -33,7 +33,7 @@ Route::middleware([\App\Http\Middleware\Authenticate::class])->group(function ()
     Route::get('report-management/report',[\App\Http\Controllers\Laporan\LaporanController::class,'index'])->name('laporan.index');
 
 //    Route::post('master/produk/receipt/post',[\App\Http\Controllers\ProdukJualController::class,'insertBahan'])->name('receipt.insert');
-
+    Route::post('bayar',[\App\Http\Controllers\DashboardController::class,'bayar'])->name('bayar');
 });
 
 

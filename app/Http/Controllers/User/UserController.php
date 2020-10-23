@@ -22,12 +22,9 @@ class UserController extends Controller
     public function index()
     {
         $userAll = User::with(['Toko','Role'])->get();
-        $role = Role::all();
-        $toko = Toko::all();
+
         $data=[
-            'userAll' => $userAll,
-            'role'=>$role,
-            'toko'=>$toko
+            'userAll' => $userAll
             ];
         return view('admin.user-management.User.index', ['data' => $data]);
     }
@@ -58,7 +55,8 @@ class UserController extends Controller
             'toko_id' => $request->toko_id,
             'role_id' => $request->role_id]);
 
-        return redirect(route('users.index'));
+//        return redirect(route('users.index'));
+        return redirect()->route('settings');
     }
 
     /**
@@ -125,5 +123,13 @@ class UserController extends Controller
         $ubahPass->password = Hash::make($request->new_password);
         $ubahPass->save();
         return redirect()->route('password.index');
+    }
+
+
+    public function getSelectData(){
+        $role = Role::all();
+        $toko = Toko::all();
+        $data=['toko'=>$toko,'role'=>$role];
+        return json_encode($data);
     }
 }

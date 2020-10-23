@@ -13,9 +13,9 @@
                 <div class="card-content">
                     <div class="card-body card-dashboard">
                         <p class="card-text">Tambah bahan</p>
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#modalAdd">Tambah bahan</button>
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#modalAddBahan">Tambah bahan</button>
                         <div class="table-responsive">
-                            <table class="table zero-configuration table-striped table-bordered">
+                            <table class="table zero-configuration2 table-striped table-bordered">
                                 <thead>
                                 <tr>
                                     <th class="text-center">Nama</th>
@@ -25,23 +25,6 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($data as $dt)
-                                    <tr>
-                                        <td class="text-center">{{$dt->nama}}</td>
-                                        <td class="text-center">{{$dt->quantity}}</td>
-                                        <td class="text-center"><img
-                                                    src="{{asset('storage/images/imageBahan/small').'/'.$dt->image_uri}}"
-                                                alt=""></td>
-                                        <td class="text-center">
-                                            <button class="btn btn-info" data-toggle="modal" data-target="#modalEdit"
-                                                    data-json='{{json_encode($dt)}}'><i class="fa fa-pencil"></i>
-                                            </button>
-                                            <button class="btn btn-danger" data-toggle="modal"
-                                                    data-target="#modalDelete" data-json='{{json_encode($dt)}}'><i
-                                                    class="fa fa-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                @endforeach
                                 </tbody>
 
                             </table>
@@ -55,7 +38,7 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true">
+    <div class="modal fade" id="modalAddBahan" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -64,7 +47,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{route('bahan.store')}}" enctype="multipart/form-data" method="post">
+                <form action="javascript:void(0)" id="add-formBahan" enctype="multipart/form-data" method="post">
                     <div class="modal-body">
                         @csrf
                         <label>Nama bahan: </label>
@@ -89,7 +72,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true">
+    <div class="modal fade" id="modalEditBahan" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -98,25 +81,25 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="javascript:void(0)" id="edit-form" enctype="multipart/form-data" method="post">
+                <form action="javascript:void(0)" id="edit-formBahan" enctype="multipart/form-data" method="post">
                     <div class="modal-body">
                         @csrf
                         @method('PUT')
                         <label>Nama bahan: </label>
                         <div class="form-group">
-                            <input type="text" id="editname" placeholder="Nama bahan" name="nama" class="form-control">
+                            <input type="text" id="editnameBahan" placeholder="Nama bahan" name="nama" class="form-control">
                         </div>
 
                         <label>Stock Bahan: </label>
                         <div class="form-group">
-                            <input type="text" id="editquantity" placeholder="Stock bahan" name="quantity" class="form-control">
+                            <input type="text" id="editquantityBahan" placeholder="Stock bahan" name="quantity" class="form-control">
                         </div>
 
                         <label>Image bahan: </label>
                         <div class="form-group">
-                            <input type="file" id="editlogosuri" placeholder="file" name="logo" class="form-control">
+                            <input type="file" id="editlogosuriBahan" placeholder="file" name="logo" class="form-control">
                         </div>
-                        <input type="text" name="id" id="editid" hidden>
+                        <input type="text" name="id" id="editidBahan" hidden>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Ubah</button>
@@ -125,7 +108,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true">
+    <div class="modal fade" id="modalDeleteBahan" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -134,12 +117,12 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="javascript:void(0)" id="delete-form" enctype="multipart/form-data" method="post">
+                <form action="javascript:void(0)" id="delete-formBahan" enctype="multipart/form-data" method="post">
                     <div class="modal-body">
                         @method('delete')
                         @csrf
                         <p>Apakah kamu yakin ingin hapus bahan ?</p>
-                        <input type="text" id="deleteid" name="id" hidden>
+                        <input type="text" id="deleteidBahan" name="id" hidden>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-danger">Ya</button>
@@ -169,48 +152,61 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            $('.zero-configuration').DataTable({
-                "columnDefs": [
-                    {
-                        "render": function (data, type, row) {
-                            return commaSeparateNumber(data);
-                        },
-                        // "targets": [1,2]
-                    },
+
+            const dt2 = $('.zero-configuration2').DataTable({
+                order: [[0, "desc"]],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '{{env('APP_URL')}}/master/bahan/dataTable'
+                },
+                columns: [
+                    {data: 'nama', name: 'nama', orderable: true, class: 'text-center'},
+                    {data: 'quantity', name: "quantity", searchable: false, orderable: false, className: "text-center"},
+                    {data: 'image', name: "", searchable: false, orderable: false, className: "text-center"},
+                    {data: 'action', name: "", searchable: false, orderable: false, className: "text-center"}
                 ]
             });
 
-            function commaSeparateNumber(val) {
-                while (/(\d+)(\d{3})/.test(val.toString())) {
-                    val = val.toString().replace(/(\d+)(\d{3})/, '$1' + '.' + '$2');
-                }
-                return "Rp. "+val+",00.-";
-            }
+            $('#add-formBahan').submit(function (e) {
+                e.preventDefault();
+                var formData = new FormData(this);
+                $.ajax({
+                    type: 'POST',
+                    url: "{{env('APP_URL')}}/master/bahan",
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    success: (data) => {
+                        $('#modalAddBahan').modal('hide');
+                        dt2.ajax.reload(null, false);
+                    },
+                    error: function (data) {
+                    }
+                });
+            });
 
-            $('#modalDelete').on('show.bs.modal', function (e) {
-                {{--    oTable.ajax.reload(null, false);--}}
+            $('#modalDeleteBahan').on('show.bs.modal', function (e) {
                 let data = $(e.relatedTarget).data('json');
-                $('#deleteid').val(data.id.toString());
+                $('#deleteidBahan').val(data.id.toString());
             });
-            $('#modalEdit').on('show.bs.modal', function (e) {
-                {{--    oTable.ajax.reload(null, false);--}}
+            $('#modalEditBahan').on('show.bs.modal', function (e) {
                 let data = $(e.relatedTarget).data('json');
-                $('#editid').val(data.id.toString());
-                $('#editname').val(data.nama.toString());
-                $('#editquantity').val(data.quantity.toString());
+                $('#editidBahan').val(data.id.toString());
+                $('#editnameBahan').val(data.nama.toString());
+                $('#editquantityBahan').val(data.quantity.toString());
             });
-            $('#delete-form').submit(function (e) {
+            $('#delete-formBahan').submit(function (e) {
                 e.preventDefault();
                 var formData = new FormData(this);
                 let Id = formData.get('id');
-                console.log(formData);
                 $.ajax({
                     url: '{{env('APP_URL')}}/master/bahan/' + Id,
                     type: 'DELETE',
                     dataType: 'HTML',
                     success: function (resp) {
-                        $("#modalDelete").modal("hide");
-                        location.reload()
+                        $("#modalDeleteBahan").modal("hide");
+                        dt2.ajax.reload(null, false);
                     },
                     error: function (data) {
                         console.log(data);
@@ -218,7 +214,7 @@
                 });
             });
 
-            $('#edit-form').submit(function (e) {
+            $('#edit-formBahan').submit(function (e) {
                 e.preventDefault();
                 var formData = new FormData(this);
                 let Id = formData.get('id');
@@ -230,8 +226,8 @@
                     data: formData,
                     success: (data) => {
                         // this.reset();
-                        $('#modalEdit').modal('hide');
-                        location.reload()
+                        $('#modalEditBahan').modal('hide');
+                        dt2.ajax.reload(null, false);
                         // oTable.ajax.reload(null, false);
                     },
                     error: function (data) {

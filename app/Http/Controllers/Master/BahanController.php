@@ -7,6 +7,7 @@ use App\Models\Master\Bahan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
+use Yajra\DataTables\Facades\DataTables;
 
 class BahanController extends Controller
 {
@@ -89,10 +90,11 @@ class BahanController extends Controller
     public function update(Request $request, $id)
     {
 
+
         $toUpdate = Bahan::find($id);
         $toUpdate->nama = $request->nama;
         $toUpdate->harga = 0;
-        $toUpdate->harga = $request->quantity;
+        $toUpdate->quantity = $request->quantity;
 
         $image = $request->file('logo');
         if ($image) {
@@ -122,5 +124,21 @@ class BahanController extends Controller
         Bahan::find($id)->delete();
         return response('success delete', 200);
         //
+    }
+
+    public function dataTable(){
+        return DataTables::eloquent(Bahan::query())
+            ->editColumn('image',function($data){
+                return  '<img src="'.asset("storage/images/imageBahan/small")."/".$data->image_uri.'" alt="">';
+            })
+            ->editColumn('action',function ($data){
+                return " <button class='btn btn-info' data-toggle='modal' data-target='#modalEditBahan' data-json='".json_encode($data)."'><i class='fa fa-pencil'></i>
+                                                        </button>
+                                                        <button class='btn btn-danger' data-toggle='modal'
+                                                                data-target='#modalDeleteBahan' data-json='".json_encode($data)."'><i
+                                                                class='fa fa-trash'></i></button>";
+            })
+            ->rawColumns(['image', 'action'])
+            ->make(true);
     }
 }

@@ -432,6 +432,8 @@ body.fixed-footer footer.footer-dark {
   color : #FFFFFF;
   font-weight : 400;
   border-radius : 4px;
+    margin-right: 10px;
+    margin-left: 10px;
 }
 .main-menu.menu-light .navigation > li .active {
   background : #F0F0F0;

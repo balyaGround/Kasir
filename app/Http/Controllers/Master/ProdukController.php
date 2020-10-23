@@ -59,7 +59,8 @@ class ProdukController extends Controller
 
         }
         $data = Produk::create(['nama' => $request->nama, 'harga_jual' => $request->harga_jual, 'harga_modal' => $request->harga_modal, 'image_uri' => $fileName]);
-        return redirect(route('produk.index'));
+//        return redirect(route('produk.index'));
+        return redirect()->route('barang');
     }
 
     /**

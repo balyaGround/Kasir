@@ -7,6 +7,7 @@ use App\Models\User\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
+use Yajra\DataTables\Facades\DataTables;
 
 class RoleController extends Controller
 {
@@ -40,7 +41,7 @@ class RoleController extends Controller
     public function store(Request $request)
     {
       $data = Role::create(['nama'=>$request->nama]);
-        return redirect(route('role.index'));
+//        return redirect(route('role.index'));
     }
 
     /**
@@ -92,6 +93,19 @@ class RoleController extends Controller
     {
         Role::find($id)->delete();
         return response('success delete',200);
-        //
     }
+
+    public function dataTable(){
+       return DataTables::eloquent(Role::query())
+           ->editColumn('action',function ($data){
+               return " <button class='btn btn-info' data-toggle='modal' data-target='#modalEditRole'
+                                                                data-json='".json_encode($data)."'><i class='fa fa-pencil'></i>
+                                                        </button>
+                                                        <button class='btn btn-danger' data-toggle='modal'
+                                                                data-target='#modalDeleteRole' data-json='".json_encode($data)."'><i
+                                                                class='fa fa-trash'></i></button>";
+           })
+           ->make(true);
+    }
+
 }

@@ -7,6 +7,7 @@ use App\Models\Master\Toko;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
+use Yajra\DataTables\Facades\DataTables;
 
 class TokoController extends Controller
 {
@@ -118,5 +119,21 @@ class TokoController extends Controller
         Toko::find($id)->delete();
         return response('success delete',200);
         //
+    }
+
+    public function dataTable(){
+        return DataTables::eloquent(Toko::query())
+            ->editColumn('image',function($data){
+               return  '<img src="'.asset("storage/images/logostoko/small")."/".$data->logos_uri.'" alt="">';
+            })
+            ->editColumn('action',function ($data){
+                return " <button class='btn btn-info' data-toggle='modal' data-target='#modalEditToko' data-json='".json_encode($data)."'><i class='fa fa-pencil'></i>
+                                                        </button>
+                                                        <button class='btn btn-danger' data-toggle='modal'
+                                                                data-target='#modalDeleteToko' data-json='".json_encode($data)."'><i
+                                                                class='fa fa-trash'></i></button>";
+            })
+            ->rawColumns(['image', 'action'])
+            ->make(true);
     }
 }

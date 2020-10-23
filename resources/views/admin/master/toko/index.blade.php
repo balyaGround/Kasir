@@ -13,9 +13,9 @@
                 <div class="card-content">
                     <div class="card-body card-dashboard">
                             <p class="card-text">Tambah toko</p>
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#modalAdd">Tambah Toko</button>
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#modalAddToko">Tambah Toko</button>
                         <div class="table-responsive">
-                            <table class="table zero-configuration table-striped table-bordered     ">
+                            <table class="table zero-configuration2 table-striped table-bordered     ">
                                 <thead>
                                 <tr>
                                     <th class="text-center">Nama</th>
@@ -31,11 +31,11 @@
                                                 src="{{asset('storage/images/logostoko/small').'/'.$dt->logos_uri}}"
                                                 alt=""></td>
                                         <td class="text-center">
-                                            <button class="btn btn-info" data-toggle="modal" data-target="#modalEdit"
+                                            <button class="btn btn-info" data-toggle="modal" data-target="#modalEditToko"
                                                     data-json='{{json_encode($dt)}}'><i class="fa fa-pencil"></i>
                                             </button>
                                             <button class="btn btn-danger" data-toggle="modal"
-                                                    data-target="#modalDelete" data-json='{{json_encode($dt)}}'><i
+                                                    data-target="#modalDeleteToko" data-json='{{json_encode($dt)}}'><i
                                                     class="fa fa-trash"></i></button>
                                         </td>
                                     </tr>
@@ -53,7 +53,7 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true">
+    <div class="modal fade" id="modalAddToko" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -82,7 +82,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true">
+    <div class="modal fade" id="modalEditToko" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -91,20 +91,20 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="javascript:void(0)" id="edit-form" enctype="multipart/form-data" method="post">
+                <form action="javascript:void(0)" id="edit-formToko" enctype="multipart/form-data" method="post">
                     <div class="modal-body">
                         @csrf
                         @method('PUT')
                         <label>Nama Toko: </label>
                         <div class="form-group">
-                            <input type="text" id="editname" placeholder="Nama Toko" name="nama" class="form-control">
+                            <input type="text" id="editnameToko" placeholder="Nama Toko" name="nama" class="form-control">
                         </div>
 
                         <label>Logo Toko: </label>
                         <div class="form-group">
-                            <input type="file" id="editlogosuri" placeholder="file" name="logo" class="form-control">
+                            <input type="file" id="editlogosuriToko" placeholder="file" name="logo" class="form-control">
                         </div>
-                        <input type="text" name="id" id="editid" hidden>
+                        <input type="text" name="id" id="editidToko" hidden>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Ubah</button>
@@ -113,7 +113,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true">
+    <div class="modal fade" id="modalDeleteToko" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -122,12 +122,12 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="javascript:void(0)" id="delete-form" enctype="multipart/form-data" method="post">
+                <form action="javascript:void(0)" id="delete-formToko" enctype="multipart/form-data" method="post">
                     <div class="modal-body">
                         @method('delete')
                         @csrf
                         <p>Apakah kamu yakin ingin hapus toko ?</p>
-                        <input type="text" id="deleteid" name="id" hidden>
+                        <input type="text" id="deleteidToko" name="id" hidden>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-danger">Ya</button>
@@ -158,32 +158,31 @@
                 }
             });
 
-            $('.zero-configuration').DataTable({
+            $('.zero-configuration2').DataTable({
             });
-            $('#modalDelete').on('show.bs.modal', function (e) {
+            $('#modalDeleteToko').on('show.bs.modal', function (e) {
                 {{--    oTable.ajax.reload(null, false);--}}
                 let data = $(e.relatedTarget).data('json');
-                $('#deleteid').val(data.id.toString());
+                $('#deleteidToko').val(data.id.toString());
             });
-            $('#modalEdit').on('show.bs.modal', function (e) {
+            $('#modalEditToko').on('show.bs.modal', function (e) {
                 {{--    oTable.ajax.reload(null, false);--}}
                 let data = $(e.relatedTarget).data('json');
 
-                $('#editid').val(data.id.toString());
-                $('#editname').val(data.nama.toString());
+                $('#editidToko').val(data.id.toString());
+                $('#editnameToko').val(data.nama.toString());
 
             });
-            $('#delete-form').submit(function (e) {
+            $('#delete-formToko').submit(function (e) {
                 e.preventDefault();
                 var formData = new FormData(this);
                 let Id = formData.get('id');
-                console.log(formData);
                 $.ajax({
                     url: '{{env('APP_URL')}}/master/toko/' + Id,
                     type: 'DELETE',
                     dataType: 'HTML',
                     success: function (resp) {
-                        $("#modalDelete").modal("hide");
+                        $("#modalDeleteToko").modal("hide");
                         location.reload()
                     },
                     error: function (data) {
@@ -192,7 +191,7 @@
                 });
             });
 
-            $('#edit-form').submit(function (e) {
+            $('#edit-formToko').submit(function (e) {
                 e.preventDefault();
                 var formData = new FormData(this);
                 let Id = formData.get('id');
@@ -204,7 +203,7 @@
                     data: formData,
                     success: (data) => {
                         // this.reset();
-                        $('#modalEdit').modal('hide');
+                        $('#modalEditToko').modal('hide');
                         location.reload()
                         // oTable.ajax.reload(null, false);
                     },

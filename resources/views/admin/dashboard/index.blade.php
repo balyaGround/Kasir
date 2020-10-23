@@ -21,18 +21,21 @@
                                         class="feather icon-book-open"> Daftar Menu</i></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link font-medium-4 px-2" id="profile-tab" data-toggle="tab"
-                                   href="#profile"
+                                <a class="nav-link font-medium-4 px-2" id="stock-tab" data-toggle="tab"
+                                   href="#stock"
                                    aria-controls="profile" role="tab" aria-selected="true"><i
                                         class="feather icon-box"> Stok</i></a>
-
+                            </li>
+                            <li>
+                                <button class="btn btn-primary py-1 mt-1 " data-toggle="modal" data-target="#modalCart"> Lihat
+                                    keranjang
+                                </button>
                             </li>
                         </ul>
-                        <button class="btn btn-success" data-toggle="modal" data-target="#modalCart"> Lihat keranjang
-                        </button>
                         <div class="tab-content">
                             <div class="tab-pane active" id="home" aria-labelledby="home-tab"
                                  role="tabpanel">
+
                                 <section id="ecommerce-searchbar">
                                     <div class="row mt-1 ">
                                         <div class="col-sm-12">
@@ -80,65 +83,66 @@
                                                         </div>
                                                     </a>
                                                 </div>
-
                                                 @if($loop->index % 4 == 3 || $loop->index==3)
                                             </div>
-                                @endif
-                                @endforeach
+                                        @endif
+                                    @endforeach
+                                </section>
                             </div>
-                            </section>
-                        </div>
-                        <div class="tab-pane" id="profile" aria-labelledby="profile-tab"
-                             role="tabpanel">
-                            <section id="stock-searchbar">
-                                <div class="row mt-1 ">
-                                    <div class="col-sm-12">
-                                        <fieldset
-                                            class="form-group position-relative has-icon-left font-medium-4 shadow">
-                                            <input type="text" class="form-control search-product py-2"
-                                                   id="iconLeft5" placeholder="Temukan stok bahan makanan">
-                                            <div class="form-control-position font-medium-4 "
-                                                 style="padding-top: 5px;">
-                                                <i class="feather icon-search"></i>
-                                            </div>
-                                        </fieldset>
+                            <div class="tab-pane " id="stock" aria-labelledby="stock-tab"
+                                 role="tabpanel">
+                                <section id="stock-searchbar">
+                                    <div class="row mt-1 ">
+                                        <div class="col-sm-12">
+                                            <fieldset
+                                                class="form-group position-relative has-icon-left font-medium-4 shadow">
+                                                <input type="text" class="form-control search-product py-2"
+                                                       id="iconLeft5" placeholder="Temukan stok bahan makanan">
+                                                <div class="form-control-position font-medium-4 "
+                                                     style="padding-top: 5px;">
+                                                    <i class="feather icon-search"></i>
+                                                </div>
+                                            </fieldset>
+                                        </div>
                                     </div>
-                                </div>
-                            </section>
-                            <section id="stock">
-                                @foreach($data['bahan'] as $dt)
-                                    @if($loop->index == 0 || $loop->index %4 == 0)
-                                        <div class="row px-2 mt-2">
-                                            @endif
-                                            <div class="col-md-3">
-                                                <div class="card border border-2"
-                                                     style="border-color: #D25627 !important;">
-                                                    <div class="zindex-1 position-absolute mt-1 ml-1">
-                                                        <h3 class="border px-1 py-1 "
-                                                            style="border-radius: 15px; border-color: #e9754a; background-color: #e9754a;opacity: 0.8; color: white">
-                                                            {{$dt->nama}}</h3>
-                                                    </div>
-                                                    <div class="card-content">
-                                                        <img class="img-fluid"
-                                                             style="border-bottom-left-radius: 15px;
+                                </section>
+                                <section id="stock">
+                                    @foreach($data['bahan'] as $dt)
+                                        @if($loop->index == 0 || $loop->index %4 == 0)
+                                            <div class="row px-2 mt-2">
+                                                @endif
+                                                <div class="col-md-3">
+                                                    <div class="card border border-2"
+                                                         style="border-color: #D25627 !important;">
+                                                        <div class="zindex-1 position-absolute mt-1 ml-1">
+                                                            <h3 class="border px-1 py-1 "
+                                                                style="border-radius: 15px; border-color: #e9754a; background-color: #e9754a;opacity: 0.8; color: white">
+                                                                {{$dt->nama}}</h3>
+                                                        </div>
+                                                        <div class="card-content">
+                                                            <img class="img-fluid"
+                                                                 style="border-bottom-left-radius: 15px;
                                                          border-bottom-right-radius: 15px; width: 100%;height: 220px"
-                                                             src="{{asset('storage/images/imageBahan/small').'/'.$dt->image_uri}}"
-                                                             alt="Card image cap">
-                                                        {{--                                                    <div class="card-body">--}}
+                                                                 src="{{asset('storage/images/imageBahan/small').'/'.$dt->image_uri}}"
+                                                                 alt="Card image cap">
+                                                            {{--                                                    <div class="card-body">--}}
 
-                                                        {{--                                                    </div>--}}
-                                                    </div>
-                                                    <div class="card-footer text-right bg-white border-0">
-                                                        <h2>sisa stok : 20</h2>
+                                                            {{--                                                    </div>--}}
+                                                        </div>
+                                                        <div class="card-footer text-right bg-white border-0">
+                                                            <h2>{{$dt->quantity}}</h2>
+                                                        </div>
                                                     </div>
                                                 </div>
+                                                @if($loop->index % 4 == 3 || $loop->index==3)
                                             </div>
-                                            @if($loop->index % 4 == 3 || $loop->index==3)
-                                        </div>
-                                    @endif
-                                @endforeach
-                            </section>
+                                        @endif
+                                    @endforeach
+                                </section>
+                            </div>
                         </div>
+
+
                     </div>
                 </div>
             </div>
@@ -183,7 +187,8 @@
     </div>
     <div class="modal fade" id="modalCart" tabindex="-1" role="dialog" aria-labelledby="modalAddToCart"
          aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-centered modal-dialog-scrollable"
+             role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalCenterTitle">Cart</h5>
@@ -239,12 +244,14 @@
                 let getIndex = 0;
 
                 temporaryData.forEach(myFunction);
+
                 function myFunction(item, index) {
                     if (!haha === true) {
                         haha = (item.id === temps.id ? true : false)
                         getIndex = index;
                     }
                 }
+
                 if (!haha === true) {
                     temps.amount = parseInt($('#current_input').val());
                     temporaryData.push(temps);
@@ -267,6 +274,7 @@
                 let haha = false;
                 let getIndex = 0;
                 temporaryData.forEach(myFunction);
+
                 function myFunction(item, index) {
                     if (!haha === true) {
                         haha = (item.id === temps.id ? true : false)
@@ -274,7 +282,6 @@
                         $('#current_input').val(0);
                     }
                 }
-
 
 
             })
@@ -296,7 +303,7 @@
                                     <p>${item.amount * parseInt(item.harga_jual)}</p>
                                 </div>
                               </div>`;
-                    total +=item.amount * parseInt(item.harga_jual);
+                    total += item.amount * parseInt(item.harga_jual);
                 }
 
                 html += `
@@ -317,9 +324,9 @@
                 $.ajax({
                     type: 'POST',
                     url: "{{route('bayar')}}",
-                    data: {data:JSON.stringify(temporaryData)},
+                    data: {data: JSON.stringify(temporaryData)},
                     async: true,
-                    cache:false,
+                    cache: false,
                     success: (data) => {
                         // $('#modalReceipt').modal('hide');
 

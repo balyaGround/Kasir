@@ -16,7 +16,7 @@ class CreatePenjualanDetailsTable extends Migration
         Schema::create('penjualan_details', function (Blueprint $table) {
             $table->id();
             $table->integer('penjualans_id');
-            $table->integer('produk_jual_id');
+            $table->integer('produk_id');
             $table->integer('amount');
             $table->timestamps();
         });

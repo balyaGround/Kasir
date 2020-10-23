@@ -32,14 +32,6 @@
                                                             class="feather icon-calendar"> Bulan Ini</i></a>
 
                                                 </li>
-                                                <li class="nav-item">
-                                                    <a href="#" class="nav-link disabled">Disabled</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" id="about-tab" data-toggle="tab" href="#about"
-                                                       aria-controls="about" role="tab"
-                                                       aria-selected="false">Account</a>
-                                                </li>
                                             </ul>
                                             <div class="tab-content">
                                                 <div class="tab-pane active" id="home" aria-labelledby="home-tab"
@@ -49,19 +41,36 @@
                                                             class="table zero-configuration table-striped table-bordered">
                                                             <thead>
                                                             <tr>
-                                                                <th class="text-center">Nomor Invoice</th>
-                                                                <th class="text-center">Logo</th>
-                                                                <th class="text-center">Action</th>
+                                                                <th class="text-center">Nama Menu</th>
+                                                                <th class="text-center">Jumlah Terjual</th>
+                                                                <th class="text-center">Harga Jual Cafe</th>
+                                                                <th class="text-center">Harga Jual Owner</th>
+                                                                <th class="text-center">Hasil Cafe</th>
+                                                                <th class="text-center">Hasil Owner</th>
                                                             </tr>
                                                             </thead>
-                                                            <tbody>
-                                                            <tr>
-                                                                <td>tes</td>
-                                                                <td>tes</td>
-                                                                <td>tes</td>
-                                                            </tr>
+                                                            <tbody class="text-center">
+                                                            @foreach($data as $dt)
+                                                                <tr>
+                                                                    <td >{{$dt['produk']['nama']}}</td>
+                                                                    <td>{{$dt['amount']}}</td>
+                                                                    <td>Rp.{{number_format($dt['produk']['harga_jual'],2,",",".")}}</td>
+                                                                    <td>Rp.{{number_format($dt['produk']['harga_modal'],2,",",".")}}</td>
+                                                                    <td>Rp.{{number_format($dt['produk']['harga_jual'] *$dt['amount'],2,",",".")}}</td>
+                                                                    <td>Rp.{{number_format($dt['produk']['harga_modal'] *$dt['amount'],2,",",".")}}</td>
+                                                                   </tr>
+                                                            @endforeach
                                                             </tbody>
-
+                                                            <tfoot>
+                                                                <tr class="text-center">
+                                                                    <td > <span class="bold font-medium-3">Total</span></td>
+                                                                    <td><span class="bold font-medium-3">{{$total_amount}}</span></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td><span class="bold font-medium-3">Rp.{{number_format($total_harga_jual,2,",",".")}}</span></td>
+                                                                    <td><span class="bold font-medium-3">Rp.{{number_format($total_harga_modal,2,",",".")}}</span></td>
+                                                                </tr>
+                                                            </tfoot>
                                                         </table>
                                                     </div>
                                                 </div>

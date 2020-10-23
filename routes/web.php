@@ -46,6 +46,7 @@ Route::middleware([\App\Http\Middleware\Authenticate::class])->group(function ()
     Route::resource('user-management/users',\App\Http\Controllers\User\UserController::class);
 //endofsettings
 
+    Route::get('report-management/today',[\App\Http\Controllers\Laporan\LaporanController::class,'hariIni'])->name('report.today');
     Route::get('report-management/report',[\App\Http\Controllers\Laporan\LaporanController::class,'index'])->name('laporan.index');
 
     Route::post('bayar',[\App\Http\Controllers\DashboardController::class,'bayar'])->name('bayar');

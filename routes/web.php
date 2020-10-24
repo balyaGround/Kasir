@@ -50,6 +50,7 @@ Route::middleware([\App\Http\Middleware\Authenticate::class])->group(function ()
     Route::get('report-management/report',[\App\Http\Controllers\Laporan\LaporanController::class,'index'])->name('laporan.index');
 
     Route::post('bayar',[\App\Http\Controllers\DashboardController::class,'bayar'])->name('bayar');
+    Route::get('print/invoice/{noinvoice}',[\App\Http\Controllers\PrintController::class,'printInvoice']);
 });
 
 

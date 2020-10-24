@@ -29,20 +29,17 @@ class DashboardController extends Controller
 //        dd($dataAll);
         foreach($dataAll as $dt){
             $dataBahan = ProdukJual::where('produk_id',$dt->id)->get();
-
             foreach($dataBahan as $dtBhn){
                 $updateBahan = Bahan::find($dtBhn->bahan_id);
                 $updateBahan->quantity = $updateBahan->quantity - $dtBhn->bahan_qty*$dt->amount;
                 $updateBahan->save();
             }
-
-
             $penjualanDetails = PenjualanDetail::create([
                 'penjualans_id'=>$penjualan,
                 'produk_id'=>$dt->id,
                 'amount'=>$dt->amount
             ]);
-
         }
+        return json_encode($inv);
     }
 }

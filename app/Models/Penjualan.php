@@ -9,4 +9,8 @@ class Penjualan extends Model
 {
     use HasFactory;
     protected $guarded=[];
+
+    public function penjualanDetail(){
+        return $this->hasMany(PenjualanDetail::class,'penjualans_id');
+    }
 }

@@ -328,6 +328,9 @@
                     async: true,
                     cache: false,
                     success: (data) => {
+
+                        window.open( "{{env('APP_URL')}}"+"/print/invoice/"+data );
+
                         // $('#modalReceipt').modal('hide');
 
                     },

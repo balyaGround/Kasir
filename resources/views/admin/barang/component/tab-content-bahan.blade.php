@@ -1,4 +1,4 @@
-<button class="btn btn-primary" data-toggle="modal" data-target="#modalAddBahan">Tambah Stok</button>
+<button class="btn btn-primary" data-toggle="modal" data-target="#modalAddBahan"> <i class="fa fa-plus"></i> Tambah Stok</button>
 <div class="table-responsive">
     <table class="table zero-configuration2 table-striped table-bordered w-100">
         <thead>

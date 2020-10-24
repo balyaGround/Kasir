@@ -16,6 +16,8 @@ class CreatePenjualansTable extends Migration
         Schema::create('penjualans', function (Blueprint $table) {
             $table->id();
             $table->string( 'nomor_invoice');
+            $table->integer('user_id');
+            $table->integer('toko_id');
             $table->timestamps();
         });
     }

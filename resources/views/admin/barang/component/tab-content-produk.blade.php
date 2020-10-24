@@ -1,5 +1,5 @@
 
-<button class="btn btn-primary" data-toggle="modal" data-target="#modalAdd">Tambah Produk
+<button class="btn btn-primary" data-toggle="modal" data-target="#modalAdd"> <i class="fa fa-plus"></i> Tambah Produk
 </button>
 <div class="table-responsive">
     <table class="table zero-configuration table-striped table-bordered">

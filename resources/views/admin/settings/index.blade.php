@@ -38,8 +38,8 @@
                             <div class="tab-content">
                                 <div class="tab-pane active" id="User" aria-labelledby="home-tab"
                                      role="tabpanel">
-                                    <button class="btn btn-primary" data-toggle="modal" data-target="#modalAddUser"><i
-                                            class="fa fa-plus"></i> Tambah User
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#modalAddUser">
+                                        <i class="fa fa-plus"></i> Tambah User
                                     </button>
                                     <div class="table-responsive">
                                         <table class="table zero-configuration table-striped table-bordered     ">
@@ -82,7 +82,7 @@
                                 <div class="tab-pane" id="role" aria-labelledby="role-tab"
                                      role="tabpanel">
                                     <button class="btn btn-primary" data-toggle="modal" data-target="#modalAddRole">
-                                        Tambah Role
+                                        <i class="fa fa-plus"></i> Tambah Role
                                     </button>
                                     <div class="table-responsive">
                                         <table class="table zero-configuration1 table-striped table-bordered     w-100">
@@ -100,7 +100,8 @@
                                 </div>
                                 <div class="tab-pane" id="toko" role="tabpanel"
                                      aria-labelledby="dropdown31-tab" aria-expanded="false">
-                                    <button class="btn btn-primary" data-toggle="modal" data-target="#modalAddToko">Tambah Toko</button>
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#modalAddToko">
+                                        <i class="fa fa-plus"></i> Tambah Toko</button>
                                     <div class="table-responsive">
                                         <table class="table zero-configuration2 table-striped table-bordered w-100">
                                             <thead>

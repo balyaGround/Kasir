@@ -8,6 +8,7 @@ use App\Models\Penjualan;
 use App\Models\PenjualanDetail;
 use App\Models\ProdukJual;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -21,10 +22,13 @@ class DashboardController extends Controller
     }
 
     public function bayar(Request $request){
+        $user =Auth::user();
         $dataAll = json_decode($request->data);
         $inv = time();
         $penjualan = Penjualan::create([
-            'nomor_invoice'=>$inv
+            'nomor_invoice'=>$inv,
+            'user_id'=>$user['id'],
+            'toko_id'=>$user['toko_id']
         ])->id;
 //        dd($dataAll);
         foreach($dataAll as $dt){

@@ -217,6 +217,7 @@
 {{--                            <li class="dropdown-menu-footer"><a class="dropdown-item p-1 text-center" href="javascript:void(0)">View all notifications</a></li>--}}
 {{--                        </ul>--}}
 {{--                    </li>--}}
+{{--                    <li class="dropdown dropdown-user nav-item mt-1">{!! $shop ?? '' !!}</li>--}}
                     <li class="dropdown dropdown-user nav-item ">
                         <div class="border m-1 rounded rounded-pill " style="border-width:3px !important;">
                             <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
@@ -229,7 +230,8 @@
                             <div class="dropdown-menu dropdown-menu-right">
                                 <a class="dropdown-item" href="{{route('password.index')}}"><i class="feather icon-lock"></i> Password</a>
 {{--                                <a class="dropdown-item" href="app-email.html"><i class="feather icon-mail"></i> My Inbox</a>--}}
-                                <div class="dropdown-divider"></div><a class="dropdown-item" href="{{route('logout')}}"><i class="feather icon-power"></i> Logout</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{route('logout')}}"><i class="feather icon-power"></i> Logout</a>
                             </div>
                         </div>
 

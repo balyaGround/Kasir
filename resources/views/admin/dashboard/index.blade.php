@@ -1,4 +1,9 @@
-@extends('layout.main',['pesan'=>'<h2 class=" ml-1 my-1">Haloo, <span style="color:#e37e57;">'.auth()->user()['name'].' !</span></h1>'])
+@extends('layout.main',[
+    'pesan'=>'<h2 class=" ml-1 my-1">Haloo, <span style="color:#e37e57;">'.auth()->user()['name'].' !</span></h1>',
+    'shop'=>'<button class="btn btn-primary py-1 mt-1 " data-toggle="modal" data-target="#modalCart"> <i class="feather icon-shopping-cart"></i>
+                                </button>'
+
+    ])
 @section('css')
 
 @endsection
@@ -26,12 +31,14 @@
                                    aria-controls="profile" role="tab" aria-selected="true"><i
                                         class="feather icon-box"> Stok</i></a>
                             </li>
-                            <li>
-                                <button class="btn btn-primary py-1 mt-1 " data-toggle="modal" data-target="#modalCart"> Lihat
-                                    keranjang
+{{--                            <div>--}}
+                                <button class="btn btn-primary" style="margin-top: 10px;margin-bottom: 1px" data-toggle="modal" data-target="#modalCart"> <i class="feather icon-shopping-cart"></i>
+                                    Bayar
                                 </button>
-                            </li>
+{{--                            </div>--}}
+
                         </ul>
+
                         <div class="tab-content">
                             <div class="tab-pane active" id="home" aria-labelledby="home-tab"
                                  role="tabpanel">
@@ -141,8 +148,6 @@
                                 </section>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
@@ -320,7 +325,6 @@
             })
 
             $('#bayar_btn').click(function () {
-                console.log(temporaryData);
                 $.ajax({
                     type: 'POST',
                     url: "{{route('bayar')}}",
@@ -328,11 +332,8 @@
                     async: true,
                     cache: false,
                     success: (data) => {
-
                         window.open( "{{env('APP_URL')}}"+"/print/invoice/"+data );
-
-                        // $('#modalReceipt').modal('hide');
-
+                        location.reload()
                     },
                     error: function (data) {
                         // console.log(data);

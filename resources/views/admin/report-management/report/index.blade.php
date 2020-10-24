@@ -30,7 +30,13 @@
                                                        href="#profile"
                                                        aria-controls="profile" role="tab" aria-selected="true"><i
                                                             class="feather icon-calendar"> Bulan Ini</i></a>
-
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link font-medium-3" id="pembukuan-tab"
+                                                       data-toggle="tab"
+                                                       href="#pembukuan"
+                                                       aria-controls="profile" role="tab" aria-selected="true"><i
+                                                            class="feather icon-book">Pembukuan</i></a>
                                                 </li>
                                             </ul>
                                             <div class="tab-content">
@@ -52,24 +58,34 @@
                                                             <tbody class="text-center">
                                                             @foreach($data as $dt)
                                                                 <tr>
-                                                                    <td >{{$dt['produk']['nama']}}</td>
+                                                                    <td>{{$dt['produk']['nama']}}</td>
                                                                     <td>{{$dt['amount']}}</td>
-                                                                    <td>Rp.{{number_format($dt['produk']['harga_jual'],2,",",".")}}</td>
-                                                                    <td>Rp.{{number_format($dt['produk']['harga_modal'],2,",",".")}}</td>
-                                                                    <td>Rp.{{number_format($dt['produk']['harga_jual'] *$dt['amount'],2,",",".")}}</td>
-                                                                    <td>Rp.{{number_format($dt['produk']['harga_modal'] *$dt['amount'],2,",",".")}}</td>
-                                                                   </tr>
+                                                                    <td>
+                                                                        Rp.{{number_format($dt['produk']['harga_jual'],2,",",".")}}</td>
+                                                                    <td>
+                                                                        Rp.{{number_format($dt['produk']['harga_modal'],2,",",".")}}</td>
+                                                                    <td>
+                                                                        Rp.{{number_format($dt['produk']['harga_jual'] *$dt['amount'],2,",",".")}}</td>
+                                                                    <td>
+                                                                        Rp.{{number_format($dt['produk']['harga_modal'] *$dt['amount'],2,",",".")}}</td>
+                                                                </tr>
                                                             @endforeach
                                                             </tbody>
                                                             <tfoot>
-                                                                <tr class="text-center">
-                                                                    <td > <span class="bold font-medium-3">Total</span></td>
-                                                                    <td><span class="bold font-medium-3">{{$total_amount}}</span></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td><span class="bold font-medium-3">Rp.{{number_format($total_harga_jual,2,",",".")}}</span></td>
-                                                                    <td><span class="bold font-medium-3">Rp.{{number_format($total_harga_modal,2,",",".")}}</span></td>
-                                                                </tr>
+                                                            <tr class="text-center">
+                                                                <td><span class="bold font-medium-3">Total</span></td>
+                                                                <td><span
+                                                                        class="bold font-medium-3">{{$total_amount}}</span>
+                                                                </td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td><span
+                                                                        class="bold font-medium-3">Rp.{{number_format($total_harga_jual,2,",",".")}}</span>
+                                                                </td>
+                                                                <td><span
+                                                                        class="bold font-medium-3">Rp.{{number_format($total_harga_modal,2,",",".")}}</span>
+                                                                </td>
+                                                            </tr>
                                                             </tfoot>
                                                         </table>
                                                     </div>
@@ -82,31 +98,11 @@
                                                         candy canes chocolate cake sweet roll
                                                         liquorice icing cupcake.</p>
                                                 </div>
-                                                <div class="tab-pane" id="dropdown31" role="tabpanel"
-                                                     aria-labelledby="dropdown31-tab" aria-expanded="false">
-                                                    <p>Cake croissant lemon drops gummi bears carrot cake biscuit
-                                                        cupcake croissant. Macaroon lemon drops
-                                                        muffin jelly sugar plum chocolate cupcake danish icing. Soufflé
-                                                        tootsie roll lemon drops sweet roll
-                                                        cake icing cookie halvah cupcake.</p>
-                                                </div>
-                                                <div class="tab-pane" id="dropdown32" role="tabpanel"
-                                                     aria-labelledby="dropdown32-tab" aria-expanded="false">
-                                                    <p>Chocolate croissant cupcake croissant jelly donut. Cheesecake
-                                                        toffee apple pie chocolate bar biscuit
-                                                        tart croissant. Lemon drops danish cookie. Oat cake macaroon
-                                                        icing tart lollipop cookie sweet bear
-                                                        claw.</p>
-                                                </div>
-                                                <div class="tab-pane" id="about" aria-labelledby="about-tab"
+                                                <div class="tab-pane" id="pembukuan" aria-labelledby="pembukuan-tab"
                                                      role="tabpanel">
-                                                    <p>Carrot cake dragée chocolate. Lemon drops ice cream wafer gummies
-                                                        dragée. Chocolate bar liquorice
-                                                        cheesecake cookie chupa chups marshmallow oat cake biscuit.
-                                                        Dessert toffee fruitcake ice cream
-                                                        powder
-                                                        tootsie roll cake.</p>
+                                                    @include('admin.report-management.report.component.tab-content-pembukuan')
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>

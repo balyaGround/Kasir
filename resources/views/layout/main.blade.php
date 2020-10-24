@@ -395,7 +395,6 @@
         // console.log(tes)
         var navItem = $(this);
         if (navItem.find("a").attr("href") === tes) {
-            console.log('benergak');
             navItem.addClass("active");
         }
     });

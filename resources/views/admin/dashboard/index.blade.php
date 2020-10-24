@@ -31,121 +31,27 @@
                                    aria-controls="profile" role="tab" aria-selected="true"><i
                                         class="feather icon-box"> Stok</i></a>
                             </li>
-{{--                            <div>--}}
-                                <button class="btn btn-primary" style="margin-top: 10px;margin-bottom: 1px" data-toggle="modal" data-target="#modalCart"> <i class="feather icon-shopping-cart"></i>
+                            <li class="nav-item">
+                                <a class="nav-link font-medium-4 px-2" id="invoice-tab" data-toggle="tab"
+                                   href="#invoice"
+                                   aria-controls="profile" role="tab" aria-selected="true"><i
+                                        class="feather icon-dollar-sign"> Invoice List</i></a>
+                            </li>
+                                <button class="btn btn-success" style="margin-top: 12px;margin-bottom: 1px" data-toggle="modal" data-target="#modalCart"> <i class="feather icon-shopping-cart"></i>
                                     Bayar
                                 </button>
-{{--                            </div>--}}
-
                         </ul>
-
                         <div class="tab-content">
                             <div class="tab-pane active" id="home" aria-labelledby="home-tab"
                                  role="tabpanel">
-
-                                <section id="ecommerce-searchbar">
-                                    <div class="row mt-1 ">
-                                        <div class="col-sm-12">
-                                            <fieldset
-                                                class="form-group position-relative has-icon-left font-medium-4 shadow">
-                                                <input type="text" class="form-control search-product py-2"
-                                                       id="iconLeft5" placeholder="Temukan Menu">
-                                                <div class="form-control-position font-medium-4 "
-                                                     style="padding-top: 5px;">
-                                                    <i class="feather icon-search"></i>
-                                                </div>
-                                            </fieldset>
-                                        </div>
-                                    </div>
-                                </section>
-                                <section id="product">
-                                    @foreach($data['produk'] as $dt)
-                                        @if($loop->index == 0 || $loop->index %4 == 0)
-                                            <div class="row px-2 mt-2">
-                                                @endif
-                                                <div class="col-md-3">
-                                                    <a href="#" data-toggle="modal" data-json="{{$dt}}"
-                                                       data-target="#modalAddToCart">
-                                                        <div class="card border border-2"
-                                                             style="border-color: #D25627 !important;">
-                                                            <div class="zindex-1 position-absolute mt-1 ml-1">
-                                                                <h3 class="border px-1 py-1 "
-                                                                    style="border-radius: 15px; border-color: #e9754a; background-color: #e9754a;opacity: 0.8; color: white">
-                                                                    {{$dt->nama}}</h3>
-                                                            </div>
-                                                            <div class="card-content">
-                                                                <img class="img-fluid"
-                                                                     style="border-bottom-left-radius: 15px;
-                                                         border-bottom-right-radius: 15px; width: 100%;height: 220px"
-                                                                     src="{{asset('storage/images/imageProduk/small').'/'.$dt->image_uri}}"
-                                                                     alt="Card image cap">
-                                                                {{--                                                    <div class="card-body">--}}
-
-                                                                {{--                                                    </div>--}}
-                                                            </div>
-                                                            <div class="card-footer text-right bg-white border-0">
-                                                                <h2>
-                                                                    IDR {{number_format($dt->harga_jual,2,",",".")}}</h2>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                @if($loop->index % 4 == 3 || $loop->index==3)
-                                            </div>
-                                        @endif
-                                    @endforeach
-                                </section>
+                                @include('admin.dashboard.component.tab-content-daftarmenu')
                             </div>
-                            <div class="tab-pane " id="stock" aria-labelledby="stock-tab"
+                            <div class="tab-pane" id="stock" aria-labelledby="stock-tab"
                                  role="tabpanel">
-                                <section id="stock-searchbar">
-                                    <div class="row mt-1 ">
-                                        <div class="col-sm-12">
-                                            <fieldset
-                                                class="form-group position-relative has-icon-left font-medium-4 shadow">
-                                                <input type="text" class="form-control search-product py-2"
-                                                       id="iconLeft5" placeholder="Temukan stok bahan makanan">
-                                                <div class="form-control-position font-medium-4 "
-                                                     style="padding-top: 5px;">
-                                                    <i class="feather icon-search"></i>
-                                                </div>
-                                            </fieldset>
-                                        </div>
-                                    </div>
-                                </section>
-                                <section id="stock">
-                                    @foreach($data['bahan'] as $dt)
-                                        @if($loop->index == 0 || $loop->index %4 == 0)
-                                            <div class="row px-2 mt-2">
-                                                @endif
-                                                <div class="col-md-3">
-                                                    <div class="card border border-2"
-                                                         style="border-color: #D25627 !important;">
-                                                        <div class="zindex-1 position-absolute mt-1 ml-1">
-                                                            <h3 class="border px-1 py-1 "
-                                                                style="border-radius: 15px; border-color: #e9754a; background-color: #e9754a;opacity: 0.8; color: white">
-                                                                {{$dt->nama}}</h3>
-                                                        </div>
-                                                        <div class="card-content">
-                                                            <img class="img-fluid"
-                                                                 style="border-bottom-left-radius: 15px;
-                                                         border-bottom-right-radius: 15px; width: 100%;height: 220px"
-                                                                 src="{{asset('storage/images/imageBahan/small').'/'.$dt->image_uri}}"
-                                                                 alt="Card image cap">
-                                                            {{--                                                    <div class="card-body">--}}
-
-                                                            {{--                                                    </div>--}}
-                                                        </div>
-                                                        <div class="card-footer text-right bg-white border-0">
-                                                            <h2>{{$dt->quantity}}</h2>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @if($loop->index % 4 == 3 || $loop->index==3)
-                                            </div>
-                                        @endif
-                                    @endforeach
-                                </section>
+                               @include('admin.dashboard.component.tab-content-stock')
+                            </div>
+                            <div class="tab-pane" id="invoice" aria-labelledby="invoice-tab" role="tabpanel" >
+                                @include('admin.dashboard.component.tab-content-invoice')
                             </div>
                         </div>
                     </div>
@@ -155,72 +61,18 @@
     </div>
     </div>
 
-    <div class="modal fade" id="modalAddToCart" tabindex="-1" role="dialog" aria-labelledby="modalAddToCart"
-         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Tambah Pesanan</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="javascript:void(0)" id="delete-form" enctype="multipart/form-data" method="post">
-                    <div class="modal-body">
-                        @method('delete')
-                        @csrf
-                        <div class="d-flex flex-row justify-content-center">
-                            <div id="all-data">
-
-                            </div>
-                            <button class="btn btn-primary" id="current_min">
-                                <i class="fa fa-minus"></i>
-                            </button>
-                            <input type="number" id="current_input" value="0" class="form-control mx-1 text-center"
-                                   style="width: 50px">
-                            <button class="btn btn-primary" id="current_add">
-                                <i class="fa fa-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="modal-footer justify-content-center">
-                        <button type="button" id="current_appl" class="btn btn-primary">Tambah</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="modalCart" tabindex="-1" role="dialog" aria-labelledby="modalAddToCart"
-         aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-centered modal-dialog-scrollable"
-             role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Cart</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="javascript:void(0)" id="delete-form" enctype="multipart/form-data" method="post">
-                    <div class="modal-body">
-                        {{--                        @csrf--}}
-                        {{--                        <div class="d-flex flex-row justify-content-center">--}}
-                        <div id="all-data-cart">
-
-                        </div>
-                        {{--                        </div>--}}
-                    </div>
-                    <div class="modal-footer justify-content-center">
-                        <button type="button" id="bayar_btn" class="btn btn-success">Bayar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
+  @include('admin.dashboard.component.modal-cart')
 
 @endsection
 @section('js')
+    <script src="{{asset('assets')}}/vendors/js/tables/datatable/pdfmake.min.js"></script>
+    <script src="{{asset('assets')}}/vendors/js/tables/datatable/vfs_fonts.js"></script>
+    <script src="{{asset('assets')}}/vendors/js/tables/datatable/datatables.min.js"></script>
+    <script src="{{asset('assets')}}/vendors/js/tables/datatable/datatables.buttons.min.js"></script>
+    <script src="{{asset('assets')}}/vendors/js/tables/datatable/buttons.html5.min.js"></script>
+    <script src="{{asset('assets')}}/vendors/js/tables/datatable/buttons.print.min.js"></script>
+    <script src="{{asset('assets')}}/vendors/js/tables/datatable/buttons.bootstrap.min.js"></script>
+    <script src="{{asset('assets')}}/vendors/js/tables/datatable/datatables.bootstrap4.min.js"></script>
     <script>
         $(function () {
             $.ajaxSetup({
@@ -231,6 +83,7 @@
 
             let temporaryData = [];
             let temps;
+
 
             $('#current_add').click(function () {
                 const input = $('#current_input');
@@ -323,7 +176,6 @@
                               </div>`;
                 $('#all-data-cart').html(html);
             })
-
             $('#bayar_btn').click(function () {
                 $.ajax({
                     type: 'POST',
@@ -340,6 +192,28 @@
                     }
                 });
             })
+
+
+            const dt2 = $('.zero-configuration2').DataTable({
+                order: [[2, "desc"]],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '{{route('invoice.dataTable')}}'
+                },
+                columns: [
+                    {data: 'nomor_invoice', name: 'nomor_invoice', orderable: true, class: 'text-center'},
+                    {data: 'user.name', name: 'user.name', orderable: true, class: 'text-center'},
+                    {data: 'created_at', name: "created_at", className: "text-center"},
+                    {data: 'action', name: "", searchable: false, orderable: false, className: "text-center"}
+                ]
+            });
+
+
         });
+
+        function fungsiPrintInvoice(nomorinvoice){
+            window.open( "{{env('APP_URL')}}"+"/print/invoice/"+nomorinvoice );
+        }
     </script>
 @endsection

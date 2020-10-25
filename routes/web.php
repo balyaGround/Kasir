@@ -33,12 +33,14 @@ Route::middleware([\App\Http\Middleware\Authenticate::class])->group(function ()
     Route::resource('master/produk', \App\Http\Controllers\Master\ProdukController::class);
 
 //    laporan
-    Route::get('report-management/pembukuan/generate',[\App\Http\Controllers\Laporan\PembukuanController::class,'generatePembukuan'])->name('pembukuan.generate');
     Route::post('report-management/pembukuan/update',[\App\Http\Controllers\Laporan\PembukuanController::class,'updatePembukuan'])->name('pembukuan.update');
+    Route::get('report-management/pembukuan/generate',[\App\Http\Controllers\Laporan\PembukuanController::class,'generatePembukuan'])->name('pembukuan.generate');
     Route::get('report-management/pembukuan/check',[\App\Http\Controllers\Laporan\PembukuanController::class,'checkPembukuan'])->name('pembukuan.check');
+    Route::get('report-management/pembukuan/tfoot',[\App\Http\Controllers\Laporan\PembukuanController::class,'tfootPembukuan'])->name('pembukuan.tfoot');
     Route::get('report-management/pembukuan/DataTable',[\App\Http\Controllers\Laporan\PembukuanController::class,'pembukuanDatatable'])->name('pembukuan.dataTable');
-    Route::get('report-management/today', [\App\Http\Controllers\Laporan\LaporanController::class, 'hariIni'])->name('report.today');
-    Route::get('report-management/report', [\App\Http\Controllers\Laporan\LaporanController::class, 'index'])->name('laporan.index');
+    Route::get('report-management/chartTahunan',[\App\Http\Controllers\Laporan\LaporanController::class,'chartTahunan'])->name('report.chartTahunan');
+    Route::get('report-management', [\App\Http\Controllers\Laporan\LaporanController::class, 'hariIni'])->name('report.today');
+    Route::get('report-management/laporan', [\App\Http\Controllers\Laporan\LaporanController::class, 'index'])->name('laporan.index');
 
 //    settings
     Route::get('settings', [\App\Http\Controllers\SettingController::class, 'index'])->name('settings');

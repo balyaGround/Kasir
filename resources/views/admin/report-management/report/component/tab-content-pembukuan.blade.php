@@ -15,11 +15,8 @@
 
         </tbody>
         <tfoot>
-        <tr class="text-center">
-            <td > <span class="bold font-medium-3">Total</span></td>
-            <td><span class="bold font-medium-3">{{$total_amount}}</span></td>
-            <td><span class="bold font-medium-3">Rp.{{number_format($total_harga_jual,2,",",".")}}</span></td>
-            <td><span class="bold font-medium-3">Rp.{{number_format($total_harga_modal,2,",",".")}}</span></td>
+        <tr class="text-center" id="tfoot-pembukuan">
+
 
         </tr>
         </tfoot>

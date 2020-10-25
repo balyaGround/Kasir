@@ -25,9 +25,9 @@ class PembukuanController extends Controller
 
     public function updatePembukuan(Request $request){
         $pembukuanupdate = Pembukuan::find($request->data['id']);
-        $pembukuanupdate->income = $request->data['income'];
-        $pembukuanupdate->outcome = $request->data['outcome'];
-        $pembukuanupdate->penghasilan = $request->data['penghasilan'];
+        $pembukuanupdate->income = $request->data['income'] ?? 0;
+        $pembukuanupdate->outcome = $request->data['outcome'] ?? 0;
+        $pembukuanupdate->penghasilan = $request->data['income'] - $request->data['outcome'];
         $pembukuanupdate->save();
         return response('',200);
     }
@@ -74,5 +74,19 @@ class PembukuanController extends Controller
         $cekPembukuanBulanIni = Pembukuan::whereBetween('created_at',[$tahun.'-'.$bulan.'-'.'1',$tahun.'-'.$bulan.'-'.$jumlahhari])->count();
         $hasil = $cekPembukuanBulanIni>=1 ? true : false;
         return response(json_encode(['hasil'=>$hasil]),200);
+    }
+
+    public function tfootPembukuan(){
+        $tahun = date('Y');
+        $bulan = date('m');
+        $jumlahhari = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun);
+        $pembukuan = Pembukuan::whereBetween('created_at',[$tahun.'-'.$bulan.'-'.'1',$tahun.'-'.$bulan.'-'.$jumlahhari]);
+        $data=[
+            'totalIncome'=>$pembukuan->sum('income'),
+            'totalOutcome'=>$pembukuan->sum('outcome'),
+            'totalPenghasilan'=>$pembukuan->sum('penghasilan')
+        ];
+
+        return response(json_encode(['data'=>$data]),200);
     }
 }

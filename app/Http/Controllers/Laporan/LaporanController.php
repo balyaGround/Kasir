@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Laporan;
 
 use App\Http\Controllers\Controller;
+use App\Models\Pembukuan;
 use App\Models\Penjualan;
 use App\Models\PenjualanDetail;
 use Carbon\Carbon;
@@ -59,4 +60,15 @@ class LaporanController extends Controller
         return view('admin.report-management.report.index',$allData);
     }
 
+    public function chartTahunan(){
+        $bulanan =[];
+        $tahun = date('Y');
+
+        for($i=1;$i<=12;$i++){
+            $jumlahhari = cal_days_in_month(CAL_GREGORIAN, $i, $tahun);
+            $pembukuan = Pembukuan::whereBetween('created_at',[$tahun.'-'.$i.'-'.'1',$tahun.'-'.$i.'-'.$jumlahhari]);
+            array_push($bulanan,$pembukuan->sum('penghasilan'));
+        }
+        return response(json_encode(['data'=>$bulanan]),200);
+    }
 }

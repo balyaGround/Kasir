@@ -29,7 +29,7 @@
                                                     <a class="nav-link font-medium-3" id="profile-tab" data-toggle="tab"
                                                        href="#profile"
                                                        aria-controls="profile" role="tab" aria-selected="true"><i
-                                                            class="feather icon-calendar"> Bulan Ini</i></a>
+                                                            class="feather icon-calendar">Bulanan</i></a>
                                                 </li>
                                                 <li class="nav-item">
                                                     <a class="nav-link font-medium-3" id="pembukuan-tab"
@@ -92,11 +92,19 @@
                                                 </div>
                                                 <div class="tab-pane" id="profile" aria-labelledby="profile-tab"
                                                      role="tabpanel">
-                                                    <p>Pudding candy canes sugar plum cookie chocolate cake powder
-                                                        croissant. Carrot cake tiramisu danish
-                                                        candy cake muffin croissant tart dessert. Tiramisu caramels
-                                                        candy canes chocolate cake sweet roll
-                                                        liquorice icing cupcake.</p>
+                                                    <div class="col-lg-12 col-12 col-md-12">
+                                                        <div class="card">
+                                                            <div class="card-header">
+                                                                <h4 class="card-title">Grafik Bulanan</h4>
+                                                            </div>
+                                                            <div class="card-content">
+                                                                <div class="card-body">
+                                                                    <div id="line-area-chart"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
                                                 </div>
                                                 <div class="tab-pane" id="pembukuan" aria-labelledby="pembukuan-tab"
                                                      role="tabpanel">
@@ -215,6 +223,8 @@
     <script src="{{asset('assets')}}/vendors/js/tables/datatable/datatables.bootstrap4.min.js"></script>
     {{--    <script src="https://markcell.github.io/jquery-tabledit/assets/js/tabledit.min.js"></script>--}}
     <script src="http://www.misin.msu.edu/0/js/Editor-PHP-1.4.0/js/dataTables.editor.js"></script>
+{{--    <script src="{{asset('assets')}}/js/scripts/charts/chart-apex.js"></script>--}}
+
 
     <script>
         var editor; // use a global for the submit and return data rendering in the examples
@@ -226,6 +236,14 @@
             ajax: {
                 url: '{{route('pembukuan.dataTable')}}',
             },
+            columnDefs: [
+                {
+                    "render": function (data, type, row) {
+                        return commaSeparateNumber(data);
+                    },
+                    "targets": [1, 2, 3]
+                },
+            ],
             columns: [
                 // {data: 'id', name: 'id', orderable: true, class: 'text-center'},
                 {data: 'created_at', name: 'created_at', orderable: true, class: 'text-center'},
@@ -240,12 +258,151 @@
                 }
             ]
         });
+
+        function pembukuancheck() {
+            $.ajax({
+                url: '{{route('pembukuan.check')}}',
+                type: 'GET',
+                dataType: 'JSON',
+                success: function (resp) {
+                    // console.log(resp.hasil)
+                    if (resp.hasil === true) {
+                    } else {
+                        $('#pemb').html('<button id="generatePembukuan" class="btn btn-success">Generate Pembukuan</button>')
+                        $('#generatePembukuan').click(function () {
+                            $.ajax({
+                                url: '{{route('pembukuan.generate')}}',
+                                type: 'GET',
+                                dataType: 'JSON',
+                                success: function (resp) {
+                                    $('#pemb').html('');
+                                    dt2.ajax.reload(null, false);
+
+                                },
+                                error: function (data) {
+                                    // console.log(data);
+                                }
+                            });
+                        })
+                    }
+
+                },
+                error: function (data) {
+                    // console.log(data);
+                }
+            });
+        }
+        function pembukuan() {
+            return $.ajax({
+                url: '{{route('pembukuan.tfoot')}}',
+                type: 'GET',
+                dataType: 'JSON',
+                success: function (resp) {
+                    console.log(resp.data)
+                    $('#tfoot-pembukuan').html('<td > <span class="bold font-medium-3">Total</span></td>\n' +
+                        '            <td><span class="bold font-medium-3">' + commaSeparateNumber(resp.data.totalIncome) + '</span></td>\n' +
+                        '            <td><span class="bold font-medium-3">' + commaSeparateNumber(resp.data.totalOutcome) + '</span></td>\n' +
+                        '            <td><span class="bold font-medium-3">' + commaSeparateNumber(resp.data.totalPenghasilan) + '</span></td>')
+                },
+                error: function (data) {
+                    // console.log(data);
+                }
+            });
+        }
+        function chartGenerate() {
+            return $.ajax({
+                url: '{{route('report.chartTahunan')}}',
+                type: 'GET',
+                dataType: 'JSON',
+                success: function (resp) {
+
+                    var $primary = '#e9754a',
+                        $success = '#28C76F',
+                        $danger = '#EA5455',
+                        $warning = '#FF9F43',
+                        $info = '#00cfe8',
+                        $label_color_light = '#dae1e7';
+
+                    var themeColors = [$primary, $success, $danger, $warning, $info];
+
+
+                    var yaxis_opposite = false;
+                    if($('html').data('textdirection') == 'rtl'){
+                        yaxis_opposite = true;
+                    }
+
+                    var lineAreaOptions = {
+
+                        chart: {
+                            height: 350,
+                            type: 'area',
+                        },
+                        colors: themeColors,
+                        dataLabels: {
+                            enabled: false
+                        },
+                        stroke: {
+                            curve: 'smooth'
+                        },
+                        series: [{
+                            name: 'Penghasilan',
+                            data: resp.data
+                        }],
+                        legend: {
+                            offsetY: -10
+                        },
+                        xaxis: {
+                            format: 'MM',
+                            categories: ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"],
+                        },
+                        yaxis: {
+                            opposite: yaxis_opposite,
+                            labels: {
+                                formatter: function (val, index) {
+                                    return commaSeparateNumber(val);
+                                }
+                            }
+                        },
+                        tooltip: {
+                            x: {
+                                format: 'dd/MM/yy HH:mm'
+                            },
+                        },
+
+
+                    }
+
+
+
+                    var lineAreaChart = new ApexCharts(
+                        document.querySelector("#line-area-chart"),
+                        lineAreaOptions
+                    );
+                    lineAreaChart.render();
+                },
+                error: function (data) {
+                    // console.log(data);
+                }
+            });
+        }
+
+        function commaSeparateNumber(val) {
+            while (/(\d+)(\d{3})/.test(val.toString())) {
+                val = val.toString().replace(/(\d+)(\d{3})/, '$1' + '.' + '$2');
+            }
+            return "Rp. " + val + ",00.-";
+        }
+
         $(document).ready(function () {
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+
+            pembukuancheck();
+            pembukuan();
+            chartGenerate();
             $('.zero-configuration').DataTable({});
 
             const editor = new $.fn.dataTable.Editor({
@@ -270,54 +427,26 @@
                     },
                 ],
             });
-
-
-          $('.pembukuan-dt').on('click', 'tbody td:not(:first-child)', function (e) {
+            $('.pembukuan-dt').on('click', 'tbody td:not(:first-child,:nth-child(4))', function (e) {
                 editor.inline(this, {
                     buttons: {
                         label: '<button class="btn btn-success btn-sm" >update</button>',
                         fn: function () {
                             this.submit();
                             dt2.ajax.reload(null, false);
+                            pembukuan()
+                            chartGenerate()
                         }
                     }
                 });
             });
 
-
-            $.ajax({
-                url: '{{route('pembukuan.check')}}',
-                type: 'GET',
-                dataType: 'JSON',
-                success: function (resp) {
-                    // console.log(resp.hasil)
-                    if(resp.hasil===true){
-                    }
-                    else{
-                        $('#pemb').html('<button id="generatePembukuan" class="btn btn-success">Generate Pembukuan</button>')
-                        $('#generatePembukuan').click(function () {
-                            $.ajax({
-                                url: '{{route('pembukuan.generate')}}',
-                                type: 'GET',
-                                dataType: 'JSON',
-                                success: function (resp) {
-                                    $('#pemb').html('');
-                                    dt2.ajax.reload(null, false);
-
-                                },
-                                error: function (data) {
-                                    // console.log(data);
-                                }});
-                        })
-                    }
-
-                },
-                error: function (data) {
-                    // console.log(data);
-                }});
-
-
         });
+
+
+
+
+
 
     </script>
 @endsection

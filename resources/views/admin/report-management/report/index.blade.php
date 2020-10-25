@@ -201,6 +201,7 @@
             </div>
         </div>
     </div>
+
 @endsection
 
 @section('js')
@@ -212,15 +213,83 @@
     <script src="{{asset('assets')}}/vendors/js/tables/datatable/buttons.print.min.js"></script>
     <script src="{{asset('assets')}}/vendors/js/tables/datatable/buttons.bootstrap.min.js"></script>
     <script src="{{asset('assets')}}/vendors/js/tables/datatable/datatables.bootstrap4.min.js"></script>
+    {{--    <script src="https://markcell.github.io/jquery-tabledit/assets/js/tabledit.min.js"></script>--}}
+    <script src="http://www.misin.msu.edu/0/js/Editor-PHP-1.4.0/js/dataTables.editor.js"></script>
 
     <script>
-        $(document).ready(function () {
-            // $.ajaxSetup({
-            //     headers: {
-            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //     }
-            // });
-            $('.zero-configuration').DataTable({});
+        var editor; // use a global for the submit and return data rendering in the examples
+
+        const dt2 = $('.pembukuan-dt').DataTable({
+            order: [[0, "desc"]],
+            "lengthMenu": [[30, -1], [30, "All"]],
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: '{{route('pembukuan.dataTable')}}',
+            },
+            columns: [
+                // {data: 'id', name: 'id', orderable: true, class: 'text-center'},
+                {data: 'created_at', name: 'created_at', orderable: true, class: 'text-center'},
+                {data: 'income', name: "income", searchable: false, orderable: false, className: "text-center"},
+                {data: 'outcome', name: "outcome", searchable: false, orderable: false, className: "text-center"},
+                {
+                    data: 'penghasilan',
+                    name: "penghasilan",
+                    searchable: false,
+                    orderable: false,
+                    className: "text-center"
+                }
+            ]
         });
+
+
+
+
+        $(document).ready(function () {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $('.zero-configuration').DataTable({});
+
+            const editor = new $.fn.dataTable.Editor({
+                ajax: {
+                    "url": "{{route('tesajadah')}}",
+                    "type": 'POST',
+                },
+                table: ".pembukuan-dt",
+                fields: [
+                    {
+                        name: "id"
+                    },
+                    {
+                        name: "created_at"
+                    },
+                    {
+                        name: "outcome"
+                    }, {
+                        name: "income"
+                    }, {
+                        name: "penghasilan"
+                    },
+                ],
+            });
+
+
+          $('.pembukuan-dt').on('click', 'tbody td:not(:first-child)', function (e) {
+                editor.inline(this, {
+                    buttons: {
+                        label: '<button class="btn btn-success btn-sm" >update</button>',
+                        fn: function () {
+                            this.submit();
+                            dt2.ajax.reload(null, false);
+                        }
+                    }
+                });
+            });
+
+        });
+
     </script>
 @endsection

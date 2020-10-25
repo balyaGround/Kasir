@@ -1,8 +1,9 @@
 <div class="table-responsive">
     <table
-        class="table zero-configuration table-striped table-bordered">
+        class="table pembukuan-dt table-striped table-bordered w-100">
         <thead>
         <tr>
+{{--            <th class="text-center">id</th>--}}
             <th class="text-center">Tanggal</th>
             <th class="text-center">Income</th>
             <th class="text-center">Outcome</th>
@@ -10,14 +11,7 @@
         </tr>
         </thead>
         <tbody class="text-center">
-        @foreach($data as $dt)
-            <tr>
-                <td >{{$dt['produk']['nama']}}</td>
-                <td>{{$dt['amount']}}</td>
-                <td>Rp.{{number_format($dt['produk']['harga_jual'],2,",",".")}}</td>
-                <td>Rp.{{number_format($dt['produk']['harga_modal'],2,",",".")}}</td>
-            </tr>
-        @endforeach
+
         </tbody>
         <tfoot>
         <tr class="text-center">

@@ -33,6 +33,8 @@ Route::middleware([\App\Http\Middleware\Authenticate::class])->group(function ()
     Route::resource('master/produk', \App\Http\Controllers\Master\ProdukController::class);
 
 //    laporan
+    Route::post('tesajadah',[\App\Http\Controllers\Laporan\PembukuanController::class,'updatePembukuan'])->name('tesajadah');
+    Route::get('report-management/pembukuan/DataTable',[\App\Http\Controllers\Laporan\PembukuanController::class,'pembukuanDatatable'])->name('pembukuan.dataTable');
     Route::get('report-management/today', [\App\Http\Controllers\Laporan\LaporanController::class, 'hariIni'])->name('report.today');
     Route::get('report-management/report', [\App\Http\Controllers\Laporan\LaporanController::class, 'index'])->name('laporan.index');
 

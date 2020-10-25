@@ -218,10 +218,9 @@
 
     <script>
         var editor; // use a global for the submit and return data rendering in the examples
-
         const dt2 = $('.pembukuan-dt').DataTable({
-            order: [[0, "desc"]],
-            "lengthMenu": [[30, -1], [30, "All"]],
+            order: [[0, "asc"]],
+            "lengthMenu": [[31, -1], [31, "All"]],
             processing: true,
             serverSide: true,
             ajax: {
@@ -241,10 +240,6 @@
                 }
             ]
         });
-
-
-
-
         $(document).ready(function () {
             $.ajaxSetup({
                 headers: {
@@ -255,7 +250,7 @@
 
             const editor = new $.fn.dataTable.Editor({
                 ajax: {
-                    "url": "{{route('tesajadah')}}",
+                    "url": "{{route('pembukuan.update')}}",
                     "type": 'POST',
                 },
                 table: ".pembukuan-dt",
@@ -288,6 +283,39 @@
                     }
                 });
             });
+
+
+            $.ajax({
+                url: '{{route('pembukuan.check')}}',
+                type: 'GET',
+                dataType: 'JSON',
+                success: function (resp) {
+                    // console.log(resp.hasil)
+                    if(resp.hasil===true){
+                    }
+                    else{
+                        $('#pemb').html('<button id="generatePembukuan" class="btn btn-success">Generate Pembukuan</button>')
+                        $('#generatePembukuan').click(function () {
+                            $.ajax({
+                                url: '{{route('pembukuan.generate')}}',
+                                type: 'GET',
+                                dataType: 'JSON',
+                                success: function (resp) {
+                                    $('#pemb').html('');
+                                    dt2.ajax.reload(null, false);
+
+                                },
+                                error: function (data) {
+                                    // console.log(data);
+                                }});
+                        })
+                    }
+
+                },
+                error: function (data) {
+                    // console.log(data);
+                }});
+
 
         });
 

@@ -1,3 +1,4 @@
+<div id="pemb"></div>
 <div class="table-responsive">
     <table
         class="table pembukuan-dt table-striped table-bordered w-100">

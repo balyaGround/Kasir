@@ -25,7 +25,7 @@ class DashboardController extends Controller
     }
 
     public function invoiceList(){
-        $data = Penjualan::with(['user']);
+        $data = Penjualan::with(['user'])->whereIn('toko_id',[Auth::user()->toko_id,1]);
         return DataTables::eloquent($data)
             ->editColumn('action',function ($data){
                 $button = ' <button class="btn btn-primary" style="margin-top: 12px;margin-bottom: 1px"

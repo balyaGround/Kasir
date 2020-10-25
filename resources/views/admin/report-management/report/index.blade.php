@@ -408,7 +408,8 @@
             const editor = new $.fn.dataTable.Editor({
                 ajax: {
                     "url": "{{route('pembukuan.update')}}",
-                    "type": 'POST',
+                    "type": 'POST'
+                    ,
                 },
                 table: ".pembukuan-dt",
                 fields: [
@@ -442,10 +443,6 @@
             });
 
         });
-
-
-
-
 
 
     </script>

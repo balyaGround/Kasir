@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Logs\StokLog;
 use App\Models\Master\Bahan;
 use App\Models\Master\Produk;
+use App\Models\Pembukuan;
 use App\Models\Penjualan;
 use App\Models\PenjualanDetail;
 use App\Models\ProdukJual;
@@ -50,9 +51,10 @@ class DashboardController extends Controller
             'user_id'=>$user['id'],
             'toko_id'=>$user['toko_id']
         ])->id;
-//        dd($dataAll);
+
         foreach($dataAll as $dt){
             $dataBahan = ProdukJual::where('produk_id',$dt->id)->get();
+//            mengurangi stok bahan dan menulis nya di log
             foreach($dataBahan as $dtBhn){
                 $updateBahan = Bahan::find($dtBhn->bahan_id);
                 $qtySebelumUpdate = $updateBahan->quantity;
@@ -71,11 +73,20 @@ class DashboardController extends Controller
                 ]);
 
             }
+
             $penjualanDetails = PenjualanDetail::create([
                 'penjualans_id'=>$penjualan,
                 'produk_id'=>$dt->id,
                 'amount'=>$dt->amount
             ]);
+
+
+            $hargaProduk = Produk::select('harga_jual')->where('id',$dt->id)->first();
+            $tambahPembukuan = Pembukuan::whereDate('created_at',date('Y-m-d'))->first();
+            $updatePembukuan = Pembukuan::find($tambahPembukuan['id']);
+            $updatePembukuan->income = $tambahPembukuan['income']+($hargaProduk['harga_jual']*$dt->amount);
+            $updatePembukuan->penghasilan = ($tambahPembukuan['income']+($hargaProduk['harga_jual']*$dt->amount)) -$tambahPembukuan['outcome'];
+            $updatePembukuan->save();
         }
         return json_encode($inv);
     }

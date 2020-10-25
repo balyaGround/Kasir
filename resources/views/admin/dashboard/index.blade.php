@@ -44,11 +44,45 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="home" aria-labelledby="home-tab"
                                  role="tabpanel">
+                                <section id="ecommerce-searchbar">
+                                    <div class="row mt-1 ">
+                                        <div class="col-sm-12">
+                                            <fieldset
+                                                class="form-group position-relative has-icon-left font-medium-4 shadow">
+                                                <input type="text"  class="form-control search-product py-2"
+                                                       id="temukanMenu" placeholder="Temukan Menu">
+                                                <div class="form-control-position font-medium-4 "
+                                                     style="padding-top: 5px;">
+                                                    <i class="feather icon-search"></i>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </section>
+                                <div id="daftar-menu">
                                 @include('admin.dashboard.component.tab-content-daftarmenu')
+                                </div>
                             </div>
                             <div class="tab-pane" id="stock" aria-labelledby="stock-tab"
                                  role="tabpanel">
-                               @include('admin.dashboard.component.tab-content-stock')
+                                <section id="stock-searchbar">
+                                    <div class="row mt-1 ">
+                                        <div class="col-sm-12">
+                                            <fieldset
+                                                class="form-group position-relative has-icon-left font-medium-4 shadow">
+                                                <input type="text" class="form-control search-product py-2"
+                                                       id="temukanStok" placeholder="Temukan stok bahan makanan">
+                                                <div class="form-control-position font-medium-4 "
+                                                     style="padding-top: 5px;">
+                                                    <i class="feather icon-search"></i>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </section>
+                                <div id="daftar-stock">
+                                    @include('admin.dashboard.component.tab-content-stock')
+                                </div>
                             </div>
                             <div class="tab-pane" id="invoice" aria-labelledby="invoice-tab" role="tabpanel" >
                                 @include('admin.dashboard.component.tab-content-invoice')
@@ -79,6 +113,43 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
+            });
+
+            let delay = (()=>{
+                let timer = 20;
+                return function(callback, ms){
+                    clearTimeout (timer);
+                    timer = setTimeout(callback, ms);
+                };
+            })();
+
+            $("#temukanMenu").keyup(function(e){
+                delay(function () {
+                    $.ajax({
+                        type: 'GET',
+                        url: "{{env('APP_URL')}}/filterProduk/"+($("#temukanMenu").val().toString() == '' ? 'kosong': $("#temukanMenu").val().toString()),
+                        success: (data) => {
+                            $("#daftar-menu").html(data);
+                        },
+                        error: function (data) {
+                            // console.log(data);
+                        }
+                    });
+                })
+            });
+            $("#temukanStok").keyup(function(e){
+                delay(function () {
+                    $.ajax({
+                        type: 'GET',
+                        url: "{{env('APP_URL')}}/filterStock/"+($("#temukanStok").val().toString() == '' ? 'kosong': $("#temukanStok").val().toString()),
+                        success: (data) => {
+                            $("#daftar-stock").html(data);
+                        },
+                        error: function (data) {
+                            // console.log(data);
+                        }
+                    });
+                })
             });
 
             let temporaryData = [];

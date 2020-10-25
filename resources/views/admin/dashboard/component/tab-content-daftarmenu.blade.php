@@ -1,18 +1,4 @@
-<section id="ecommerce-searchbar">
-    <div class="row mt-1 ">
-        <div class="col-sm-12">
-            <fieldset
-                class="form-group position-relative has-icon-left font-medium-4 shadow">
-                <input type="text" class="form-control search-product py-2"
-                       id="temukanMenu" placeholder="Temukan Menu">
-                <div class="form-control-position font-medium-4 "
-                     style="padding-top: 5px;">
-                    <i class="feather icon-search"></i>
-                </div>
-            </fieldset>
-        </div>
-    </div>
-</section>
+
 <section id="product">
     @foreach($data['produk'] as $dt)
         @if($loop->index == 0 || $loop->index %4 == 0)

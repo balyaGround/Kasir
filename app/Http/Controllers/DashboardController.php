@@ -90,4 +90,32 @@ class DashboardController extends Controller
         }
         return json_encode($inv);
     }
+
+    public function filterProduk($produkname){
+        if($produkname=='kosong'){
+            $data = [
+                'produk' => Produk::all()
+            ];
+            return view('admin.dashboard.component.tab-content-daftarmenu', ['data' => $data]);
+        }
+        else{
+            $produkname='%'.$produkname.'%';
+            $data = ['produk'=>Produk::where('nama','LIKE',$produkname)->get()];
+            return view('admin.dashboard.component.tab-content-daftarmenu', ['data' => $data]);
+        }
+    }
+    public function filterStok($bahanname){
+        if($bahanname=='kosong'){
+            $data = [
+                'bahan' => Bahan::all()
+            ];
+            return view('admin.dashboard.component.tab-content-stock', ['data' => $data]);
+        }
+        else{
+            $bahanname='%'.$bahanname.'%';
+            $data = ['bahan'=>Bahan::where('nama','LIKE',$bahanname)->get()];
+            return view('admin.dashboard.component.tab-content-stock', ['data' => $data]);
+        }
+    }
+
 }

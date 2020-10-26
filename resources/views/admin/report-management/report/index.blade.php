@@ -20,10 +20,10 @@
                                         <div class="card-body">
                                             <ul class="nav nav-tabs" role="tablist">
                                                 <li class="nav-item">
-                                                    <a class="nav-link active font-medium-3 px-2" id="home-tab"
+                                                    <a class="nav-link active font-medium-3 px-2 " id="home-tab"
                                                        data-toggle="tab" href="#home"
                                                        aria-controls="home" role="tab" aria-selected="true"><i
-                                                            class="feather icon-clock"> Hari Ini</i></a>
+                                                            class="feather icon-clock"> Hari Ini lah</i></a>
                                                 </li>
                                                 <li class="nav-item">
                                                     <a class="nav-link font-medium-3" id="profile-tab" data-toggle="tab"
@@ -42,6 +42,7 @@
                                             <div class="tab-content">
                                                 <div class="tab-pane active" id="home" aria-labelledby="home-tab"
                                                      role="tabpanel">
+                                                    <h4 class="primary-text-color mt-2"> {{$tanggal_hari_ini}}</h4>
                                                     <div class="table-responsive">
                                                         <table
                                                             class="table zero-configuration table-striped table-bordered">
@@ -92,10 +93,11 @@
                                                 </div>
                                                 <div class="tab-pane" id="profile" aria-labelledby="profile-tab"
                                                      role="tabpanel">
+                                                    <h4 class="card-title primary-text-color mt-2">Grafik Bulanan</h4>
                                                     <div class="col-lg-12 col-12 col-md-12">
                                                         <div class="card">
                                                             <div class="card-header">
-                                                                <h4 class="card-title">Grafik Bulanan</h4>
+{{--                                                                <h4 class="card-title primary-text-color">Grafik Bulanan</h4>--}}
                                                             </div>
                                                             <div class="card-content">
                                                                 <div class="card-body">
@@ -108,6 +110,7 @@
                                                 </div>
                                                 <div class="tab-pane" id="pembukuan" aria-labelledby="pembukuan-tab"
                                                      role="tabpanel">
+                                                    <h4 class="primary-text-color mt-2">Pembukuan Bulan ini ({{$bulan_ini}})</h4>
                                                     @include('admin.report-management.report.component.tab-content-pembukuan')
                                                 </div>
 

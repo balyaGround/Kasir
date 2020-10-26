@@ -9,6 +9,10 @@ NOTE:
 ------
 PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
 WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+.primary-text-color{
+    color: #D25627;
+}
+
 .btn{
     border-radius: 20px !important;
 }
@@ -104,3 +108,4 @@ html body .content {
     /*border : 2px solid #000000;*/
     /*padding: 0 10px 0 0;*/
 }
+

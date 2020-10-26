@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Master;
 use App\Http\Controllers\Controller;
 use App\Models\Master\Bahan;
 use App\Models\Master\Produk;
+use App\Models\ProdukJual;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
@@ -126,6 +127,7 @@ class ProdukController extends Controller
     public function destroy($id)
     {
         Produk::find($id)->delete();
+        ProdukJual::where('produk_id',$id)->delete();
         return response('success delete', 200);
         //
     }

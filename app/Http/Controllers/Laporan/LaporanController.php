@@ -12,63 +12,73 @@ use Illuminate\Http\Request;
 class LaporanController extends Controller
 {
 
-    public function index(){
+    public function index()
+    {
+
         return view('admin.report-management.report.index');
     }
 
-    public function dataTable(){
+    public function dataTable()
+    {
         $data = Penjualan::query();
 
     }
 
-    public function hariIni(){
-        $data = PenjualanDetail::with(['produk'])->whereDate('created_at',date('Y-m-d'))->get()->toArray();
+    public function hariIni()
+    {
+//        setlocale(LC_TIME, 'id_ID');
+//        dd(Carbon::);
+        $tanggalHariIni = Carbon::now()->isoFormat('dddd, D MMMM Y');
+        $bulanIni = Carbon::now()->isoFormat('MMMM Y');
+        $data = PenjualanDetail::with(['produk'])->whereDate('created_at', date('Y-m-d'))->get()->toArray();
 
-        $datajadi =[];
-        $totalHargaJual =0;
-        $totalHargaModal=0;
-        $totalAmount=0;
-        foreach($data as $dt){
-            $temporary =false;
+        $datajadi = [];
+        $totalHargaJual = 0;
+        $totalHargaModal = 0;
+        $totalAmount = 0;
+        foreach ($data as $dt) {
+            $temporary = false;
             $temporary_index = 0;
-            foreach ($datajadi as $key=>$dts){
-                if($dts['produk_id'] == $dt['produk_id'] ){
+            foreach ($datajadi as $key => $dts) {
+                if ($dts['produk_id'] == $dt['produk_id']) {
                     $temporary = true;
                     $temporary_index = $key;
                 }
             }
-            if($temporary){
+            if ($temporary) {
                 $datajadi[$temporary_index]['amount'] += $dt['amount'];
-            }
-            else{
-                array_push($datajadi,$dt);
+            } else {
+                array_push($datajadi, $dt);
             }
         }
 
-        foreach($datajadi as $dt){
+        foreach ($datajadi as $dt) {
             $totalHargaJual += $dt['amount'] * $dt['produk']['harga_jual'];
             $totalHargaModal += $dt['amount'] * $dt['produk']['harga_modal'];
-            $totalAmount +=$dt['amount'];
+            $totalAmount += $dt['amount'];
         }
 
-        $allData =[
-          'data' =>$datajadi,
-          'total_harga_jual'=>$totalHargaJual,
-          'total_harga_modal'=>$totalHargaModal,
-          'total_amount'=>$totalAmount
+        $allData = [
+            'data' => $datajadi,
+            'total_harga_jual' => $totalHargaJual,
+            'total_harga_modal' => $totalHargaModal,
+            'total_amount' => $totalAmount,
+            'tanggal_hari_ini' => $tanggalHariIni,
+            'bulan_ini' => $bulanIni
         ];
-        return view('admin.report-management.report.index',$allData);
+        return view('admin.report-management.report.index', $allData);
     }
 
-    public function chartTahunan(){
-        $bulanan =[];
+    public function chartTahunan()
+    {
+        $bulanan = [];
         $tahun = date('Y');
 
-        for($i=1;$i<=12;$i++){
+        for ($i = 1; $i <= 12; $i++) {
             $jumlahhari = cal_days_in_month(CAL_GREGORIAN, $i, $tahun);
-            $pembukuan = Pembukuan::whereBetween('created_at',[$tahun.'-'.$i.'-'.'1',$tahun.'-'.$i.'-'.$jumlahhari]);
-            array_push($bulanan,$pembukuan->sum('penghasilan'));
+            $pembukuan = Pembukuan::whereBetween('created_at', [$tahun . '-' . $i . '-' . '1', $tahun . '-' . $i . '-' . $jumlahhari]);
+            array_push($bulanan, $pembukuan->sum('penghasilan'));
         }
-        return response(json_encode(['data'=>$bulanan]),200);
+        return response(json_encode(['data' => $bulanan]), 200);
     }
 }

@@ -29,54 +29,54 @@ class PembukuanController extends Controller
     {
 
         //default
-//        $pembukuanupdate = Pembukuan::find($request->data['id']);
-//        $pembukuanupdate->income = $request->data['income'] ?? 0;
-//        $pembukuanupdate->outcome = $request->data['outcome'] ?? 0;
-//        $pembukuanupdate->penghasilan = $pembukuanupdate->income - $pembukuanupdate->outcome;
-//        $pembukuanupdate->save();
+        $pembukuanupdate = Pembukuan::find($request->data['id']);
+        $pembukuanupdate->income = $request->data['income'] ?? 0;
+        $pembukuanupdate->outcome = $request->data['outcome'] ?? 0;
+        $pembukuanupdate->penghasilan = $pembukuanupdate->income - $pembukuanupdate->outcome;
+        $pembukuanupdate->save();
         //endofdefault
 
         //ini yg barulah pokoknya
-        $arr = explode("-", $request->all()['data']['created_at']);
-        $jumlahhari = cal_days_in_month(CAL_GREGORIAN, $arr[1], $arr[2]);
+//        $arr = explode("-", $request->all()['data']['created_at']);
+//        $jumlahhari = cal_days_in_month(CAL_GREGORIAN, $arr[1], $arr[2]);
 
-        $cekPembukuan = Pembukuan::whereDate('created_at', $arr[2] . '-' . $arr[1] . '-' . ($arr[0] - 1))->first();
-        $today = ($arr[2] . '-' . $arr[1] . '-' . $arr[0]);
-        $lastday = ($arr[2] . '-' . $arr[1] . '-' . $jumlahhari);
+//        $cekPembukuan = Pembukuan::whereDate('created_at', $arr[2] . '-' . $arr[1] . '-' . ($arr[0] - 1))->first();
+//        $today = ($arr[2] . '-' . $arr[1] . '-' . $arr[0]);
+//        $lastday = ($arr[2] . '-' . $arr[1] . '-' . $jumlahhari);
 
         //mau looping tapi cocok gak ya
         $cekPembukuanH = Pembukuan::whereBetween('created_at', [$today, $lastday]);
 
         //ini yg minus minus
-        if (($cekPembukuan['penghasilan'] ?? 1) < 0) {
-            $pembukuanupdate = Pembukuan::find($request->data['id']);
-            $pembukuanupdate->income = $request->data['income'] ?? 0;
-            $pembukuanupdate->outcome = $request->data['outcome'] + abs($cekPembukuan['penghasilan']) ?? 0;
-            $pembukuanupdate->penghasilan = $pembukuanupdate->income - $pembukuanupdate->outcome;
-            $pembukuanupdate->save();
-//            for($i=)
-            $cekPembukuanH = Pembukuan::whereDate('created_at', $arr[2] . '-' . $arr[1] . '-' . ($arr[0] + 1))->first();
-            if ($pembukuanupdate->penghasilan < 0) {
-                $pembukuanHupdate = Pembukuan::find($cekPembukuanH['id']);
-                $pembukuanHupdate->outcome = $pembukuanHupdate->outcome + abs($pembukuanupdate->penghasilan);
-                $pembukuanHupdate->penghasilan = $pembukuanHupdate->income - $pembukuanHupdate->outcome;
-                $pembukuanHupdate->save();
-            }
-
-        } else {
-            $pembukuanupdate = Pembukuan::find($request->data['id']);
-            $pembukuanupdate->income = $request->data['income'] ?? 0;
-            $pembukuanupdate->outcome = $request->data['outcome'] ?? 0;
-            $pembukuanupdate->penghasilan = $pembukuanupdate->income - $pembukuanupdate->outcome;
-            $pembukuanupdate->save();
-            $cekPembukuanH = Pembukuan::whereDate('created_at', $arr[2] . '-' . $arr[1] . '-' . ($arr[0] + 1))->first();
-            if ($pembukuanupdate->penghasilan < 0) {
-                $pembukuanHupdate = Pembukuan::find($cekPembukuanH['id']);
-                $pembukuanHupdate->outcome = $pembukuanHupdate->outcome + abs($pembukuanupdate->penghasilan);
-                $pembukuanHupdate->penghasilan = $pembukuanHupdate->income - $pembukuanHupdate->outcome;
-                $pembukuanHupdate->save();
-            }
-        }
+//        if (($cekPembukuan['penghasilan'] ?? 1) < 0) {
+//            $pembukuanupdate = Pembukuan::find($request->data['id']);
+//            $pembukuanupdate->income = $request->data['income'] ?? 0;
+//            $pembukuanupdate->outcome = $request->data['outcome'] + abs($cekPembukuan['penghasilan']) ?? 0;
+//            $pembukuanupdate->penghasilan = $pembukuanupdate->income - $pembukuanupdate->outcome;
+//            $pembukuanupdate->save();
+////            for($i=)
+//            $cekPembukuanH = Pembukuan::whereDate('created_at', $arr[2] . '-' . $arr[1] . '-' . ($arr[0] + 1))->first();
+//            if ($pembukuanupdate->penghasilan < 0) {
+//                $pembukuanHupdate = Pembukuan::find($cekPembukuanH['id']);
+//                $pembukuanHupdate->outcome = $pembukuanHupdate->outcome + abs($pembukuanupdate->penghasilan);
+//                $pembukuanHupdate->penghasilan = $pembukuanHupdate->income - $pembukuanHupdate->outcome;
+//                $pembukuanHupdate->save();
+//            }
+//
+//        } else {
+//            $pembukuanupdate = Pembukuan::find($request->data['id']);
+//            $pembukuanupdate->income = $request->data['income'] ?? 0;
+//            $pembukuanupdate->outcome = $request->data['outcome'] ?? 0;
+//            $pembukuanupdate->penghasilan = $pembukuanupdate->income - $pembukuanupdate->outcome;
+//            $pembukuanupdate->save();
+//            $cekPembukuanH = Pembukuan::whereDate('created_at', $arr[2] . '-' . $arr[1] . '-' . ($arr[0] + 1))->first();
+//            if ($pembukuanupdate->penghasilan < 0) {
+//                $pembukuanHupdate = Pembukuan::find($cekPembukuanH['id']);
+//                $pembukuanHupdate->outcome = $pembukuanHupdate->outcome + abs($pembukuanupdate->penghasilan);
+//                $pembukuanHupdate->penghasilan = $pembukuanHupdate->income - $pembukuanHupdate->outcome;
+//                $pembukuanHupdate->save();
+//            }
+//        }
 
         return response('', 200);
     }

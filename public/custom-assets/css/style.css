@@ -109,3 +109,8 @@ html body .content {
     /*padding: 0 10px 0 0;*/
 }
 
+
+.header-navbar .navbar-container ul.nav li.dropdown-user .dropdown-menu-right .dropdown-item:hover, .header-navbar .navbar-container ul.nav li.dropdown-user .dropdown-menu-right .dropdown-item:active {
+    background : #e9754a;
+    color : #FFFFFF !important;
+}

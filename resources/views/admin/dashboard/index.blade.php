@@ -278,21 +278,25 @@
                loadCart()
             })
             $('#bayar_btn').click(function () {
-                console.log(temporaryData.length)
-                {{--$.ajax({--}}
-                {{--    type: 'POST',--}}
-                {{--    url: "{{route('bayar')}}",--}}
-                {{--    data: {data: JSON.stringify(temporaryData)},--}}
-                {{--    async: true,--}}
-                {{--    cache: false,--}}
-                {{--    success: (data) => {--}}
-                {{--        window.open("{{env('APP_URL')}}" + "/print/invoice/" + data);--}}
-                {{--        location.reload()--}}
-                {{--    },--}}
-                {{--    error: function (data) {--}}
-                {{--        // console.log(data);--}}
-                {{--    }--}}
-                {{--});--}}
+                if(temporaryData.length === 0){
+                    alert("tolonglah lek tambah dulu menunya")
+                }else{
+                    $.ajax({
+                        type: 'POST',
+                        url: "{{route('bayar')}}",
+                        data: {data: JSON.stringify(temporaryData)},
+                        async: true,
+                        cache: false,
+                        success: (data) => {
+                            window.open("{{env('APP_URL')}}" + "/print/invoice/" + data);
+                            location.reload()
+                        },
+                        error: function (data) {
+                            // console.log(data);
+                        }
+                    });
+                }
+
             })
 
 

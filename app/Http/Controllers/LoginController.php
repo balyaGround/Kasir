@@ -10,7 +10,18 @@ class LoginController extends Controller
     public function index()
     {
         if (!Auth::check()) {
-            return view('admin.login');
+//            return view('admin.login');
+            return view('admin.login2');
+        } else {
+            return redirect()->route('index');
+        }
+    }
+
+    public function landing()
+    {
+        if (!Auth::check()) {
+//            return view('admin.login');
+            return view('admin.landing');
         } else {
             return redirect()->route('index');
         }

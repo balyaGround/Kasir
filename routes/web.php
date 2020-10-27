@@ -65,5 +65,4 @@ Route::middleware([\App\Http\Middleware\Authenticate::class])->group(function ()
 Route::get('login', [\App\Http\Controllers\LoginController::class, 'index'])->name('login');
 Route::get('logout', [\App\Http\Controllers\LoginController::class, 'logout'])->name('logout');
 Route::post('login/process', [\App\Http\Controllers\LoginController::class, 'loginProcess'])->name('login.process');
-
-
+Route::get('landing',[\App\Http\Controllers\LoginController::class,'landing'])->name('landing');

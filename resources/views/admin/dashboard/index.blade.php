@@ -37,9 +37,11 @@
                                    aria-controls="profile" role="tab" aria-selected="true"><i
                                         class="feather icon-dollar-sign"> Invoice List</i></a>
                             </li>
-                                <button class="btn btn-success" style="margin-top: 12px;margin-bottom: 1px" data-toggle="modal" data-target="#modalCart"> <i class="feather icon-shopping-cart"></i>
-                                    Bayar
-                                </button>
+                            <button class="btn btn-success" style="margin-top: 12px;margin-bottom: 1px"
+                                    data-toggle="modal" data-target="#modalCart"><i
+                                    class="feather icon-shopping-cart"></i>
+                                Bayar
+                            </button>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane active" id="home" aria-labelledby="home-tab"
@@ -49,7 +51,7 @@
                                         <div class="col-sm-12">
                                             <fieldset
                                                 class="form-group position-relative has-icon-left font-medium-4 shadow">
-                                                <input type="text"  class="form-control search-product py-2"
+                                                <input type="text" class="form-control search-product py-2"
                                                        id="temukanMenu" placeholder="Temukan Menu">
                                                 <div class="form-control-position font-medium-4 "
                                                      style="padding-top: 5px;">
@@ -60,7 +62,7 @@
                                     </div>
                                 </section>
                                 <div id="daftar-menu">
-                                @include('admin.dashboard.component.tab-content-daftarmenu')
+                                    @include('admin.dashboard.component.tab-content-daftarmenu')
                                 </div>
                             </div>
                             <div class="tab-pane" id="stock" aria-labelledby="stock-tab"
@@ -84,7 +86,7 @@
                                     @include('admin.dashboard.component.tab-content-stock')
                                 </div>
                             </div>
-                            <div class="tab-pane" id="invoice" aria-labelledby="invoice-tab" role="tabpanel" >
+                            <div class="tab-pane" id="invoice" aria-labelledby="invoice-tab" role="tabpanel">
                                 @include('admin.dashboard.component.tab-content-invoice')
                             </div>
                         </div>
@@ -95,7 +97,7 @@
     </div>
     </div>
 
-  @include('admin.dashboard.component.modal-cart')
+    @include('admin.dashboard.component.modal-cart')
 
 @endsection
 @section('js')
@@ -108,6 +110,63 @@
     <script src="{{asset('assets')}}/vendors/js/tables/datatable/buttons.bootstrap.min.js"></script>
     <script src="{{asset('assets')}}/vendors/js/tables/datatable/datatables.bootstrap4.min.js"></script>
     <script>
+        let temporaryData = [];
+
+        function fungsiKurangTambahMenu(index, tipe) {
+            if (tipe === "kurang") {
+                if (temporaryData[index].amount === 1) {
+                    temporaryData.splice(index, 1);
+                } else {
+                    temporaryData[index].amount--;
+                }
+            } else {
+                temporaryData[index].amount++;
+            }
+            loadCart();
+        }
+
+        function loadCart(){
+            let html = "";
+            let total = 0;
+            temporaryData.forEach(myFunction);
+
+            function myFunction(item, index) {
+                html += `<div class="row mx-1 mt-1">
+                                <div class="col-md-5 col-4">
+                                    <p>${item.nama}</p>
+                                </div>
+
+                                <div class="col-md-3 col-5 mx-0 px-0">
+                                    <div class="d-flex justify-content-around">
+                                     <button class="btn btn-primary btn-sm py-1 waves-effect" onclick="fungsiKurangTambahMenu(${index},'kurang')"><i class="fa fa-minus"></i> </button>
+                                                       <p class='text-center' style='margin-left:5px;margin-right:5px;'>${item.amount}</p>
+                                    <button class="btn btn-primary btn-sm py-1 waves-effect " onclick="fungsiKurangTambahMenu(${index},'tambah')"><i class="fa fa-plus"></i></button>
+                                    </div>
+                                </div>
+
+                                 <div class="col-md-4 col-3 text-right">
+                                    <p>${item.amount * parseInt(item.harga_jual)}</p>
+                                </div>
+                            </div>`;
+                total += item.amount * parseInt(item.harga_jual);
+                }
+
+            html += `
+                        <hr>
+                        <div class="row mx-1">
+                                <div class="col-md-8 col-10 text-left">
+                                    <p>Total</p>
+                                </div>
+                                <div class="col-md-4 col-2 text-right">
+                                    <div class='mx-2'></div>
+                                    <p>${total}</p>
+                                </div>
+                              </div>`;
+            $('#all-data-cart').html(html);
+
+            return true;
+        }
+
         $(function () {
             $.ajaxSetup({
                 headers: {
@@ -115,19 +174,19 @@
                 }
             });
 
-            let delay = (()=>{
+            let delay = (() => {
                 let timer = 20;
-                return function(callback, ms){
-                    clearTimeout (timer);
+                return function (callback, ms) {
+                    clearTimeout(timer);
                     timer = setTimeout(callback, ms);
                 };
             })();
 
-            $("#temukanMenu").keyup(function(e){
+            $("#temukanMenu").keyup(function (e) {
                 delay(function () {
                     $.ajax({
                         type: 'GET',
-                        url: "{{env('APP_URL')}}/filterProduk/"+($("#temukanMenu").val().toString() == '' ? 'kosong': $("#temukanMenu").val().toString()),
+                        url: "{{env('APP_URL')}}/filterProduk/" + ($("#temukanMenu").val().toString() == '' ? 'kosong' : $("#temukanMenu").val().toString()),
                         success: (data) => {
                             $("#daftar-menu").html(data);
                         },
@@ -137,11 +196,11 @@
                     });
                 })
             });
-            $("#temukanStok").keyup(function(e){
+            $("#temukanStok").keyup(function (e) {
                 delay(function () {
                     $.ajax({
                         type: 'GET',
-                        url: "{{env('APP_URL')}}/filterStock/"+($("#temukanStok").val().toString() == '' ? 'kosong': $("#temukanStok").val().toString()),
+                        url: "{{env('APP_URL')}}/filterStock/" + ($("#temukanStok").val().toString() == '' ? 'kosong' : $("#temukanStok").val().toString()),
                         success: (data) => {
                             $("#daftar-stock").html(data);
                         },
@@ -152,7 +211,7 @@
                 })
             });
 
-            let temporaryData = [];
+
             let temps;
 
 
@@ -216,52 +275,24 @@
             })
             $('#modalCart').on('show.bs.modal', function (e) {
                 // console.table(temporaryData);
-                let html = "";
-                let total = 0;
-                temporaryData.forEach(myFunction);
-
-                function myFunction(item, index) {
-                    html += `<div class="row">
-                                <div class="col-md-6 col-6">
-                                    <p>${item.nama}</p>\
-                                </div>
-                                <div class="col-md-2 col-2">
-                                    <p>${item.amount}</p>
-                                </div>
-                                <div class="col-md-2 col-2">
-                                    <p>${item.amount * parseInt(item.harga_jual)}</p>
-                                </div>
-                              </div>`;
-                    total += item.amount * parseInt(item.harga_jual);
-                }
-
-                html += `
-                        <hr>
-                        <div class="row">
-                                <div class="col-md-8 col-8 text-center">
-                                    <p>Total</p>
-                                </div>
-                                <div class="col-md-2 col-2">
-                                    <p>${total}</p>
-                                </div>
-                              </div>`;
-                $('#all-data-cart').html(html);
+               loadCart()
             })
             $('#bayar_btn').click(function () {
-                $.ajax({
-                    type: 'POST',
-                    url: "{{route('bayar')}}",
-                    data: {data: JSON.stringify(temporaryData)},
-                    async: true,
-                    cache: false,
-                    success: (data) => {
-                        window.open( "{{env('APP_URL')}}"+"/print/invoice/"+data );
-                        location.reload()
-                    },
-                    error: function (data) {
-                        // console.log(data);
-                    }
-                });
+                console.log(temporaryData.length)
+                {{--$.ajax({--}}
+                {{--    type: 'POST',--}}
+                {{--    url: "{{route('bayar')}}",--}}
+                {{--    data: {data: JSON.stringify(temporaryData)},--}}
+                {{--    async: true,--}}
+                {{--    cache: false,--}}
+                {{--    success: (data) => {--}}
+                {{--        window.open("{{env('APP_URL')}}" + "/print/invoice/" + data);--}}
+                {{--        location.reload()--}}
+                {{--    },--}}
+                {{--    error: function (data) {--}}
+                {{--        // console.log(data);--}}
+                {{--    }--}}
+                {{--});--}}
             })
 
 
@@ -283,8 +314,10 @@
 
         });
 
-        function fungsiPrintInvoice(nomorinvoice){
-            window.open( "{{env('APP_URL')}}"+"/print/invoice/"+nomorinvoice );
+        function fungsiPrintInvoice(nomorinvoice) {
+            window.open("{{env('APP_URL')}}" + "/print/invoice/" + nomorinvoice);
         }
+
+
     </script>
 @endsection

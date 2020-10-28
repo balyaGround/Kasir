@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Logs\StokLog;
 use App\Models\Master\Bahan;
 use App\Models\Master\Produk;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -23,9 +24,16 @@ class BarangController extends Controller
     }
 
     public function stokLogs(){
-//        dd("tes");
         $data = StokLog::with(['bahan:id,nama','toko:id,nama','user:id,username']);
-        return DataTables::eloquent($data)->make(true);
+        return DataTables::eloquent($data)
+            ->editColumn('aksi',function ($data){
+                return $data->aksi == 1 ? "Penambahan Stok" : "Pengurangan Stok";
+            })
+            ->editColumn('created_at', function ($data) {
+                $tanggal = Carbon::parse($data->created_at);
+                return $tanggal->format('d-m-Y',);
+            })
+            ->make(true);
     }
 
     public function bahanSelection(){

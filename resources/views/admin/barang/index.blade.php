@@ -27,6 +27,12 @@
                                        aria-controls="profile" role="tab" aria-selected="true"><i
                                             class="feather icon-box"> Stok</i></a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link font-medium-3 px-2" id="stoklog-tab" data-toggle="tab"
+                                       href="#stoklog"
+                                       aria-controls="profile" role="tab" aria-selected="true"><i
+                                            class="feather icon-box"> Stok Log</i></a>
+                                </li>
 
                             </ul>
                             <div class="tab-content">
@@ -37,6 +43,10 @@
                                 <div class="tab-pane" id="stok" aria-labelledby="stok-tab"
                                      role="tabpanel">
                                     @include('admin.barang.component.tab-content-bahan')
+                                </div>
+                                <div class="tab-pane" id="stoklog" aria-labelledby="stoklog-tab"
+                                     role="tabpanel">
+                                    @include('admin.barang.component.tab-content-stok-log')
                                 </div>
                             </div>
                         </div>
@@ -64,4 +74,5 @@
 
     @include('admin.barang.script.product-script')
     @include('admin.barang.script.stok-script')
+    @include('admin.barang.script.stok-log-script')
 @endsection

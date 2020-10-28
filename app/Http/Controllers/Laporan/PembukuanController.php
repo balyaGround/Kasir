@@ -45,7 +45,7 @@ class PembukuanController extends Controller
 //        $lastday = ($arr[2] . '-' . $arr[1] . '-' . $jumlahhari);
 
         //mau looping tapi cocok gak ya
-        $cekPembukuanH = Pembukuan::whereBetween('created_at', [$today, $lastday]);
+//        $cekPembukuanH = Pembukuan::whereBetween('created_at', [$today, $lastday]);
 
         //ini yg minus minus
 //        if (($cekPembukuan['penghasilan'] ?? 1) < 0) {

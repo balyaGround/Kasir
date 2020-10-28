@@ -36,7 +36,6 @@ class DashboardController extends Controller
                 return $button;
             })
             ->editColumn('created_at',function ($data){
-
                 return $data->created_at;
             })
             ->make(true);

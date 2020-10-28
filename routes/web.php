@@ -27,6 +27,7 @@ Route::middleware([\App\Http\Middleware\Authenticate::class])->group(function ()
     Route::get('barang', [\App\Http\Controllers\BarangController::class, 'index'])->name('barang');
     Route::get('barang/bahan-selection', [\App\Http\Controllers\BarangController::class, 'bahanSelection'])->name('barang.bahan.selection');
 
+    Route::get('master/bahan/logs',[\App\Http\Controllers\BarangController::class,'stokLogs'])->name('bahan.logs');
     Route::get('master/bahan/dataTable', [\App\Http\Controllers\Master\BahanController::class, 'dataTable'])->name('bahan.dataTable');
     Route::resource('master/bahan', \App\Http\Controllers\Master\BahanController::class);
 

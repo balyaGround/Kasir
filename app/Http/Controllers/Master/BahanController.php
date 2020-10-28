@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
+use App\Models\Logs\StokLog;
 use App\Models\Master\Bahan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Yajra\DataTables\Facades\DataTables;
@@ -91,7 +93,13 @@ class BahanController extends Controller
     {
 
 
+
         $toUpdate = Bahan::find($id);
+
+        $aksi = ($toUpdate->quantity > $request->quantity ? 2 : 1);
+        $qtySebelumUpdate =  $toUpdate->quantity;
+        $aksiQuantity = abs($toUpdate->quantity - $request->quantity);
+
         $toUpdate->nama = $request->nama;
         $toUpdate->harga = 0;
         $toUpdate->quantity = $request->quantity;
@@ -109,8 +117,23 @@ class BahanController extends Controller
             Storage::disk('local')->put('public/images/imageBahan/big' . '/' . $fileName, file_get_contents($image->getRealPath()), 'public');
             $toUpdate->image_uri = $fileName;
         }
-
         $toUpdate->save();
+
+
+        $user = Auth::user();
+
+        $stokLog = StokLog::create([
+            'bahan_id'=>$toUpdate->id,
+            'aksi_quantity'=>$aksiQuantity,
+            'aksi'=>$aksi,
+            'sebelum_quantity'=>$qtySebelumUpdate,
+            'final_quantity'=>$toUpdate->quantity,
+            'produk_id'=>-1,
+            'toko_id'=>$user['toko_id'],
+            'user_id'=>$user['id']
+        ]);
+
+        return response('success',200);
     }
 
     /**

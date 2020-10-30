@@ -9,6 +9,10 @@ NOTE:
 ------
 PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
 WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+html .pace .pace-progress {
+    background : #e9754a;
+}
+
 .primary-text-color{
     color: #D25627;
 }
@@ -133,4 +137,5 @@ h2.ml-1.my-1{
     margin-left: 30px;
     transition: 0.1s;
 }
+
 

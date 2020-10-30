@@ -109,8 +109,28 @@ html body .content {
     /*padding: 0 10px 0 0;*/
 }
 
-
+/* custom css balya */
 .header-navbar .navbar-container ul.nav li.dropdown-user .dropdown-menu-right .dropdown-item:hover, .header-navbar .navbar-container ul.nav li.dropdown-user .dropdown-menu-right .dropdown-item:active {
     background : #e9754a;
     color : #FFFFFF !important;
 }
+
+
+h2.ml-1.my-1{
+    font-size: 20px !important;
+}
+
+.main-menu.menu-light .navigation > li.active > a{
+    background: #D25627;
+    box-shadow: 0px 5px 10px #E64C3C;
+    border-radius: 10px;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 30px;
+    transition: 0.1s;
+}
+

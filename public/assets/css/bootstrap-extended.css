@@ -2378,7 +2378,7 @@ body[data-col='1-column'] .header-navbar.floating-nav {
 
 @media (max-width: 575.98px) {
   .header-navbar.floating-nav {
-    width : calc(100vw - (100vw - 100%) - 2.4rem) !important;
+    width : calc(103vw - (100vw - 100%) - 3.4rem) !important;
     margin-left : 1.2rem;
     margin-right : 1.2rem;
   }

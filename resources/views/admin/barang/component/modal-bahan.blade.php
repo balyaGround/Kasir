@@ -22,7 +22,7 @@
 
                     <label>Image bahan: </label>
                     <div class="form-group">
-                        <input type="file" placeholder="file" name="logo" class="form-control" required>
+                        <input type="file" placeholder="file" name="logo" class="form-control" >
                     </div>
                 </div>
                 <div class="modal-footer">

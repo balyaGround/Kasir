@@ -23,7 +23,7 @@
                                                     <a class="nav-link active font-medium-3 px-2 " id="home-tab"
                                                        data-toggle="tab" href="#home"
                                                        aria-controls="home" role="tab" aria-selected="true"><i
-                                                            class="feather icon-clock"> Hari Ini lah</i></a>
+                                                            class="feather icon-clock"> Hari Ini</i></a>
                                                 </li>
                                                 <li class="nav-item">
                                                     <a class="nav-link font-medium-3" id="profile-tab" data-toggle="tab"

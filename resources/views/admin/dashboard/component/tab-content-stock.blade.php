@@ -12,10 +12,14 @@
                                 {{$dt->nama}}</h3>
                         </div>
                         <div class="card-content">
-                            <img class="img-fluid"
+                            <img class="img-thumbnail"
                                  style="border-bottom-left-radius: 15px;
                                                          border-bottom-right-radius: 15px; width: 100%;height: 220px"
+                                 @if($dt->image_uri != '')
                                  src="{{asset('storage/images/imageBahan/small').'/'.$dt->image_uri}}"
+                                 @else
+                                 src="{{asset('original-asset/no-photo.jpg')}}"
+                                 @endif
                                  alt="Card image cap">
                             {{--                                                    <div class="card-body">--}}
 

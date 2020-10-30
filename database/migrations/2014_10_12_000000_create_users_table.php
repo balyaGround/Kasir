@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->Integer('role_id');
             $table->Integer('toko_id');
+            $table->string('image_uri')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

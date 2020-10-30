@@ -43,7 +43,7 @@
             <div class="row  ">
                 <div class="col text-center">
                     <img src="{{asset('original-asset/Kasir/img/man1.png')}}" class="img-fluid" alt="main">
-                    <p>Login ke Kasir</p>
+                    <p>Login</p>
                 </div>
             </div>
             <div class="row justify-content-center">

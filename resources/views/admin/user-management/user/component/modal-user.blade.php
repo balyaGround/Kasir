@@ -39,6 +39,10 @@
 
                         </select>
                     </div>
+                    <label>Foto : </label>
+                    <div class="form-group">
+                        <input type="file" placeholder="Image" name="image_user" class="form-control">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Tambah</button>

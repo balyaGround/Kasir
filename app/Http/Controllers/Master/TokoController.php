@@ -127,7 +127,8 @@ class TokoController extends Controller
     public function dataTable(){
         return DataTables::eloquent(Toko::query())
             ->editColumn('image',function($data){
-               return  '<img src="'.asset("storage/images/logostoko/small")."/".$data->logos_uri.'" alt="">';
+                return  ($data->logos_uri == "" ? '<img src="'.asset("original-asset/no-photo.jpg").'" alt="" height="120" width="120">   ' : '<img src="'.asset("storage/images/logostoko/small")."/".$data->logos_uri.'" alt="" height="120" width="120"> ');
+
             })
             ->editColumn('action',function ($data){
                 return " <button class='btn btn-info' data-toggle='modal' data-target='#modalEditToko' data-json='".json_encode($data)."'><i class='fa fa-pencil'></i>

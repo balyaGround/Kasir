@@ -5,7 +5,7 @@
         <tr>
             <th class="text-center">Nama</th>
             <th class="text-center">Quantity</th>
-            <th class="text-center">Image</th>
+            <th class="text-center">Gambar</th>
             <th class="text-center">Action</th>
         </tr>
         </thead>

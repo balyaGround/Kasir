@@ -8,7 +8,7 @@
             <th class="text-center">Nama</th>
             <th class="text-center">Harga Jual</th>
             <th class="text-center">Harga Modal</th>
-            <th class="text-center">Logo</th>
+            <th class="text-center">Gambar</th>
             <th class="text-center">Action</th>
         </tr>
         </thead>

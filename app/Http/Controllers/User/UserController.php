@@ -11,6 +11,8 @@ use App\Models\User\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class UserController extends Controller
 {
@@ -21,11 +23,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        $userAll = User::with(['Toko','Role'])->get();
+        $userAll = User::with(['Toko', 'Role'])->get();
 
-        $data=[
+        $data = [
             'userAll' => $userAll
-            ];
+        ];
         return view('admin.user-management.User.index', ['data' => $data]);
     }
 
@@ -47,13 +49,28 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $image = $request->file('image_user');
+        $fileName = "";
+        if ($image) {
+            $fileName = time() . '.' . $image->getClientOriginalExtension();
+            $img = Image::make($image->getRealPath());
+            $img->resize(120, 120, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            $img->stream(); // <-- Key point
+            Storage::disk('local')->put('public/images/imageUser/small' . '/' . $fileName, $img, 'public');
+            Storage::disk('local')->put('public/images/imageUser/big' . '/' . $fileName, file_get_contents($image->getRealPath()), 'public');
+
+        }
 //        dd($request->all());
         $data = User::create(['name' => $request->name,
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'toko_id' => $request->toko_id,
-            'role_id' => $request->role_id]);
+            'role_id' => $request->role_id,
+            'image_uri' => $fileName
+        ]);
 
 //        return redirect(route('users.index'));
         return redirect()->route('settings');
@@ -94,10 +111,26 @@ class UserController extends Controller
         $toUpdate = User::find($id);
         $toUpdate->name = $request->name;
         $toUpdate->username = $request->username;
-        if($request->password){$toUpdate->password = Hash::make($request->password);}
+        if ($request->password) {
+            $toUpdate->password = Hash::make($request->password);
+        }
         $toUpdate->email = $request->email;
         $toUpdate->role_id = $request->role_id;
         $toUpdate->toko_id = $request->toko_id;
+
+        $image = $request->file('image_user');
+        $fileName = "";
+        if ($image) {
+            $fileName = time() . '.' . $image->getClientOriginalExtension();
+            $img = Image::make($image->getRealPath());
+            $img->resize(120, 120, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            $img->stream(); // <-- Key point
+            Storage::disk('local')->put('public/images/imageUser/small' . '/' . $fileName, $img, 'public');
+            Storage::disk('local')->put('public/images/imageUser/big' . '/' . $fileName, file_get_contents($image->getRealPath()), 'public');
+            $toUpdate->image_uri = $fileName;
+        }
         $toUpdate->save();
     }
 
@@ -114,22 +147,54 @@ class UserController extends Controller
         //
     }
 
-    public function passwordView(){
+    public function passwordView()
+    {
         return view('admin.user-management.user.password');
     }
 
-    public function passwordProcess(Request $request){
-        $ubahPass =User::find(Auth::id());
+    public function passwordProcess(Request $request)
+    {
+        $ubahPass = User::find(Auth::id());
         $ubahPass->password = Hash::make($request->new_password);
         $ubahPass->save();
         return redirect()->route('password.index');
     }
+    public function profileView()
+    {
+        return view('admin.user-management.user.account-settings');
+    }
+
+    public function profileProcess(Request $request)
+    {
+        $ubahProfile = User::find(Auth::id());
+        $image = $request->file('imageprof');
+        $fileName = "";
+        if ($image) {
+            $fileName = time() . '.' . $image->getClientOriginalExtension();
+            $img = Image::make($image->getRealPath());
+            $img->resize(120, 120, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            $img->stream(); // <-- Key point
+            Storage::disk('local')->put('public/images/imageUser/small' . '/' . $fileName, $img, 'public');
+            Storage::disk('local')->put('public/images/imageUser/big' . '/' . $fileName, file_get_contents($image->getRealPath()), 'public');
+            $ubahProfile->image_uri = $fileName;
+        }
+
+        $ubahProfile->name =$request->nama ?? $ubahProfile->name;
+        $ubahProfile->username =$request->username ?? $ubahProfile->username;
+        $ubahProfile->email =$request->email ?? $ubahProfile->email;
+        $ubahProfile->password = Hash::make($request->new_password ?? $ubahProfile->password);
+        $ubahProfile->save();
+        return redirect()->route('profile.index');
+    }
 
 
-    public function getSelectData(){
+    public function getSelectData()
+    {
         $role = Role::all();
         $toko = Toko::all();
-        $data=['toko'=>$toko,'role'=>$role];
+        $data = ['toko' => $toko, 'role' => $role];
         return json_encode($data);
     }
 }

@@ -63,7 +63,7 @@
                         <button type="submit" class="btn tombol" style="font-weight: 400; color: white;">Login</button>
                     </form>
                     <div class="balik" style="text-align: center;">
-                        <a href="{{route('landing')}}" style="padding-top: 40px;">Balik yuk!</a>
+{{--                        <a href="{{route('landing')}}" style="padding-top: 40px;">Balik yuk!</a>--}}
                     </div>
                 </div>
             </div>

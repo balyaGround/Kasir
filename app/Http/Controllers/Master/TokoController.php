@@ -41,15 +41,18 @@ class TokoController extends Controller
     public function store(Request $request)
     {
         $image      = $request->file('logo');
-        $fileName   = time() . '.' . $image->getClientOriginalExtension();
-        $img = Image::make($image->getRealPath());
-        $img->resize(120, 120, function ($constraint) {
-            $constraint->aspectRatio();
-        });
-        $img->stream(); // <-- Key point
+     $fileName = "";
+        if ($image) {
+            $fileName   = time() . '.' . $image->getClientOriginalExtension();
+            $img = Image::make($image->getRealPath());
+            $img->resize(120, 120, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            $img->stream(); // <-- Key point
 
-        Storage::disk('local')->put('public/images/logostoko/small'.'/'.$fileName, $img, 'public');
-        Storage::disk('local')->put('public/images/logostoko/big'.'/'.$fileName, file_get_contents($image->getRealPath()), 'public');
+            Storage::disk('local')->put('public/images/logostoko/small'.'/'.$fileName, $img, 'public');
+            Storage::disk('local')->put('public/images/logostoko/big'.'/'.$fileName, file_get_contents($image->getRealPath()), 'public');
+        }
         $data = Toko::create(['nama'=>$request->nama,'logos_uri'=>$fileName]);
         return redirect(route('toko.index'));
     }

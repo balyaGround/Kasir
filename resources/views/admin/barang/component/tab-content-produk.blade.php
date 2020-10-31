@@ -19,7 +19,12 @@
                 <td class="text-center">{{$dt->harga_jual}}</td>
                 <td class="text-center">{{$dt->harga_modal}}</td>
                 <td class="text-center"><img
+                        @if($dt->image_uri != '')
                         src="{{asset('storage/images/imageProduk/small').'/'.$dt->image_uri}}"
+                        @else
+                        src="{{asset('original-asset/no-photo.jpg')}}"
+                        @endif
+                            height="120" width="120"
                         alt=""></td>
                 <td class="text-center">
                     <button class="btn btn-info" data-toggle="modal" data-target="#modalEdit"

@@ -24,7 +24,8 @@ class User extends Authenticatable
         'password',
         'username',
         'role_id',
-        'toko_id'
+        'toko_id',
+        'image_uri'
     ];
 
     public function Toko(){

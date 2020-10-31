@@ -54,6 +54,8 @@ Route::middleware([\App\Http\Middleware\Authenticate::class])->group(function ()
     Route::get('master/role/dataTable', [\App\Http\Controllers\User\RoleController::class, 'dataTable'])->name('role.dataTable');
     Route::resource('master/role', \App\Http\Controllers\User\RoleController::class);
 
+    Route::get('user-management/users/profile-settings', [\App\Http\Controllers\User\UserController::class, 'profileView'])->name('profile.index');
+    Route::post('user-management/users/profile-settings-process', [\App\Http\Controllers\User\UserController::class, 'profileProcess'])->name('profile.process');
     Route::get('user-management/users/getSelectedData', [\App\Http\Controllers\User\UserController::class, 'getSelectData'])->name('user.selected.data');
     Route::get('user-management/users/password', [\App\Http\Controllers\User\UserController::class, 'passwordView'])->name('password.index');
     Route::post('user-management/users/passwordprocess', [\App\Http\Controllers\User\UserController::class, 'passwordProcess'])->name('password.process');
@@ -66,4 +68,4 @@ Route::middleware([\App\Http\Middleware\Authenticate::class])->group(function ()
 Route::get('login', [\App\Http\Controllers\LoginController::class, 'index'])->name('login');
 Route::get('logout', [\App\Http\Controllers\LoginController::class, 'logout'])->name('logout');
 Route::post('login/process', [\App\Http\Controllers\LoginController::class, 'loginProcess'])->name('login.process');
-Route::get('landing',[\App\Http\Controllers\LoginController::class,'landing'])->name('landing');
+//Route::get('landing',[\App\Http\Controllers\LoginController::class,'landing'])->name('landing');

@@ -13,12 +13,12 @@
                     @csrf
                     <label>Nama Toko: </label>
                     <div class="form-group">
-                        <input type="text" placeholder="Nama Toko" name="nama" class="form-control">
+                        <input type="text" placeholder="Nama Toko" name="nama" class="form-control" required>
                     </div>
 
                     <label>Logo Toko: </label>
                     <div class="form-group">
-                        <input type="file" placeholder="file" name="logo" class="form-control" required>
+                        <input type="file" placeholder="file" name="logo" class="form-control">
                     </div>
                 </div>
                 <div class="modal-footer">

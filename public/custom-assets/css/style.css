@@ -138,4 +138,18 @@ h2.ml-1.my-1{
     transition: 0.1s;
 }
 
+.navbar-light .navbar-nav .nav-link {
+    color: #626262;
+}
+.navbar-light .navbar-nav .nav-link:hover {
+    color: #565656;
+}
+
+.navbar-light .navbar-nav .show > .nav-link, .navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .nav-link.active {
+    /*color : rgba(34, 41, 47, 0.9);*/
+    border-radius: 35px;
+    background-color: #D25627;
+    color : #ffffff;
+}
+
 

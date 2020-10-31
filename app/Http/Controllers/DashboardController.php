@@ -63,14 +63,13 @@ class DashboardController extends Controller
                 $stokLog = StokLog::create([
                     'bahan_id'=>$dtBhn->bahan_id,
                     'aksi_quantity'=>$dtBhn->bahan_qty*$dt->amount,
-                    'aksi'=>1,
+                    'aksi'=>2,
                     'sebelum_quantity'=>$qtySebelumUpdate,
                     'final_quantity'=>$updateBahan->quantity,
                     'produk_id'=>$dt->id,
                     'toko_id'=>$user['toko_id'],
                     'user_id'=>$user['id']
                 ]);
-
             }
 
             $penjualanDetails = PenjualanDetail::create([

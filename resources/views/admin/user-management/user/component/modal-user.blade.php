@@ -94,7 +94,10 @@
                         <select class="form-control valid roles" id="editroleUser" name="role_id" aria-invalid="false">
                         </select>
                     </div>
-
+                    <label>Foto : </label>
+                    <div class="form-group">
+                        <input type="file" placeholder="Image" name="image_user" class="form-control">
+                    </div>  
                     <input type="text" name="id" id="editidUser" hidden>
                 </div>
                 <div class="modal-footer">

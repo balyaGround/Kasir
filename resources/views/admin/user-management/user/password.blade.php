@@ -20,7 +20,7 @@
                                     <div class="form-group">
                                         <input type="password" placeholder="Password Lama" name="old_password" class="form-control">
                                     </div>
-                                    <label>Password Lama: </label>
+                                    <label>Password Baru: </label>
                                     <div class="form-group">
                                         <input type="password" placeholder="Password Baru" name="new_password" class="form-control">
                                     </div>

@@ -151,5 +151,7 @@ h2.ml-1.my-1{
     background-color: #D25627;
     color : #ffffff;
 }
-
+.header-navbar .navbar-container .bookmark-wrapper ul.nav li > a.nav-link i:hover {
+    color : #D25627;
+}
 

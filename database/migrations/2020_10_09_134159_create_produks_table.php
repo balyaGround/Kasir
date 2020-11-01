@@ -19,6 +19,7 @@ class CreateProduksTable extends Migration
             $table->double('harga_modal');
             $table->double('harga_jual');
             $table->string('image_uri');
+            $table->integer('toko_id');
             $table->timestamps();
         });
     }

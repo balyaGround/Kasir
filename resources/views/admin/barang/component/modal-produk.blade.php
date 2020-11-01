@@ -25,9 +25,15 @@
                         <input type="text" placeholder="Harga produk" name="harga_modal" class="form-control" required>
                     </div>
 
-                    <label>Logo produk: </label>
+                    <label>Gambar produk: </label>
                     <div class="form-group">
                         <input type="file" placeholder="file" name="logo" class="form-control">
+                    </div>
+                    <label>Toko: </label>
+                    <div class="form-group">
+                        <select class="form-control valid tokos" id="add-type" name="toko_id" aria-invalid="false">
+
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -68,6 +74,12 @@
                     <label>Logo produk: </label>
                     <div class="form-group">
                         <input type="file" id="editlogosuri" placeholder="file" name="logo" class="form-control">
+                    </div>
+                    <label>Toko: </label>
+                    <div class="form-group">
+                        <select class="form-control valid tokos" id="edittoko" name="toko_id" aria-invalid="false">
+
+                        </select>
                     </div>
                     <input type="text" name="id" id="editid" hidden>
                 </div>

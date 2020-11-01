@@ -8,6 +8,7 @@
             <th class="text-center">Nama</th>
             <th class="text-center">Harga Jual</th>
             <th class="text-center">Harga Modal</th>
+            <th class="text-center">Toko</th>
             <th class="text-center">Gambar</th>
             <th class="text-center">Action</th>
         </tr>
@@ -18,6 +19,7 @@
                 <td class="text-center">{{$dt->nama}}</td>
                 <td class="text-center">{{$dt->harga_jual}}</td>
                 <td class="text-center">{{$dt->harga_modal}}</td>
+                <td class="text-center">{{$dt->toko->nama}}</td>
                 <td class="text-center"><img
                         @if($dt->image_uri != '')
                         src="{{asset('storage/images/imageProduk/small').'/'.$dt->image_uri}}"

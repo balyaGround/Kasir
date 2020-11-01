@@ -59,7 +59,13 @@ class ProdukController extends Controller
             Storage::disk('local')->put('public/images/imageProduk/big' . '/' . $fileName, file_get_contents($image->getRealPath()), 'public');
 
         }
-        $data = Produk::create(['nama' => $request->nama, 'harga_jual' => $request->harga_jual, 'harga_modal' => $request->harga_modal, 'image_uri' => $fileName]);
+        $data = Produk::create([
+            'nama' => $request->nama,
+            'harga_jual' => $request->harga_jual,
+            'harga_modal' => $request->harga_modal,
+            'image_uri' => $fileName,
+            'toko_id'=>$request->toko_id
+        ]);
 //        return redirect(route('produk.index'));
         return redirect()->route('barang');
     }
@@ -100,7 +106,7 @@ class ProdukController extends Controller
         $toUpdate->nama = $request->nama;
         $toUpdate->harga_jual = $request->harga_jual;
         $toUpdate->harga_modal = $request->harga_modal;
-
+        $toUpdate->toko_id = $request->toko_id;
         $image = $request->file('logo');
         if ($image) {
             $fileName = time() . '.' . $image->getClientOriginalExtension();

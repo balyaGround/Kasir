@@ -184,7 +184,7 @@ class UserController extends Controller
         $ubahProfile->name =$request->nama ?? $ubahProfile->name;
         $ubahProfile->username =$request->username ?? $ubahProfile->username;
         $ubahProfile->email =$request->email ?? $ubahProfile->email;
-        $ubahProfile->password = Hash::make($request->new_password ?? $ubahProfile->password);
+        $ubahProfile->password = $request->new_password != null ?  Hash::make($request->new_password) : $ubahProfile->password;
         $ubahProfile->save();
         return redirect()->route('profile.index');
     }

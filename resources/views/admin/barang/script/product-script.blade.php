@@ -25,6 +25,28 @@
             return "Rp. " + val + ",00.-";
         }
         let oTable;
+
+
+        $('#modalAdd').on('show.bs.modal', function (e) {
+            $.ajax({
+                url: '{{route('user.selected.data')}}',
+                type: 'GET',
+                dataType: 'JSON',
+                success: function (resp) {
+                    let tokohtml="";
+                    resp.toko.forEach(fungsitoko);
+                    function fungsitoko(item, index) {
+                        tokohtml +="<option value='"+item.id+"'>"+item.nama+"</option>"
+                    }
+                    $('.tokos').html(tokohtml)
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        });
+
+
         $('#modalReceipt').on('show.bs.modal', function (e) {
             var zIndex = 1040 + (10 * $('.modal:visible').length);
             $(this).css('z-index', zIndex);
@@ -128,7 +150,31 @@
             $('#deleteid').val(data.id.toString());
         });
         $('#modalEdit').on('show.bs.modal', function (e) {
-            {{--    oTable.ajax.reload(null, false);--}}
+            $.ajax({
+                url: '{{route('user.selected.data')}}',
+                type: 'GET',
+                dataType: 'JSON',
+                success: function (resp) {
+                    console.table(resp)
+                    let tokohtml="";
+                    resp.toko.forEach(fungsitoko);
+                    function fungsitoko(item, index) {
+                        tokohtml +="<option value='"+item.id+"'>"+item.nama+"</option>"
+                    }
+                    $('.tokos').html(tokohtml)
+                    let data = $(e.relatedTarget).data('json');
+                    $('#editid').val(data.id.toString());
+                    $('#editname').val(data.nama.toString());
+                    $('#edithargajual').val(data.harga_modal.toString());
+                    $('#edithargamodal').val(data.harga_jual.toString());
+                    $('#edittoko').val(data.toko_id.toString());
+
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+
             let data = $(e.relatedTarget).data('json');
             $('#editid').val(data.id.toString());
             $('#editname').val(data.nama.toString());

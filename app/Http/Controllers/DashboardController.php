@@ -18,9 +18,10 @@ class DashboardController extends Controller
 {
     public function index()
     {
+
         $data = [
             'bahan' => Bahan::all(),
-            'produk' => Produk::all()
+            'produk' => Produk::where('toko_id',Auth::user()->toko_id)->get()
         ];
         return view('admin.dashboard.index', ['data' => $data]);
     }

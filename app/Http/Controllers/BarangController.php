@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Logs\StokLog;
 use App\Models\Master\Bahan;
 use App\Models\Master\Produk;
+use App\Models\Master\Toko;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -14,11 +15,11 @@ use Yajra\DataTables\Facades\DataTables;
 class BarangController extends Controller
 {
     public function index(){
-        $dataProduk = Produk::all();
+        $dataProduk = Produk::with(['toko:id,nama'])->get();
         $dataBahan = Bahan::all();
         $data = [
             'dataProduk' => $dataProduk,
-            'dataBahan' => $dataBahan
+            'dataBahan' => $dataBahan,
         ];
         return view('admin.barang.index', ['data' => $data]);
     }

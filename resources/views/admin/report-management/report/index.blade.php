@@ -110,7 +110,7 @@
                                                 </div>
                                                 <div class="tab-pane" id="pembukuan" aria-labelledby="pembukuan-tab"
                                                      role="tabpanel">
-                                                    <h4 class="primary-text-color mt-2">Pembukuan Bulan ini ({{$bulan_ini}})</h4>
+                                                    <h4 class="primary-text-color mt-2">Pembukuan Bulanan {{-- ({{$bulan_ini}} --}}</h4>
                                                     @include('admin.report-management.report.component.tab-content-pembukuan')
                                                 </div>
 

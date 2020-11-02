@@ -38,11 +38,14 @@
 </nav>
 <!-- akhir Nav -->
 <div class="container-fluid">
-    <div class="row justify-content-center">
-        <div class="col-5 login">
+    <div class="row  justify-content-center">
+        <div class="col-6">
+
+        </div>
+        <div class="col-5  login">
             <div class="row  ">
                 <div class="col text-center">
-                    <img src="{{asset('original-asset/Kasir/img/man1.png')}}" class="img-fluid" alt="main">
+                    <img src="{{asset('original-asset/Kasir/img/lapak logo.jpeg')}}"  class="rounded-circle" alt="main" width="150">
                     <p>Login</p>
                 </div>
             </div>
@@ -67,6 +70,12 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="row  align-items-center">
+        <div class="col-12 col-lg-7 content" >
+            <span>Selamat Datang di <img src="{{asset('original-asset/Kasir/img/faykasir2.png')}}" alt=""></span>
+            <p>Aplikasi kasir online punya lapak Bang Fay, memudahkan mengelola bisnis <br>dari mana saja!!</p>
         </div>
     </div>
 </div>

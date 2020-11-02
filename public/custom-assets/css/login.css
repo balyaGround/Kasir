@@ -32,25 +32,27 @@ body{
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    height: 600px;
 }
 
 .container{
-    margin: 40px auto;
+    margin: 20px auto;
+}
+.navbar{
+    margin-top: -20px;
 }
 
 .login{
 
     width: 100%;
-    height: 50%;
-    background: #FFFFFF;
+    background: #ffffff;
     border: 1px solid #D25627;
     box-sizing: border-box;
-    box-shadow: 10px 10px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: 2px 5px 10px #e21700;
     border-radius: 15px;
-    padding: 40px;
-    margin-bottom: 40px;
-
-
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-top: -90px;
 
 }
 
@@ -111,4 +113,9 @@ div.balik {
 
 }
 
+.content{
+    font-size: 25px;
+    font-weight: 500;
+    margin-top: -25px;
+}
 

@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Pembukuan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
+use function GuzzleHttp\Promise\all;
 
 class PembukuanController extends Controller
 {
@@ -142,5 +144,12 @@ class PembukuanController extends Controller
         return response(json_encode(['data' => $data]), 200);
     }
 
+    public function getAllBuku(){
+        $data = Pembukuan::selectRaw('year(created_at) year,month(created_at) month, monthname(created_at) monthname, count(*) data')
+            ->groupBy('year', 'month','monthname')
+            ->orderBy('year', 'desc')
+            ->get();
+        return json_encode($data);
+    }
 
 }

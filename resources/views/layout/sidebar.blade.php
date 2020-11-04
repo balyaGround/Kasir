@@ -41,8 +41,8 @@
 {{--</li>--}}
 
 
-<li class=" nav-item text-center mb-1 px-0"><a href="{{route('index')}}/">
 
+<li class=" nav-item text-center mb-1 px-0"><a href="{{route('index')}}/">
         <div class="row mx-0 px-0">
             <div class="col-12">
                 <i class="feather icon-home"></i>
@@ -50,6 +50,7 @@
         </div>
         <span class="menu-title">Home</span></a>
 </li>
+@if(auth()->user()->role_id == 1)
 <li class=" nav-item text-center mb-1  px-0"><a href="{{route('report.today')}}">
 
         <div class="row mx-0 px-0">
@@ -83,3 +84,4 @@
         <span class="menu-title" data-i18n="Email">Settings</span></a>
 </li>
 
+@endif

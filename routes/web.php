@@ -37,6 +37,7 @@ Route::middleware([\App\Http\Middleware\Authenticate::class])->group(function ()
 
 //    laporan
     Route::post('report-management/pembukuan/update',[\App\Http\Controllers\Laporan\PembukuanController::class,'updatePembukuan'])->name('pembukuan.update');
+    Route::get('report-management/pembukuan/get-all-buku',[\App\Http\Controllers\Laporan\PembukuanController::class,'getAllBuku'])->name('pembukuan.getAllBuku');
     Route::get('report-management/pembukuan/generate',[\App\Http\Controllers\Laporan\PembukuanController::class,'generatePembukuan'])->name('pembukuan.generate');
     Route::get('report-management/pembukuan/check',[\App\Http\Controllers\Laporan\PembukuanController::class,'checkPembukuan'])->name('pembukuan.check');
     Route::get('report-management/pembukuan/tfoot',[\App\Http\Controllers\Laporan\PembukuanController::class,'tfootPembukuan'])->name('pembukuan.tfoot');

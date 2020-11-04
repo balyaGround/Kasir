@@ -39,18 +39,18 @@
 <!-- akhir Nav -->
 <div class="container-fluid">
     <div class="row  justify-content-center">
-        <div class="col-6">
+        <div class="col-7">
 
         </div>
-        <div class="col-5  login">
+        <div class="col-4  login">
             <div class="row  ">
                 <div class="col text-center">
-                    <img src="{{asset('original-asset/Kasir/img/lapak logo.jpeg')}}"  class="rounded-circle" alt="main" width="150">
+                    <img src="{{asset('original-asset/Kasir/img/lapak logo.jpeg')}}"  class="img img-fluid rounded-circle" alt="main" >
                     <p>Login</p>
                 </div>
             </div>
             <div class="row justify-content-center">
-                <div class="col-lg-8 input  ">
+                <div class="col-12 input  ">
                     <form action="{{route('login.process')}}" method="post">
                         @csrf
                         <div class="form-group isi">
@@ -65,14 +65,11 @@
                         </div>
                         <button type="submit" class="btn tombol" style="font-weight: 400; color: white;">Login</button>
                     </form>
-                    <div class="balik" style="text-align: center;">
-{{--                        <a href="{{route('landing')}}" style="padding-top: 40px;">Balik yuk!</a>--}}
-                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row  align-items-center">
+    <div class="row  align-items-center mt-200px">
         <div class="col-12 col-lg-7 content" >
             <span>Selamat Datang di <img src="{{asset('original-asset/Kasir/img/faykasir2.png')}}" alt=""></span>
             <p>Aplikasi kasir online punya lapak Bang Fay, memudahkan mengelola bisnis <br>dari mana saja!!</p>

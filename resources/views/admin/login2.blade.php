@@ -37,7 +37,7 @@
     </a>
 </nav>
 <!-- akhir Nav -->
-<div class="container-fluid">
+<div class="container-fluid h-600" >
     <div class="row  justify-content-center mb-4">
         <div class="col-7">
 
@@ -69,7 +69,7 @@
             </div>
         </div>
     </div>
-    <div class="row  align-items-center mt-200px d-none d-sm-block pt-2" >
+    <div class="row  align-items-center  d-none d-sm-block   pt-2" >
         <div class="col-12 col-lg-7 content" >
             <span>Selamat Datang di <img src="{{asset('original-asset/Kasir/img/faykasir2.png')}}" alt=""></span>
             <p>Aplikasi kasir online punya lapak Bang Fay, memudahkan mengelola bisnis <br>dari mana saja!!</p>

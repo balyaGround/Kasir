@@ -16,6 +16,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class DashboardController extends Controller
 {
+
     public function index()
     {
 
@@ -30,15 +31,25 @@ class DashboardController extends Controller
         $data = Penjualan::with(['user'])->whereIn('toko_id',[Auth::user()->toko_id,1]);
         return DataTables::eloquent($data)
             ->editColumn('action',function ($data){
-                $button = ' <button class="btn btn-primary" style="margin-top: 12px;margin-bottom: 1px"
+                $button = ' <button class="btn btn-primary mx-1" style="margin-top: 12px;margin-bottom: 1px"
                 onclick="fungsiPrintInvoice('.$data->nomor_invoice.')"></i>
                                     Print
                                 </button>';
-                return $button;
+                $sign = ( $data->is_paid == 0 ?
+                            '<button class="btn btn-primary mx-1"
+                            style="margin-top: 12px;margin-bottom: 1px" data-toggle="modal" data-target="#modalApplBayar"  data-id="'.$data->id.'">Bayar
+                            </button>' : '' );
+
+                return   $sign.$button;
+            })
+            ->editColumn('is_paid',function ($data){
+                $sign = ( $data->is_paid == 0 ? '<span class="badge badge-success">Unpaid </span>' : '<span class="badge badge-success">Paid </span>' );
+                return $sign;
             })
             ->editColumn('created_at',function ($data){
                 return $data->created_at;
             })
+            ->rawColumns(['is_paid','action'])
             ->make(true);
     }
 
@@ -49,7 +60,8 @@ class DashboardController extends Controller
         $penjualan = Penjualan::create([
             'nomor_invoice'=>$inv,
             'user_id'=>$user['id'],
-            'toko_id'=>$user['toko_id']
+            'toko_id'=>$user['toko_id'],
+            'is_paid'=>0
         ])->id;
 
         foreach($dataAll as $dt){
@@ -90,6 +102,10 @@ class DashboardController extends Controller
         return json_encode($inv);
     }
 
+    public function applyBayar(Request $request){
+
+    }
+
     public function filterProduk($produkname){
         if($produkname=='kosong'){
             $data = [
@@ -103,6 +119,7 @@ class DashboardController extends Controller
             return view('admin.dashboard.component.tab-content-daftarmenu', ['data' => $data]);
         }
     }
+
     public function filterStok($bahanname){
         if($bahanname=='kosong'){
             $data = [
@@ -115,6 +132,13 @@ class DashboardController extends Controller
             $data = ['bahan'=>Bahan::where('nama','LIKE',$bahanname)->get()];
             return view('admin.dashboard.component.tab-content-stock', ['data' => $data]);
         }
+    }
+
+    public function invoiceDetail($noinvoice){
+        $data = Penjualan::with(['penjualanDetail'=>function($d){
+            $d->with(['produk']);
+        }])->where('nomor_invoice',$noinvoice)->get();
+      return (json_encode($data));
     }
 
 }

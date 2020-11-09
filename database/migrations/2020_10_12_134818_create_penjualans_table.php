@@ -18,6 +18,7 @@ class CreatePenjualansTable extends Migration
             $table->string( 'nomor_invoice');
             $table->integer('user_id');
             $table->integer('toko_id');
+            $table->tinyInteger('is_paid')->default(0);
             $table->timestamps();
         });
     }

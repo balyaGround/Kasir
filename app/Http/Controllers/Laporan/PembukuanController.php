@@ -129,12 +129,12 @@ class PembukuanController extends Controller
         return response(json_encode(['hasil' => $hasil]), 200);
     }
 
-    public function tfootPembukuan()
+    public function tfootPembukuan($monthy)
     {
-        $tahun = date('Y');
-        $bulan = date('m');
-        $jumlahhari = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun);
-        $pembukuan = Pembukuan::whereBetween('created_at', [$tahun . '-' . $bulan . '-' . '1', $tahun . '-' . $bulan . '-' . $jumlahhari]);
+        $from = $monthy . '-00';
+        $to = $monthy . '-31';
+        $pembukuan = Pembukuan::whereBetween('created_at', [$from, $to]);
+
         $data = [
             'totalIncome' => $pembukuan->sum('income'),
             'totalOutcome' => $pembukuan->sum('outcome'),
@@ -144,12 +144,28 @@ class PembukuanController extends Controller
         return response(json_encode(['data' => $data]), 200);
     }
 
-    public function getAllBuku(){
+    public function getAllBuku()
+    {
+
         $data = Pembukuan::selectRaw('year(created_at) year,month(created_at) month, monthname(created_at) monthname, count(*) data')
-            ->groupBy('year', 'month','monthname')
+            ->groupBy('year', 'month', 'monthname')
+            ->orderBy('month', 'desc')
             ->orderBy('year', 'desc')
             ->get();
-        return json_encode($data);
+        return response(json_encode(['data' => $data]), 200);
+    }
+
+    public function getAllBukuPerMonth($monthy)
+    {
+        $from = $monthy . '-01';
+        $to = $monthy . '-31';
+        $pembukuan = Pembukuan::whereBetween('created_at', [$from, $to]);
+        return DataTables::eloquent($pembukuan)
+            ->editColumn('created_at', function ($data) {
+                $tanggal = Carbon::parse($data->created_at);
+                return $tanggal->format('d-m-Y',);
+            })
+            ->make(true);
     }
 
 }

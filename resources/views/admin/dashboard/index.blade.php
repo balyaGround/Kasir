@@ -98,6 +98,7 @@
     </div>
 
     @include('admin.dashboard.component.modal-cart')
+    @include('admin.dashboard.component.modal-appl')
 
 @endsection
 @section('js')
@@ -125,7 +126,7 @@
             loadCart();
         }
 
-        function loadCart(){
+        function loadCart() {
             let html = "";
             let total = 0;
             temporaryData.forEach(myFunction);
@@ -149,7 +150,7 @@
                                 </div>
                             </div>`;
                 total += item.amount * parseInt(item.harga_jual);
-                }
+            }
 
             html += `
                         <hr>
@@ -166,6 +167,11 @@
 
             return true;
         }
+
+        function fungsiPrintInvoice(nomorinvoice) {
+            window.open("{{env('APP_URL')}}" + "/print/invoice/" + nomorinvoice);
+        }
+
 
         $(function () {
             $.ajaxSetup({
@@ -275,12 +281,18 @@
             })
             $('#modalCart').on('show.bs.modal', function (e) {
                 // console.table(temporaryData);
-               loadCart()
+                loadCart()
             })
+
+
+            $('#modalApplBayar').on('show.bs.modal', function (e) {
+
+            })
+
             $('#bayar_btn').click(function () {
-                if(temporaryData.length === 0){
+                if (temporaryData.length === 0) {
                     alert("tolonglah lek tambah dulu menunya")
-                }else{
+                } else {
                     $.ajax({
                         type: 'POST',
                         url: "{{route('bayar')}}",
@@ -299,6 +311,27 @@
 
             })
 
+            $('#bayar_appl_btn').click(function () {
+                if (temporaryData.length === 0) {
+                    alert("tolonglah lek tambah dulu menunya")
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: "{{route('bayar')}}",
+                        data: {data: JSON.stringify(temporaryData)},
+                        async: true,
+                        cache: false,
+                        success: (data) => {
+                            window.open("{{env('APP_URL')}}" + "/print/invoice/" + data);
+                            location.reload()
+                        },
+                        error: function (data) {
+                            // console.log(data);
+                        }
+                    });
+                }
+
+            })
 
             const dt2 = $('.zero-configuration2').DataTable({
                 order: [[2, "desc"]],
@@ -310,6 +343,7 @@
                 columns: [
                     {data: 'nomor_invoice', name: 'nomor_invoice', orderable: true, class: 'text-center'},
                     {data: 'user.name', name: 'user.name', orderable: true, class: 'text-center'},
+                    {data: 'is_paid', name: 'is_paid', orderable: true, searchable: false, class: 'text-center'},
                     {data: 'created_at', name: "created_at", className: "text-center"},
                     {data: 'action', name: "", searchable: false, orderable: false, className: "text-center"}
                 ]
@@ -317,10 +351,6 @@
 
 
         });
-
-        function fungsiPrintInvoice(nomorinvoice) {
-            window.open("{{env('APP_URL')}}" + "/print/invoice/" + nomorinvoice);
-        }
 
 
     </script>

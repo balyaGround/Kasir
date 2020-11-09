@@ -20,9 +20,10 @@ Route::middleware([\App\Http\Middleware\Authenticate::class])->group(function ()
     Route::get('filterProduk/{produkname}', [\App\Http\Controllers\DashboardController::class, 'filterProduk'])->name('filter.produk');
     Route::get('filterStock/{bahanname}', [\App\Http\Controllers\DashboardController::class, 'filterStok'])->name('filter.stok');
     Route::post('bayar', [\App\Http\Controllers\DashboardController::class, 'bayar'])->name('bayar');
+    Route::post('apply-bayar', [\App\Http\Controllers\DashboardController::class, 'bayar'])->name('bayar');
     Route::get('print/invoice/{noinvoice}', [\App\Http\Controllers\PrintController::class, 'printInvoice'])->name('print.invoice');
     Route::get('invoice/dataTable', [\App\Http\Controllers\DashboardController::class, 'invoiceList'])->name('invoice.dataTable');
-
+    Route::get('invoice/detail/{noinvoice}',[\App\Http\Controllers\DashboardController::class,'invoiceDetail'])->name('invoice.detail');
 //    barang
     Route::get('barang', [\App\Http\Controllers\BarangController::class, 'index'])->name('barang');
     Route::get('barang/bahan-selection', [\App\Http\Controllers\BarangController::class, 'bahanSelection'])->name('barang.bahan.selection');
@@ -38,9 +39,10 @@ Route::middleware([\App\Http\Middleware\Authenticate::class])->group(function ()
 //    laporan
     Route::post('report-management/pembukuan/update',[\App\Http\Controllers\Laporan\PembukuanController::class,'updatePembukuan'])->name('pembukuan.update');
     Route::get('report-management/pembukuan/get-all-buku',[\App\Http\Controllers\Laporan\PembukuanController::class,'getAllBuku'])->name('pembukuan.getAllBuku');
+    Route::get('report-management/pembukuan/get-all-buku-monthy/{monthy}',[\App\Http\Controllers\Laporan\PembukuanController::class,'getAllBukuPerMonth'])->name('pembukuan.getMonthyBuku');
     Route::get('report-management/pembukuan/generate',[\App\Http\Controllers\Laporan\PembukuanController::class,'generatePembukuan'])->name('pembukuan.generate');
     Route::get('report-management/pembukuan/check',[\App\Http\Controllers\Laporan\PembukuanController::class,'checkPembukuan'])->name('pembukuan.check');
-    Route::get('report-management/pembukuan/tfoot',[\App\Http\Controllers\Laporan\PembukuanController::class,'tfootPembukuan'])->name('pembukuan.tfoot');
+    Route::get('report-management/pembukuan/tfoot/{monthy}',[\App\Http\Controllers\Laporan\PembukuanController::class,'tfootPembukuan'])->name('pembukuan.tfoot');
     Route::get('report-management/pembukuan/DataTable',[\App\Http\Controllers\Laporan\PembukuanController::class,'pembukuanDatatable'])->name('pembukuan.dataTable');
     Route::get('report-management/chartTahunan',[\App\Http\Controllers\Laporan\LaporanController::class,'chartTahunan'])->name('report.chartTahunan');
     Route::get('report-management', [\App\Http\Controllers\Laporan\LaporanController::class, 'hariIni'])->name('report.today');

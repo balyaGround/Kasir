@@ -5,6 +5,8 @@
 
 @section('content')
 
+
+
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -97,7 +99,7 @@
                                                     <div class="col-lg-12 col-12 col-md-12">
                                                         <div class="card">
                                                             <div class="card-header">
-{{--                                                                <h4 class="card-title primary-text-color">Grafik Bulanan</h4>--}}
+                                                                {{--                                                                <h4 class="card-title primary-text-color">Grafik Bulanan</h4>--}}
                                                             </div>
                                                             <div class="card-content">
                                                                 <div class="card-body">
@@ -110,8 +112,10 @@
                                                 </div>
                                                 <div class="tab-pane" id="pembukuan" aria-labelledby="pembukuan-tab"
                                                      role="tabpanel">
-                                                    <h4 class="primary-text-color mt-2">Pembukuan Bulanan {{-- ({{$bulan_ini}} --}}</h4>
+                                                    <h4 class="primary-text-color mt-2">Pembukuan
+                                                        Bulanan {{-- ({{$bulan_ini}} --}}</h4>
                                                     @include('admin.report-management.report.component.tab-content-pembukuan')
+
                                                 </div>
 
                                             </div>
@@ -226,41 +230,86 @@
     <script src="{{asset('assets')}}/vendors/js/tables/datatable/datatables.bootstrap4.min.js"></script>
     {{--    <script src="https://markcell.github.io/jquery-tabledit/assets/js/tabledit.min.js"></script>--}}
     <script src="http://www.misin.msu.edu/0/js/Editor-PHP-1.4.0/js/dataTables.editor.js"></script>
-{{--    <script src="{{asset('assets')}}/js/scripts/charts/chart-apex.js"></script>--}}
+    {{--    <script src="{{asset('assets')}}/js/scripts/charts/chart-apex.js"></script>--}}
 
 
     <script>
-        var editor; // use a global for the submit and return data rendering in the examples
-        const dt2 = $('.pembukuan-dt').DataTable({
-            order: [[0, "asc"]],
-            "lengthMenu": [[31, -1], [31, "All"]],
-            processing: true,
-            serverSide: true,
-            ajax: {
-                url: '{{route('pembukuan.dataTable')}}',
-            },
-            columnDefs: [
-                {
-                    "render": function (data, type, row) {
-                        return commaSeparateNumber(data);
-                    },
-                    "targets": [1, 2, 3]
+        var editor;
+        var dt2;
+        // use a global for the submit and return data rendering in the examples
+
+
+        var today = new Date();
+        var yyyy = today.getFullYear();
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        today = yyyy + '-' + mm;
+
+        function generateSelectMonth() {
+            return $.ajax({
+                url: '{{route("pembukuan.getAllBuku")}}',
+                type: 'GET',
+                dataType: 'JSON',
+                success: function (resp) {
+                    let html = "";
+                    resp.data.forEach(myFunction);
+
+                    function myFunction(item, index) {
+
+                        if (item.year + '-' + item.month == today) {
+
+                            html += `<option value="${item.year}-${item.month}" selected>${item.monthname} ${item.year}</option>`;
+                        } else {
+                            html += `<option value="${item.year}-${item.month}">${item.monthname} ${item.year}</option>`;
+                        }
+
+                    }
+
+                    $('#monthiyerti').html(html)
                 },
-            ],
-            columns: [
-                // {data: 'id', name: 'id', orderable: true, class: 'text-center'},
-                {data: 'created_at', name: 'created_at', orderable: true, class: 'text-center'},
-                {data: 'income', name: "income", searchable: false, orderable: false, className: "text-center"},
-                {data: 'outcome', name: "outcome", searchable: false, orderable: false, className: "text-center"},
-                {
-                    data: 'penghasilan',
-                    name: "penghasilan",
-                    searchable: false,
-                    orderable: false,
-                    className: "text-center"
+                error: function (data) {
+                    // console.log(data);
                 }
-            ]
-        });
+            });
+        }
+
+        function generateDatatable(date) {
+            dt2 = $('.pembukuan-dt').DataTable({
+                order: [[0, "asc"]],
+                "lengthMenu": [[31, -1], [31, "All"]],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '{{env('APP_URL')}}/report-management/pembukuan/get-all-buku-monthy/' + date,
+                },
+                columnDefs: [
+                    {
+                        "render": function (data, type, row) {
+                            return commaSeparateNumber(data);
+                        },
+                        "targets": [1, 2, 3]
+                    },
+                ],
+                columns: [
+                    // {data: 'id', name: 'id', orderable: true, class: 'text-center'},
+                    {data: 'created_at', name: 'created_at', orderable: true, class: 'text-center'},
+                    {data: 'income', name: "income", searchable: false, orderable: false, className: "text-center"},
+                    {
+                        data: 'outcome',
+                        name: "outcome",
+                        searchable: false,
+                        orderable: false,
+                        className: "text-center"
+                    },
+                    {
+                        data: 'penghasilan',
+                        name: "penghasilan",
+                        searchable: false,
+                        orderable: false,
+                        className: "text-center"
+                    }
+                ]
+            });
+        }
 
         function pembukuancheck() {
             $.ajax({
@@ -295,9 +344,10 @@
                 }
             });
         }
-        function pembukuan() {
+
+        function pembukuan(date) {
             return $.ajax({
-                url: '{{route('pembukuan.tfoot')}}',
+                url: '{{env('APP_URL')}}/report-management/pembukuan/tfoot/' + date,
                 type: 'GET',
                 dataType: 'JSON',
                 success: function (resp) {
@@ -312,6 +362,7 @@
                 }
             });
         }
+
         function chartGenerate() {
             return $.ajax({
                 url: '{{route('report.chartTahunan')}}',
@@ -330,7 +381,7 @@
 
 
                     var yaxis_opposite = false;
-                    if($('html').data('textdirection') == 'rtl'){
+                    if ($('html').data('textdirection') == 'rtl') {
                         yaxis_opposite = true;
                     }
 
@@ -356,7 +407,7 @@
                         },
                         xaxis: {
                             format: 'MM',
-                            categories: ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"],
+                            categories: ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"],
                         },
                         yaxis: {
                             opposite: yaxis_opposite,
@@ -374,7 +425,6 @@
 
 
                     }
-
 
 
                     var lineAreaChart = new ApexCharts(
@@ -403,11 +453,13 @@
                 }
             });
 
+            generateSelectMonth();
+
             pembukuancheck();
-            pembukuan();
+            generateDatatable(today);
+            pembukuan(today);
             chartGenerate();
             $('.zero-configuration').DataTable({});
-
             const editor = new $.fn.dataTable.Editor({
                 ajax: {
                     "url": "{{route('pembukuan.update')}}",
@@ -444,7 +496,23 @@
                     }
                 });
             });
+            $('#monthiyerti').on('change', function (e) {
+                $(".pembukuan-dt").dataTable().fnDestroy();
+                generateDatatable(this.value);
+                pembukuan(this.value);
+                {{--$.ajax({--}}
+                {{--    url: '{{route('pembukuan.tfoot')}}',--}}
+                {{--    type: 'GET',--}}
+                {{--    dataType: 'JSON',--}}
+                {{--    success: function (resp) {--}}
+                {{--       --}}
 
+                {{--    },--}}
+                {{--    error: function (data) {--}}
+                {{--        // console.log(data);--}}
+                {{--    }--}}
+                {{--});--}}
+            })
         });
 
 

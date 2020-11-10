@@ -112,6 +112,7 @@
     <script src="{{asset('assets')}}/vendors/js/tables/datatable/datatables.bootstrap4.min.js"></script>
     <script>
         let temporaryData = [];
+        let temporaryEditData = [];
 
         function fungsiKurangTambahMenu(index, tipe) {
             if (tipe === "kurang") {
@@ -123,13 +124,28 @@
             } else {
                 temporaryData[index].amount++;
             }
-            loadCart();
+            loadCart(1);
         }
 
-        function loadCart() {
+        function fungsiKurangTambahMenuEdit(index, tipe) {
+
+            if (tipe === "kurang") {
+                if (temporaryEditData[index].amount === 1) {
+                    temporaryEditData.splice(index, 1);
+                } else {
+                    temporaryEditData[index].amount--;
+                }
+            } else {
+                temporaryEditData[index].amount++;
+            }
+            loadCart(2);
+        }
+
+        function loadCart(type) {
             let html = "";
             let total = 0;
-            temporaryData.forEach(myFunction);
+
+
 
             function myFunction(item, index) {
                 html += `<div class="row mx-1 mt-1">
@@ -139,9 +155,9 @@
 
                                 <div class="col-md-3 col-5 mx-0 px-0">
                                     <div class="d-flex justify-content-around">
-                                     <button class="btn btn-primary btn-sm py-1 waves-effect" onclick="fungsiKurangTambahMenu(${index},'kurang')"><i class="fa fa-minus"></i> </button>
+                                     <button class="btn btn-primary btn-sm py-1 waves-effect" onclick="${type === 1 ? 'fungsiKurangTambahMenu': 'fungsiKurangTambahMenuEdit'}(${index},'kurang')"><i class="fa fa-minus"></i> </button>
                                                        <p class='text-center' style='margin-left:5px;margin-right:5px;'>${item.amount}</p>
-                                    <button class="btn btn-primary btn-sm py-1 waves-effect " onclick="fungsiKurangTambahMenu(${index},'tambah')"><i class="fa fa-plus"></i></button>
+                                    <button class="btn btn-primary btn-sm py-1 waves-effect " onclick="${type === 1 ? 'fungsiKurangTambahMenu': 'fungsiKurangTambahMenuEdit'}(${index},'tambah')"><i class="fa fa-plus"></i></button>
                                     </div>
                                 </div>
 
@@ -152,7 +168,10 @@
                 total += item.amount * parseInt(item.harga_jual);
             }
 
-            html += `
+
+            if(type===1){
+                temporaryData.forEach(myFunction);
+                html += `
                         <hr>
                         <div class="row mx-1">
                                 <div class="col-md-8 col-10 text-left">
@@ -163,7 +182,28 @@
                                     <p>${total}</p>
                                 </div>
                               </div>`;
-            $('#all-data-cart').html(html);
+
+                $('#all-data-cart').html(html);
+            }
+            else{
+                temporaryEditData.forEach(myFunction);
+                html += `
+                        <hr>
+                        <div class="row mx-1">
+                                <div class="col-md-8 col-10 text-left">
+                                    <p>Total</p>
+                                </div>
+                                <div class="col-md-4 col-2 text-right">
+                                    <div class='mx-2'></div>
+                                    <p>${total}</p>
+                                </div>
+                              </div>`;
+
+                $('#bnn').html(html);
+            }
+
+
+
 
             return true;
         }
@@ -219,8 +259,6 @@
 
 
             let temps;
-
-
             $('#current_add').click(function () {
                 const input = $('#current_input');
                 input.val(parseInt(input.val()) + 1);
@@ -281,15 +319,47 @@
             })
             $('#modalCart').on('show.bs.modal', function (e) {
                 // console.table(temporaryData);
-                loadCart()
+                loadCart(1)
             })
 
 
             $('#modalApplBayar').on('show.bs.modal', function (e) {
+                // e.preventDefault();
+                temporaryEditData = [];
+                let Id = $(e.relatedTarget).data('id');
+                $.ajax({
+                    type: 'GET',
+                    url: "{{env('APP_URL')}}/invoice/detail/"+Id,
+                    success: (data) => {
+                        $("#bkn").html(data);
+                    },
+                    error: function (data) {
+                        // console.log(data);
+
+                    }
+                });
+                $.ajax({
+                    type: 'GET',
+                    url: "{{env('APP_URL')}}/invoice/detailJs/"+Id,
+                    data: 'JSON',
+                    success: (data) => {
+                       const datum = JSON.parse(data);
+                        datum[0].penjualan_detail.forEach(myFunction);
+                        function myFunction(item, index) {
+                            let dats = {id:item.id, amount:item.amount,harga_jual:item.produk.harga_jual,nama:item.produk.nama};
+                            temporaryEditData.push(dats);
+                        }
+                        console.table(temporaryEditData)
+                    },
+                    error: function (data) {
+                        // console.log(data);
+                    }
+                });
 
             })
 
             $('#bayar_btn').click(function () {
+
                 if (temporaryData.length === 0) {
                     alert("tolonglah lek tambah dulu menunya")
                 } else {
@@ -332,6 +402,8 @@
                 }
 
             })
+
+
 
             const dt2 = $('.zero-configuration2').DataTable({
                 order: [[2, "desc"]],

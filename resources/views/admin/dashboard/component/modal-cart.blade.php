@@ -35,7 +35,7 @@
 </div>
 <div class="modal fade" id="modalCart" tabindex="-1" role="dialog" aria-labelledby="modalAddToCart"
      aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-centered modal-dialog-scrollable"
+    <div class="modal-dialog modal-lg modal-dialog-centered"
          role="document">
         <div class="modal-content">
             <div class="modal-header">

@@ -24,6 +24,8 @@ Route::middleware([\App\Http\Middleware\Authenticate::class])->group(function ()
     Route::get('print/invoice/{noinvoice}', [\App\Http\Controllers\PrintController::class, 'printInvoice'])->name('print.invoice');
     Route::get('invoice/dataTable', [\App\Http\Controllers\DashboardController::class, 'invoiceList'])->name('invoice.dataTable');
     Route::get('invoice/detail/{noinvoice}',[\App\Http\Controllers\DashboardController::class,'invoiceDetail'])->name('invoice.detail');
+    Route::get('invoice/detailJs/{noinvoice}',[\App\Http\Controllers\DashboardController::class,'invoiceDetailJs'])->name('invoice.detailJs');
+
 //    barang
     Route::get('barang', [\App\Http\Controllers\BarangController::class, 'index'])->name('barang');
     Route::get('barang/bahan-selection', [\App\Http\Controllers\BarangController::class, 'bahanSelection'])->name('barang.bahan.selection');

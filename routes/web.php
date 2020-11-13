@@ -19,8 +19,8 @@ Route::middleware([\App\Http\Middleware\Authenticate::class])->group(function ()
     Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('index');
     Route::get('filterProduk/{produkname}', [\App\Http\Controllers\DashboardController::class, 'filterProduk'])->name('filter.produk');
     Route::get('filterStock/{bahanname}', [\App\Http\Controllers\DashboardController::class, 'filterStok'])->name('filter.stok');
-    Route::post('bayar', [\App\Http\Controllers\DashboardController::class, 'bayar'])->name('bayar');
-    Route::post('apply-bayar', [\App\Http\Controllers\DashboardController::class, 'bayar'])->name('bayar');
+    Route::post('insert-update-invoice', [\App\Http\Controllers\DashboardController::class, 'bayar'])->name('bayar');
+    Route::post('bayar', [\App\Http\Controllers\DashboardController::class, 'applyBayar'])->name('bayar-apply');
     Route::get('print/invoice/{noinvoice}', [\App\Http\Controllers\PrintController::class, 'printInvoice'])->name('print.invoice');
     Route::get('invoice/dataTable', [\App\Http\Controllers\DashboardController::class, 'invoiceList'])->name('invoice.dataTable');
     Route::get('invoice/detail/{noinvoice}',[\App\Http\Controllers\DashboardController::class,'invoiceDetail'])->name('invoice.detail');

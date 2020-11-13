@@ -38,8 +38,13 @@ class DashboardController extends Controller
                                 </button>';
                 $sign = ($data->is_paid == 0 ?
                     '<button class="btn btn-primary mx-1"
-                            style="margin-top: 12px;margin-bottom: 1px" data-toggle="modal" data-target="#modalApplBayar"  data-id="' . $data->id . '">Bayar
+                            style="margin-top: 12px;margin-bottom: 1px" data-toggle="modal" data-target="#modalApplBayar"  data-id="' . $data->id . '">Cek/Bayar
                             </button>' : '');
+
+//                $bayar = ($data->is_paid == 0 ?
+//                    '<button class="btn btn-success mx-1"
+//                            style="margin-top: 12px;margin-bottom: 1px" data-toggle="modal" data-target="#modalApplBayar"  data-id="' . $data->id . '">Bayar
+//                            </button>' : '');
 
                 return $sign . $button;
             })
@@ -56,57 +61,101 @@ class DashboardController extends Controller
 
     public function bayar(Request $request)
     {
-        $user = Auth::user();
-        $dataAll = json_decode($request->data);
-        $inv = time();
-        $penjualan = Penjualan::create([
-            'nomor_invoice' => $inv,
-            'user_id' => $user['id'],
-            'toko_id' => $user['toko_id'],
-            'is_paid' => 0
-        ])->id;
-
-        foreach ($dataAll as $dt) {
 
 
-            $penjualanDetails = PenjualanDetail::create([
-                'penjualans_id' => $penjualan,
-                'produk_id' => $dt->id,
-                'amount' => $dt->amount
-            ]);
+        if (isset(json_decode($request->data)[0]->idInvoice)) {
 
-            $hargaProduk = Produk::select('harga_jual')->where('id', $dt->id)->first();
-            $tambahPembukuan = Pembukuan::whereDate('created_at', date('Y-m-d'))->first();
-            $updatePembukuan = Pembukuan::find($tambahPembukuan['id']);
-            $updatePembukuan->income = $tambahPembukuan['income'] + ($hargaProduk['harga_jual'] * $dt->amount);
-            $updatePembukuan->penghasilan = ($tambahPembukuan['income'] + ($hargaProduk['harga_jual'] * $dt->amount)) - $tambahPembukuan['outcome'];
-            $updatePembukuan->save();
+            $user = Auth::user();
+            $dataAll = json_decode($request->data);
+
+            $penjualanDetails = PenjualanDetail::where('penjualans_id', $dataAll[0]->idInvoice)->delete();
+
+            foreach ($dataAll as $dt) {
+                $penjualanDetails = PenjualanDetail::create([
+                    'penjualans_id' => $dataAll[0]->idInvoice,
+                    'produk_id' => $dt->id,
+                    'amount' => $dt->amount
+                ]);
+
+//                $hargaProduk = Produk::select('harga_jual')->where('id', $dt->id)->first();
+//                $tambahPembukuan = Pembukuan::whereDate('created_at', date('Y-m-d'))->first();
+//                $updatePembukuan = Pembukuan::find($tambahPembukuan['id']);
+//                $updatePembukuan->income = $tambahPembukuan['income'] + ($hargaProduk['harga_jual'] * $dt->amount);
+//                $updatePembukuan->penghasilan = ($tambahPembukuan['income'] + ($hargaProduk['harga_jual'] * $dt->amount)) - $tambahPembukuan['outcome'];
+//                $updatePembukuan->save();
+            }
+        } else {
+            $user = Auth::user();
+            $dataAll = json_decode($request->data);
+            $inv = time();
+            $penjualan = Penjualan::create([
+                'nomor_invoice' => $inv,
+                'user_id' => $user['id'],
+                'toko_id' => $user['toko_id'],
+                'is_paid' => 0
+            ])->id;
+
+            foreach ($dataAll as $dt) {
+                $penjualanDetails = PenjualanDetail::create([
+                    'penjualans_id' => $penjualan,
+                    'produk_id' => $dt->id,
+                    'amount' => $dt->amount
+                ]);
+
+            }
         }
-        return json_encode($inv);
+        return response('success update invoice', 200);
     }
 
     public function applyBayar(Request $request)
     {
+        $dataAll = json_decode($request->data);
+        $user = Auth::user();
+        $penjualanDetailsDelete = PenjualanDetail::where('penjualans_id', $dataAll[0]->idInvoice)->delete();
 
-//        $dataBahan = ProdukJual::where('produk_id',$dt->id)->get();
-////            mengurangi stok bahan dan menulis nya di log
-//        foreach($dataBahan as $dtBhn){
-//            $updateBahan = Bahan::find($dtBhn->bahan_id);
-//            $qtySebelumUpdate = $updateBahan->quantity;
-//            $updateBahan->quantity = $updateBahan->quantity - $dtBhn->bahan_qty*$dt->amount;
-//            $updateBahan->save();
-//
-//            $stokLog = StokLog::create([
-//                'bahan_id'=>$dtBhn->bahan_id,
-//                'aksi_quantity'=>$dtBhn->bahan_qty*$dt->amount,
-//                'aksi'=>2,
-//                'sebelum_quantity'=>$qtySebelumUpdate,
-//                'final_quantity'=>$updateBahan->quantity,
-//                'produk_id'=>$dt->id,
-//                'toko_id'=>$user['toko_id'],
-//                'user_id'=>$user['id']
-//            ]);
-//        }
+        $penjualan = Penjualan::find($dataAll[0]->idInvoice);
+        $penjualan->is_paid = 1;
+        $penjualan->user_id = $user['id'];
+        $penjualan->toko_id = $user['toko_id'];
+        $penjualan->save();
+
+        foreach ($dataAll as $dt) {
+            $penjualanDetails = PenjualanDetail::create([
+                'penjualans_id' => $dataAll[0]->idInvoice,
+                'produk_id' => $dt->id,
+                'amount' => $dt->amount
+            ]);
+
+            $dataBahan = ProdukJual::where('produk_id', $dt->id)->get();
+//            mengurangi stok bahan dan menulis nya di log
+            foreach ($dataBahan as $dtBhn) {
+                $updateBahan = Bahan::find($dtBhn->bahan_id);
+                $qtySebelumUpdate = $updateBahan->quantity;
+                $updateBahan->quantity = $updateBahan->quantity - $dtBhn->bahan_qty * $dt->amount;
+                $updateBahan->save();
+
+                $stokLog = StokLog::create([
+                    'bahan_id' => $dtBhn->bahan_id,
+                    'aksi_quantity' => $dtBhn->bahan_qty * $dt->amount,
+                    'aksi' => 2,
+                    'sebelum_quantity' => $qtySebelumUpdate,
+                    'final_quantity' => $updateBahan->quantity,
+                    'produk_id' => $dt->id,
+                    'toko_id' => $user['toko_id'],
+                    'user_id' => $user['id']
+                ]);
+
+                $hargaProduk = Produk::select('harga_jual')->where('id', $dt->id)->first();
+                $tambahPembukuan = Pembukuan::whereDate('created_at', date('Y-m-d'))->first();
+                $updatePembukuan = Pembukuan::find($tambahPembukuan['id']);
+                $updatePembukuan->income = $tambahPembukuan['income'] + ($hargaProduk['harga_jual'] * $dt->amount);
+                $updatePembukuan->penghasilan = ($tambahPembukuan['income'] + ($hargaProduk['harga_jual'] * $dt->amount)) - $tambahPembukuan['outcome'];
+                $updatePembukuan->save();
+
+            }
+
+        }
+
     }
 
     public function filterProduk($produkname)
@@ -123,7 +172,8 @@ class DashboardController extends Controller
         }
     }
 
-    public function filterStok($bahanname)
+    public
+    function filterStok($bahanname)
     {
         if ($bahanname == 'kosong') {
             $data = [
@@ -137,8 +187,8 @@ class DashboardController extends Controller
         }
     }
 
-
-    public function invoiceDetail($id)
+    public
+    function invoiceDetail($id)
     {
         $data = Penjualan::with(['penjualanDetail' => function ($d) {
             $d->with(['produk']);
@@ -146,16 +196,18 @@ class DashboardController extends Controller
 
         $dataProduk = Produk::all();
 //      return (json_encode($data));
-        $dataAll = ['data' => $data,'dataProduk'=>$dataProduk];
+        $dataAll = ['data' => $data, 'dataProduk' => $dataProduk];
         return view('admin.dashboard.component.invoice-detail', $dataAll);
     }
-    public function invoiceDetailJs($id)
+
+    public
+    function invoiceDetailJs($id)
     {
         $data = Penjualan::with(['penjualanDetail' => function ($d) {
             $d->with(['produk']);
         }])->where('id', $id)->get();
 //      return (json_encode($data));
-        return response(json_encode($data),200);
+        return response(json_encode($data), 200);
 //        $dataAll = ['data' => $data];
 //        return view('admin.dashboard.component.invoice-detail', $dataAll);
     }

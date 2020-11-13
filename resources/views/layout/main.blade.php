@@ -40,6 +40,7 @@
 
     {{--    <button class="btn-suc"></button>--}}
 <!-- BEGIN: Custom CSS-->
+    <link rel="stylesheet" type="text/css" href="{{asset('assets')}}/vendors/css/forms/select/select2.min.css">
     <link rel="stylesheet" type="text/css" href="{{asset('custom-assets')}}/css/style.css">
     <!-- END: Custom CSS-->
 

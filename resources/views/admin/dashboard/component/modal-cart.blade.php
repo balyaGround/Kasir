@@ -54,7 +54,7 @@
                 {{--                        </div>--}}
             </div>
             <div class="modal-footer justify-content-center">
-                <button type="button" id="bayar_btn" class="btn btn-success">Bayar</button>
+                <button type="button" id="bayar_btn" class="btn btn-success">Buat Invoice</button>
             </div>
         </div>
     </div>

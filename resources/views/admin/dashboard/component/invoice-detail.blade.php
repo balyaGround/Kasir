@@ -1,24 +1,6 @@
 @php
     $harga=0;
 @endphp
-<div class="row mx-1  mb-3">
-    <div class="col-md-8">
-        <label for="">Menu</label>
-        <select name="produk" class="form-control" id="produk">
-            @foreach($dataProduk as $dtp)
-                <option value="{{$dtp->id}}">{{$dtp->nama}}</option>
-            @endforeach
-        </select>
-    </div>
-
-    <div class="col-md-2">
-        <label for="" id="produkJumlah">Jumlah</label>
-        <input type="text" class="form-control">
-    </div>
-    <div class="col-md-2 text-center">
-        <button class="btn btn-success mt-1 " id="tambohwaan">Tambah</button>
-    </div>
-</div>
 
 <div id="bnn">
     @foreach($data[0]->penjualanDetail as $dt)

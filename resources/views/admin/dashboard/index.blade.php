@@ -40,7 +40,7 @@
                             <button class="btn btn-success" style="margin-top: 12px;margin-bottom: 1px"
                                     data-toggle="modal" data-target="#modalCart"><i
                                     class="feather icon-shopping-cart"></i>
-                                Bayar
+                                Buat Invoice
                             </button>
                         </ul>
                         <div class="tab-content">
@@ -110,6 +110,8 @@
     <script src="{{asset('assets')}}/vendors/js/tables/datatable/buttons.print.min.js"></script>
     <script src="{{asset('assets')}}/vendors/js/tables/datatable/buttons.bootstrap.min.js"></script>
     <script src="{{asset('assets')}}/vendors/js/tables/datatable/datatables.bootstrap4.min.js"></script>
+    <script src="{{asset('assets')}}/vendors/js/forms/select/select2.full.min.js"></script>
+    <script src="{{asset('assets')}}/js/scripts/forms/select/form-select2.js"></script>
     <script>
         let temporaryData = [];
         let temporaryEditData = [];
@@ -145,8 +147,6 @@
             let html = "";
             let total = 0;
 
-
-
             function myFunction(item, index) {
                 html += `<div class="row mx-1 mt-1">
                                 <div class="col-md-5 col-4">
@@ -155,9 +155,9 @@
 
                                 <div class="col-md-3 col-5 mx-0 px-0">
                                     <div class="d-flex justify-content-around">
-                                     <button class="btn btn-primary btn-sm py-1 waves-effect" onclick="${type === 1 ? 'fungsiKurangTambahMenu': 'fungsiKurangTambahMenuEdit'}(${index},'kurang')"><i class="fa fa-minus"></i> </button>
+                                     <button class="btn btn-primary btn-sm py-1 waves-effect" onclick="${type === 1 ? 'fungsiKurangTambahMenu' : 'fungsiKurangTambahMenuEdit'}(${index},'kurang')"><i class="fa fa-minus"></i> </button>
                                                        <p class='text-center' style='margin-left:5px;margin-right:5px;'>${item.amount}</p>
-                                    <button class="btn btn-primary btn-sm py-1 waves-effect " onclick="${type === 1 ? 'fungsiKurangTambahMenu': 'fungsiKurangTambahMenuEdit'}(${index},'tambah')"><i class="fa fa-plus"></i></button>
+                                    <button class="btn btn-primary btn-sm py-1 waves-effect " onclick="${type === 1 ? 'fungsiKurangTambahMenu' : 'fungsiKurangTambahMenuEdit'}(${index},'tambah')"><i class="fa fa-plus"></i></button>
                                     </div>
                                 </div>
 
@@ -168,8 +168,7 @@
                 total += item.amount * parseInt(item.harga_jual);
             }
 
-
-            if(type===1){
+            if (type === 1) {
                 temporaryData.forEach(myFunction);
                 html += `
                         <hr>
@@ -184,8 +183,7 @@
                               </div>`;
 
                 $('#all-data-cart').html(html);
-            }
-            else{
+            } else {
                 temporaryEditData.forEach(myFunction);
                 html += `
                         <hr>
@@ -201,10 +199,6 @@
 
                 $('#bnn').html(html);
             }
-
-
-
-
             return true;
         }
 
@@ -219,6 +213,24 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+
+            const dt2 = $('.zero-configuration2').DataTable({
+                order: [[2, "desc"]],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '{{route('invoice.dataTable')}}'
+                },
+                columns: [
+                    {data: 'nomor_invoice', name: 'nomor_invoice', orderable: true, class: 'text-center'},
+                    {data: 'user.name', name: 'user.name', orderable: true, class: 'text-center'},
+                    {data: 'is_paid', name: 'is_paid', orderable: true, searchable: false, class: 'text-center'},
+                    {data: 'created_at', name: "created_at", className: "text-center"},
+                    {data: 'action', name: "", searchable: false, orderable: false, className: "text-center"}
+                ]
+            });
+
+
 
             let delay = (() => {
                 let timer = 20;
@@ -299,8 +311,7 @@
                 $('#modalAddToCart').modal('hide');
             })
             $('#modalAddToCart').on('show.bs.modal', function (e) {
-                console.table(temporaryData);
-
+                // console.table(temporaryData);
                 $('#current_input').val(0);
                 temps = $(e.relatedTarget).data('json');
                 let haha = false;
@@ -322,14 +333,45 @@
                 loadCart(1)
             })
 
+            $('#tambohwaan').click(function () {
+                let newly = JSON.parse($('#produk').val());
+                // console.log( $('#produkJumlah').val());
+                let haha = false;
+                let getIndex = 0;
+
+                temporaryEditData.forEach(myFunction);
+
+                function myFunction(item, index) {
+                    if (!haha === true) {
+                        haha = (item.id === newly.id ? true : false)
+                        getIndex = index;
+                    }
+                }
+
+                if (!haha === true) {
+                    newly.amount = parseInt($('#produkJumlah').val());
+                    temporaryEditData.push(newly);
+                    console.table(temporaryData);
+                    // console.log("namboh");
+
+                } else {
+                    // console.log('update');
+                    newly.amount = parseInt(temporaryEditData[getIndex].amount) + parseInt($('#produkJumlah').val());
+                    temporaryEditData[getIndex] = newly;
+                    console.table(temporaryEditData);
+                }
+                // $('#modalAddToCart').modal('hide');
+                loadCart(2);
+            });
 
             $('#modalApplBayar').on('show.bs.modal', function (e) {
                 // e.preventDefault();
                 temporaryEditData = [];
                 let Id = $(e.relatedTarget).data('id');
+                $('#idInvoice').val(Id);
                 $.ajax({
                     type: 'GET',
-                    url: "{{env('APP_URL')}}/invoice/detail/"+Id,
+                    url: "{{env('APP_URL')}}/invoice/detail/" + Id,
                     success: (data) => {
                         $("#bkn").html(data);
                     },
@@ -340,21 +382,37 @@
                 });
                 $.ajax({
                     type: 'GET',
-                    url: "{{env('APP_URL')}}/invoice/detailJs/"+Id,
+                    url: "{{env('APP_URL')}}/invoice/detailJs/" + Id,
                     data: 'JSON',
                     success: (data) => {
-                       const datum = JSON.parse(data);
+                        const datum = JSON.parse(data);
                         datum[0].penjualan_detail.forEach(myFunction);
+
                         function myFunction(item, index) {
-                            let dats = {id:item.id, amount:item.amount,harga_jual:item.produk.harga_jual,nama:item.produk.nama};
+                            let dats = {
+                                id: item.produk_id,
+                                amount: item.amount,
+                                harga_jual: item.produk.harga_jual,
+                                nama: item.produk.nama
+                            };
                             temporaryEditData.push(dats);
                         }
+
                         console.table(temporaryEditData)
                     },
                     error: function (data) {
                         // console.log(data);
                     }
                 });
+
+
+            })
+
+            $('#modalApplyBayar').on('show.bs.modal', function (e) {
+                // alert($('#idInvoice').val());
+                const idInvoice = $('#idInvoice').val();
+                $('#invoiceIdApply').val(idInvoice);
+
 
             })
 
@@ -381,19 +439,19 @@
 
             })
 
-            $('#bayar_appl_btn').click(function () {
-                if (temporaryData.length === 0) {
+            $('#updateInvoiceBtn').click(function () {
+                if (temporaryEditData.length === 0) {
                     alert("tolonglah lek tambah dulu menunya")
                 } else {
+                    temporaryEditData[0].idInvoice = $('#idInvoice').val();
                     $.ajax({
                         type: 'POST',
                         url: "{{route('bayar')}}",
-                        data: {data: JSON.stringify(temporaryData)},
+                        data: {data: JSON.stringify(temporaryEditData)},
                         async: true,
                         cache: false,
                         success: (data) => {
-                            window.open("{{env('APP_URL')}}" + "/print/invoice/" + data);
-                            location.reload()
+                            $('#modalApplBayar').modal('hide');
                         },
                         error: function (data) {
                             // console.log(data);
@@ -402,24 +460,32 @@
                 }
 
             })
+            $('#bayarApplyBtn').click(function () {
+                if (temporaryEditData.length === 0) {
+                    alert("tolonglah lek tambah dulu menunya")
+                } else {
+                    temporaryEditData[0].idInvoice = $('#invoiceIdApply').val();
+                    $.ajax({
+                        type: 'POST',
+                        url: "{{route('bayar-apply')}}",
+                        data: {data: JSON.stringify(temporaryEditData)},
+                        async: true,
+                        cache: false,
+                        success: (data) => {
+                            $('#modalApplBayar').modal('hide');
+                            $('#modalApplyBayar').modal('hide');
+                            dt2.ajax.reload(null,false);
+                            {{--window.open("{{env('APP_URL')}}" + "/print/invoice/" + data);--}}
+                            {{--location.reload()--}}
+                        },
+                        error: function (data) {
+                            // console.log(data);
+                        }
+                    });
+                }
+            })
 
 
-
-            const dt2 = $('.zero-configuration2').DataTable({
-                order: [[2, "desc"]],
-                processing: true,
-                serverSide: true,
-                ajax: {
-                    url: '{{route('invoice.dataTable')}}'
-                },
-                columns: [
-                    {data: 'nomor_invoice', name: 'nomor_invoice', orderable: true, class: 'text-center'},
-                    {data: 'user.name', name: 'user.name', orderable: true, class: 'text-center'},
-                    {data: 'is_paid', name: 'is_paid', orderable: true, searchable: false, class: 'text-center'},
-                    {data: 'created_at', name: "created_at", className: "text-center"},
-                    {data: 'action', name: "", searchable: false, orderable: false, className: "text-center"}
-                ]
-            });
 
 
         });

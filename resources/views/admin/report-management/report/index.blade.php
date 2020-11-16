@@ -114,6 +114,8 @@
                                                      role="tabpanel">
                                                     <h4 class="primary-text-color mt-2">Pembukuan
                                                         Bulanan {{-- ({{$bulan_ini}} --}}</h4>
+
+
                                                     @include('admin.report-management.report.component.tab-content-pembukuan')
 
                                                 </div>
@@ -329,7 +331,7 @@
                                 success: function (resp) {
                                     $('#pemb').html('');
                                     dt2.ajax.reload(null, false);
-
+                                    generateSelectMonth()
                                 },
                                 error: function (data) {
                                     // console.log(data);

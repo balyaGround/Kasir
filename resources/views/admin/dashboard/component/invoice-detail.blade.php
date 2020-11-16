@@ -28,6 +28,8 @@
             </div>
         </div>
     @endforeach
+
+
     <hr>
     <div class="row mx-1">
         <div class="col-md-8 col-10 text-left">
@@ -38,16 +40,37 @@
             <p>{{$harga}}</p>
         </div>
     </div>
+        <div class="row mx-1">
+            <div class="col-md-10">
+                {{--            <label for="" >Jumlah Bayar</label>--}}
+                {{--            <input type="text" class="form-control" id="produkJumlah" value="1">--}}
+            </div>
+            <div class="col-md-2">
+                <label for="" >Jumlah Bayar</label>
+                <input type="text" class="form-control" id="jumlahBayar" value="1">
+            </div>
+
+        </div>
+        <div class="row mx-1">
+            <div class="col-md-8 col-10 text-left">
+                <p>Kembalian</p>
+            </div>
+            <div class="col-md-4 col-2 text-right">
+                <div class='mx-2'></div>
+                <p id="kembalianText"></p>
+                <input type="text" id="kembalian" value="0" hidden>
+            </div>
+        </div>
 </div>
 
 
 
     <script>
-        $('#tambah-menu-btn').click(function (){
-
-            alert('tessss');
-
-
+        let harga={{$harga}}
+        $("#jumlahBayar").keyup(function (e) {
+            let kembalian = harga - this.value;
+            $("#kembalian").val(kembalian);
+            $("#kembalianText").html(kembalian);
         });
     </script>
 

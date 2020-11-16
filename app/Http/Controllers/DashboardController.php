@@ -110,6 +110,7 @@ class DashboardController extends Controller
     public function applyBayar(Request $request)
     {
         $dataAll = json_decode($request->data);
+
         $user = Auth::user();
         $penjualanDetailsDelete = PenjualanDetail::where('penjualans_id', $dataAll[0]->idInvoice)->delete();
 
@@ -117,6 +118,8 @@ class DashboardController extends Controller
         $penjualan->is_paid = 1;
         $penjualan->user_id = $user['id'];
         $penjualan->toko_id = $user['toko_id'];
+        $penjualan->jumlah_bayar = $dataAll[0]->jumlahBayar;
+        $penjualan->kembalian = $dataAll[0]->kembalian;
         $penjualan->save();
 
         foreach ($dataAll as $dt) {

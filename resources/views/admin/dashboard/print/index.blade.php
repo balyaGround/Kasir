@@ -40,6 +40,7 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="invoice-title">
+                <img src="{{$tokoPng}}" alt="" height="80" width="80">
                 <h2>Invoice</h2>
                 <h3 class="pull-right">Order # {{$nomorinvoice}}</h3>
             </div>
@@ -116,8 +117,20 @@
                             <tr>
                                 <td style="padding-left: 20px;padding-right: 20px;text-align: center"></td>
                                 <td style="padding-left: 20px;padding-right: 20px;text-align: center"></td>
-                                <td style="padding-left: 20px;padding-right: 20px;text-align: center">total</td>
+                                <td style="padding-left: 20px;padding-right: 20px;text-align: center">Total</td>
                                 <td style="padding-left: 20px;padding-right: 20px;text-align: center">Rp.{{number_format($totalHarga)}}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left: 20px;padding-right: 20px;text-align: center"></td>
+                                <td style="padding-left: 20px;padding-right: 20px;text-align: center"></td>
+                                <td style="padding-left: 20px;padding-right: 20px;text-align: center">Bayar</td>
+                                <td style="padding-left: 20px;padding-right: 20px;text-align: center">Rp.{{number_format($jumlahBayar)}}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left: 20px;padding-right: 20px;text-align: center"></td>
+                                <td style="padding-left: 20px;padding-right: 20px;text-align: center"></td>
+                                <td style="padding-left: 20px;padding-right: 20px;text-align: center">kembalian</td>
+                                <td style="padding-left: 20px;padding-right: 20px;text-align: center">Rp.{{number_format(abs($kembalian))}}</td>
                             </tr>
                             </tfoot>
                         </table>

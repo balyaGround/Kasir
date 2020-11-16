@@ -81,10 +81,36 @@
                                     <div class='mx-2'></div>
                                     <p>${total}</p>
                                 </div>
-                              </div>`;
+                         </div>
+                        <div class="row">
+                                <div class="col-md-10">
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="" >Jumlah Bayar</label>
+                                    <input type="text" class="form-control" id="jumlahBayar" value="1">
+                                </div>
+                            </div>
+                        <div class="row mx-1">
+                        <div class="col-md-8 col-10 text-left">
+                            <p>Kembalian</p>
+                        </div>
+                        <div class="col-md-4 col-2 text-right">
+                            <div class='mx-2'></div>
+                            <p id="kembalianText"></p>
+                            <input type="text" id="kembalian" value="0" hidden>
+                        </div>
+                    </div>`;
 
             $('#bnn').html(html);
+
+            $("#jumlahBayar").keyup(function (e) {
+                let kembalian = harga - this.value;
+                $("#kembalian").val(kembalian);
+                $("#kembalianText").html(kembalian);
+            });
         }
+
+
         return true;
     }
 
@@ -351,6 +377,8 @@
                 alert("tolonglah lek tambah dulu menunya")
             } else {
                 temporaryEditData[0].idInvoice = $('#invoiceIdApply').val();
+                temporaryEditData[0].kembalian = $('#kembalian').val();
+                temporaryEditData[0].jumlahBayar = $('#jumlahBayar').val();
                 $.ajax({
                     type: 'POST',
                     url: "{{route('bayar-apply')}}",
@@ -370,5 +398,10 @@
                 });
             }
         })
+
+
     });
+
+
+
 </script>

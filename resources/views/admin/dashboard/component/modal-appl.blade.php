@@ -23,6 +23,8 @@
                     </div>
                     <input type="text" id="idInvoice"  value="2" hidden>
 
+
+
                     <div class="col-md-2">
                         <label for="" >Jumlah</label>
                         <input type="text" class="form-control" id="produkJumlah" value="1">
@@ -36,6 +38,7 @@
                 <div id="bkn">
 
                 </div>
+
             </div>
 
 

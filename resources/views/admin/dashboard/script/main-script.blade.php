@@ -129,16 +129,16 @@
 
     function loadStock() {
         // delay(function () {
-            $.ajax({
-                type: 'GET',
-                url: "{{env('APP_URL')}}/filterStock/" + ($("#temukanStok").val().toString() == '' ? 'kosong' : $("#temukanStok").val().toString()),
-                success: (data) => {
-                    $("#daftar-stock").html(data);
-                },
-                error: function (data) {
-                    // console.log(data);
-                }
-            });
+        $.ajax({
+            type: 'GET',
+            url: "{{env('APP_URL')}}/filterStock/" + ($("#temukanStok").val().toString() == '' ? 'kosong' : $("#temukanStok").val().toString()),
+            success: (data) => {
+                $("#daftar-stock").html(data);
+            },
+            error: function (data) {
+                // console.log(data);
+            }
+        });
         // })
     }
 
@@ -357,25 +357,30 @@
 
                 alert("tolonglah lek tambah dulu menunya")
             } else {
-                temporaryData[0]['nomor_meja'] = $('#namaMeja').val()
-                $.ajax({
-                    type: 'POST',
-                    url: "{{route('bayar')}}",
-                    data: {data: JSON.stringify(temporaryData)},
-                    async: true,
-                    cache: false,
-                    success: (data) => {
-                        {{--window.open("{{env('APP_URL')}}" + "/print/invoice/" + data);--}}
-                        $('#modalCart').modal('hide');
-                        dt2.ajax.reload(null, false);
-                        loadStock();
-                        temporaryData = [];
-                        total=0;
-                    },
-                    error: function (data) {
-                        // console.log(data);
-                    }
-                });
+                if ($('#namaMeja').val() == '') {
+                    alert('nomor meja jangan kosong !');
+                }
+                else{
+                    temporaryData[0]['nomor_meja'] = $('#namaMeja').val()
+                    $.ajax({
+                        type: 'POST',
+                        url: "{{route('bayar')}}",
+                        data: {data: JSON.stringify(temporaryData)},
+                        async: true,
+                        cache: false,
+                        success: (data) => {
+                            {{--window.open("{{env('APP_URL')}}" + "/print/invoice/" + data);--}}
+                            $('#modalCart').modal('hide');
+                            dt2.ajax.reload(null, false);
+                            loadStock();
+                            temporaryData = [];
+                            total = 0;
+                        },
+                        error: function (data) {
+                            // console.log(data);
+                        }
+                    });
+                }
             }
 
         })
@@ -407,8 +412,8 @@
             if (temporaryEditData.length === 0) {
                 alert("tolonglah lek tambah dulu menunya")
             } else {
-                    // console.log($('#jumlahBayar').val());
-                    // console.log(total);
+                // console.log($('#jumlahBayar').val());
+                // console.log(total);
                 if ($('#jumlahBayar').val() < total) {
                     alert("bujanggggg")
                     $('#modalApplyBayar').modal('hide');
@@ -427,7 +432,7 @@
                             $('#modalApplBayar').modal('hide');
                             $('#modalApplyBayar').modal('hide');
                             dt2.ajax.reload(null, false);
-{{--                            window.open("{{env('APP_URL')}}" + "/print/invoice/" + data);--}}
+                            {{--                            window.open("{{env('APP_URL')}}" + "/print/invoice/" + data);--}}
                             loadStock();
                             // location.reload()
                         },

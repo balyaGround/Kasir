@@ -33,6 +33,7 @@ class PrintController extends Controller
                 'nomorinvoice'=>$noinvoice,
                 'jumlahBayar'=>$penjualan['jumlah_bayar'],
                 'kembalian'=>$penjualan['kembalian'],
+                'nomor_nama_meja'=>$penjualan['nomor_nama_meja'],
                 'tokoPng'=>asset("storage/images/logostoko/small")."/".Toko::select('logos_uri')->where('id',Auth::user()->toko_id)->get()[0]->logos_uri ?? asset("original-asset/no-photo.jpg")
             ]);
     }

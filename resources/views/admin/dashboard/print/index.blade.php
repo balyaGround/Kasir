@@ -79,6 +79,16 @@
                     </address>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-xs-6">
+                </div>
+                <div class="col-xs-6 text-right">
+                    <address>
+                        <strong>Nama / Nomor Meja:</strong><br>
+                        {{$nomor_nama_meja}}<br><br>
+                    </address>
+                </div>
+            </div>
         </div>
     </div>
 

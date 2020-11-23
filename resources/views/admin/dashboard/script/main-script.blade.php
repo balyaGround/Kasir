@@ -56,7 +56,7 @@
                                 </div>
 
                                  <div class="col-md-4 col-4 text-right">
-                                    <p>${commaSeparateNumber(item.amount * parseInt(item.harga_jual)) }</p>
+                                    <p>${commaSeparateNumber(item.amount * parseInt(item.harga_jual))}</p>
                                 </div>
                             </div>`;
             total += item.amount * parseInt(item.harga_jual);
@@ -113,7 +113,7 @@
             $('#bnn').html(html);
 
             $("#jumlahBayar").keyup(function (e) {
-                let kembalian =   ((total-this.value)*-1);
+                let kembalian = ((total - this.value) * -1);
                 $("#kembalian").val(kembalian);
                 $("#kembalianText").html(commaSeparateNumber(kembalian));
             });
@@ -127,6 +127,20 @@
         window.open("{{env('APP_URL')}}" + "/print/invoice/" + nomorinvoice);
     }
 
+    function loadStock() {
+        // delay(function () {
+            $.ajax({
+                type: 'GET',
+                url: "{{env('APP_URL')}}/filterStock/" + ($("#temukanStok").val().toString() == '' ? 'kosong' : $("#temukanStok").val().toString()),
+                success: (data) => {
+                    $("#daftar-stock").html(data);
+                },
+                error: function (data) {
+                    // console.log(data);
+                }
+            });
+        // })
+    }
 
     $(function () {
         $.ajaxSetup({
@@ -136,7 +150,7 @@
         });
 
         const dt2 = $('.zero-configuration2').DataTable({
-            order: [[2, "desc"]],
+            order: [[4, "desc"]],
             processing: true,
             serverSide: true,
             ajax: {
@@ -338,10 +352,12 @@
         })
 
         $('#bayar_btn').click(function () {
-            temporaryData[0]['nomor_meja'] = $('#namaMeja').val()
+
             if (temporaryData.length === 0) {
+
                 alert("tolonglah lek tambah dulu menunya")
             } else {
+                temporaryData[0]['nomor_meja'] = $('#namaMeja').val()
                 $.ajax({
                     type: 'POST',
                     url: "{{route('bayar')}}",
@@ -351,7 +367,8 @@
                     success: (data) => {
                         {{--window.open("{{env('APP_URL')}}" + "/print/invoice/" + data);--}}
                         $('#modalCart').modal('hide');
-                        // location.reload();
+                        dt2.ajax.reload(null, false);
+                        loadStock()
                     },
                     error: function (data) {
                         // console.log(data);
@@ -366,6 +383,7 @@
                 alert("tolonglah lek tambah dulu menunya")
             } else {
                 temporaryEditData[0].idInvoice = $('#idInvoice').val();
+                temporaryData[0]['nomor_meja'] = $('#namaMejaEdits').val()
                 $.ajax({
                     type: 'POST',
                     url: "{{route('bayar')}}",
@@ -374,6 +392,7 @@
                     cache: false,
                     success: (data) => {
                         $('#modalApplBayar').modal('hide');
+                        ;
                     },
                     error: function (data) {
                         // console.log(data);
@@ -386,36 +405,39 @@
             if (temporaryEditData.length === 0) {
                 alert("tolonglah lek tambah dulu menunya")
             } else {
-                if($('#jumlahBayar').val() < total ){
+                    // console.log($('#jumlahBayar').val());
+                    // console.log(total);
+                if ($('#jumlahBayar').val() < total) {
                     alert("bujanggggg")
                     $('#modalApplyBayar').modal('hide');
-                }else{
-                temporaryEditData[0].idInvoice = $('#invoiceIdApply').val();
-                temporaryEditData[0].kembalian = $('#kembalian').val();
-                temporaryEditData[0].jumlahBayar = $('#jumlahBayar').val();
-                $.ajax({
-                    type: 'POST',
-                    url: "{{route('bayar-apply')}}",
-                    data: {data: JSON.stringify(temporaryEditData)},
-                    async: true,
-                    cache: false,
-                    success: (data) => {
-                        $('#modalApplBayar').modal('hide');
-                        $('#modalApplyBayar').modal('hide');
-                        dt2.ajax.reload(null, false);
-                        {{--window.open("{{env('APP_URL')}}" + "/print/invoice/" + data);--}}
-                        {{--location.reload()--}}
-                    },
-                    error: function (data) {
-                        // console.log(data);
-                    }
-                });
-            }}
+                } else {
+                    temporaryEditData[0].idInvoice = $('#invoiceIdApply').val();
+                    temporaryEditData[0].kembalian = $('#kembalian').val();
+                    temporaryEditData[0].jumlahBayar = $('#jumlahBayar').val();
+                    $.ajax({
+                        type: 'POST',
+                        url: "{{route('bayar-apply')}}",
+                        data: {data: JSON.stringify(temporaryEditData)},
+                        async: true,
+                        cache: false,
+                        success: (data) => {
+                            $('#modalApplBayar').modal('hide');
+                            $('#modalApplyBayar').modal('hide');
+                            dt2.ajax.reload(null, false);
+{{--                            window.open("{{env('APP_URL')}}" + "/print/invoice/" + data);--}}
+                            loadStock();
+                            // location.reload()
+                        },
+                        error: function (data) {
+                            // console.log(data);
+                        }
+                    });
+                }
+            }
         })
 
 
     });
-
 
 
 </script>

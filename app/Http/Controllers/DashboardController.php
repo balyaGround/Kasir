@@ -135,8 +135,10 @@ class DashboardController extends Controller
 //            mengurangi stok bahan dan menulis nya di log
             foreach ($dataBahan as $dtBhn) {
                 $updateBahan = Bahan::find($dtBhn->bahan_id);
+
+
                 $qtySebelumUpdate = $updateBahan->quantity;
-                $updateBahan->quantity = $updateBahan->quantity - $dtBhn->bahan_qty * $dt->amount;
+                $updateBahan->quantity = $updateBahan->quantity - ($dtBhn->bahan_qty * $dt->amount);
                 $updateBahan->save();
 
                 $stokLog = StokLog::create([

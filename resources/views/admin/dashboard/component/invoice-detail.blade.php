@@ -58,6 +58,10 @@
             <input type="text" id="kembalian" value="0" hidden>
         </div>
     </div>
+        <div class="col-md-4 col-4 text-right">
+            <div class='mx-2'></div>
+            <input class="form-control" name="namaMeja" id="namaMejaEdits" type="text">
+        </div>
 </div>
 
 

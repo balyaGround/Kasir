@@ -1,6 +1,14 @@
 <script>
     let temporaryData = [];
     let temporaryEditData = [];
+    let total;
+
+    function commaSeparateNumber(val) {
+        while (/(\d+)(\d{3})/.test(val.toString())) {
+            val = val.toString().replace(/(\d+)(\d{3})/, '$1' + '.' + '$2');
+        }
+        return "Rp. " + val + ",00.-";
+    }
 
     function fungsiKurangTambahMenu(index, tipe) {
         if (tipe === "kurang") {
@@ -31,11 +39,11 @@
 
     function loadCart(type) {
         let html = "";
-        let total = 0;
+        total = 0;
 
         function myFunction(item, index) {
             html += `<div class="row mx-1 mt-1">
-                                <div class="col-md-5 col-4">
+                                <div class="col-md-5 col-3">
                                     <p>${item.nama}</p>
                                 </div>
 
@@ -47,8 +55,8 @@
                                     </div>
                                 </div>
 
-                                 <div class="col-md-4 col-3 text-right">
-                                    <p>${item.amount * parseInt(item.harga_jual)}</p>
+                                 <div class="col-md-4 col-4 text-right">
+                                    <p>${commaSeparateNumber(item.amount * parseInt(item.harga_jual)) }</p>
                                 </div>
                             </div>`;
             total += item.amount * parseInt(item.harga_jual);
@@ -59,12 +67,12 @@
             html += `
                         <hr>
                         <div class="row mx-1">
-                                <div class="col-md-8 col-10 text-left">
+                                <div class="col-md-8 col-8 text-left">
                                     <p>Total</p>
                                 </div>
-                                <div class="col-md-4 col-2 text-right">
+                                <div class="col-md-4 col-4 text-right">
                                     <div class='mx-2'></div>
-                                    <p>${total}</p>
+                                    <p>${commaSeparateNumber(total)}</p>
                                 </div>
                               </div>`;
 
@@ -74,27 +82,28 @@
             html += `
                         <hr>
                         <div class="row mx-1">
-                                <div class="col-md-8 col-10 text-left">
+                                <div class="col-md-8 col-8 text-left">
                                     <p>Total</p>
                                 </div>
-                                <div class="col-md-4 col-2 text-right">
+                                <div class="col-md-4 col-4 text-right">
                                     <div class='mx-2'></div>
-                                    <p>${total}</p>
+                                    <p>${commaSeparateNumber(total)}</p>
                                 </div>
                          </div>
-                        <div class="row">
-                                <div class="col-md-10">
-                                </div>
-                                <div class="col-md-2">
-                                    <label for="" >Jumlah Bayar</label>
-                                    <input type="text" class="form-control" id="jumlahBayar" value="1">
-                                </div>
-                            </div>
                         <div class="row mx-1">
-                        <div class="col-md-8 col-10 text-left">
+                                <div class="col-md-8 col-8 text-left">
+                                    <p>Jumlah Bayar</p>
+                                </div>
+                                <div class="col-md-4 col-4 text-right">
+                                    <input type="text" class="form-control text-right" id="jumlahBayar" value="0">
+                                </div>
+                         </div>
+
+                        <div class="row mx-1 mt-1">
+                        <div class="col-md-8 col-8 text-left">
                             <p>Kembalian</p>
                         </div>
-                        <div class="col-md-4 col-2 text-right">
+                        <div class="col-md-4 col-4 text-right mt-1">
                             <div class='mx-2'></div>
                             <p id="kembalianText"></p>
                             <input type="text" id="kembalian" value="0" hidden>
@@ -104,9 +113,9 @@
             $('#bnn').html(html);
 
             $("#jumlahBayar").keyup(function (e) {
-                let kembalian = harga - this.value;
+                let kembalian =   ((total-this.value)*-1);
                 $("#kembalian").val(kembalian);
-                $("#kembalianText").html(kembalian);
+                $("#kembalianText").html(commaSeparateNumber(kembalian));
             });
         }
 
@@ -328,7 +337,7 @@
         })
 
         $('#bayar_btn').click(function () {
-
+            temporaryData[0]['nomor_meja'] = $('#namaMeja').val()
             if (temporaryData.length === 0) {
                 alert("tolonglah lek tambah dulu menunya")
             } else {
@@ -341,7 +350,7 @@
                     success: (data) => {
                         {{--window.open("{{env('APP_URL')}}" + "/print/invoice/" + data);--}}
                         $('#modalCart').modal('hide');
-                        location.reload();
+                        // location.reload();
                     },
                     error: function (data) {
                         // console.log(data);
@@ -376,6 +385,10 @@
             if (temporaryEditData.length === 0) {
                 alert("tolonglah lek tambah dulu menunya")
             } else {
+                if($('#jumlahBayar').val() < total ){
+                    alert("bujanggggg")
+                    $('#modalApplyBayar').modal('hide');
+                }else{
                 temporaryEditData[0].idInvoice = $('#invoiceIdApply').val();
                 temporaryEditData[0].kembalian = $('#kembalian').val();
                 temporaryEditData[0].jumlahBayar = $('#jumlahBayar').val();
@@ -396,7 +409,7 @@
                         // console.log(data);
                     }
                 });
-            }
+            }}
         })
 
 

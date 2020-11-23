@@ -62,7 +62,7 @@ class DashboardController extends Controller
     public function bayar(Request $request)
     {
 
-
+//        dd($request->all());
         if (isset(json_decode($request->data)[0]->idInvoice)) {
 
             $user = Auth::user();
@@ -74,7 +74,8 @@ class DashboardController extends Controller
                 $penjualanDetails = PenjualanDetail::create([
                     'penjualans_id' => $dataAll[0]->idInvoice,
                     'produk_id' => $dt->id,
-                    'amount' => $dt->amount
+                    'amount' => $dt->amount,
+                    'nomor_nama_meja' => $dt->nomor_nama_meja
                 ]);
 
 //                $hargaProduk = Produk::select('harga_jual')->where('id', $dt->id)->first();
@@ -92,7 +93,8 @@ class DashboardController extends Controller
                 'nomor_invoice' => $inv,
                 'user_id' => $user['id'],
                 'toko_id' => $user['toko_id'],
-                'is_paid' => 0
+                'is_paid' => 0,
+                'nomor_nama_meja' => $dataAll[0]->nomor_meja
             ])->id;
 
             foreach ($dataAll as $dt) {

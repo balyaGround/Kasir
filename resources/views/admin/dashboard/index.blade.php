@@ -99,7 +99,6 @@
 
     @include('admin.dashboard.component.modal-cart')
     @include('admin.dashboard.component.modal-appl')
-
 @endsection
 @section('js')
     <script src="{{asset('assets')}}/vendors/js/tables/datatable/pdfmake.min.js"></script>

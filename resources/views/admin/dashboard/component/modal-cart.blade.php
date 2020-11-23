@@ -51,6 +51,15 @@
                 <div id="all-data-cart">
 
                 </div>
+                <div class="row mx-1">
+                    <div class="col-md-8 col-8 text-left">
+                        <p>Nomor Meja</p>
+                    </div>
+                    <div class="col-md-4 col-4 text-right">
+                        <div class='mx-2'></div>
+                        <input class="form-control" name="namaMeja" id="namaMeja" type="text">
+                    </div>
+                </div>
                 {{--                        </div>--}}
             </div>
             <div class="modal-footer justify-content-center">

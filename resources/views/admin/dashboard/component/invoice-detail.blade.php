@@ -8,7 +8,7 @@
             $harga += ($dt->amount * $dt->produk->harga_jual);
         @endphp
         <div class="row mx-1 mt-1">
-            <div class="col-md-5 col-4">
+            <div class="col-md-5 col-3">
                 <p>{{$dt->produk->nama}}</p>
             </div>
             <div class="col-md-3 col-5 mx-0 px-0">
@@ -23,8 +23,8 @@
                 </div>
             </div>
 
-            <div class="col-md-4 col-3 text-right">
-                <p>{{$dt->amount * $dt->produk->harga_jual}}</p>
+            <div class="col-md-4 col-4 text-right">
+                <p>Rp.{{ number_format($dt->amount * $dt->produk->harga_jual) }},00-</p>
             </div>
         </div>
     @endforeach
@@ -32,45 +32,50 @@
 
     <hr>
     <div class="row mx-1">
-        <div class="col-md-8 col-10 text-left">
+        <div class="col-md-8 col-8 text-left">
             <p>Total</p>
         </div>
-        <div class="col-md-4 col-2 text-right">
+        <div class="col-md-4 col-4 text-right">
             <div class='mx-2'></div>
-            <p>{{$harga}}</p>
+            <p>Rp.{{number_format($harga),'.' }},00-</p>
         </div>
     </div>
-        <div class="row mx-1">
-            <div class="col-md-10">
-                {{--            <label for="" >Jumlah Bayar</label>--}}
-                {{--            <input type="text" class="form-control" id="produkJumlah" value="1">--}}
-            </div>
-            <div class="col-md-2">
-                <label for="" >Jumlah Bayar</label>
-                <input type="text" class="form-control" id="jumlahBayar" value="1">
-            </div>
-
+    <div class="row mx-1  mt-1">
+        <div class="col-md-8 col-8 text-left">
+            <p>Jumlah Bayar</p>
         </div>
-        <div class="row mx-1">
-            <div class="col-md-8 col-10 text-left">
-                <p>Kembalian</p>
-            </div>
-            <div class="col-md-4 col-2 text-right">
-                <div class='mx-2'></div>
-                <p id="kembalianText"></p>
-                <input type="text" id="kembalian" value="0" hidden>
-            </div>
+        <div class="col-md-4 col-4 text-right">
+            <input type="text" class="form-control text-right" id="jumlahBayar" value="0">
         </div>
+    </div>
+    <div class="row mx-1  mt-1">
+        <div class="col-md-8 col-8 text-left">
+            <p>Kembalian</p>
+        </div>
+        <div class="col-md-4 col-4 text-right">
+            <div class='mx-2'></div>
+            <p id="kembalianText"></p>
+            <input type="text" id="kembalian" value="0" hidden>
+        </div>
+    </div>
 </div>
 
 
+<script>
 
-    <script>
+
+        function commaSeparateNumber(val) {
+            while (/(\d+)(\d{3})/.test(val.toString())) {
+                val = val.toString().replace(/(\d+)(\d{3})/, '$1' + '.' + '$2');
+            }
+            return "Rp. " + val + ",00.-";
+        }
+    $("#jumlahBayar").keyup(function (e) {
         let harga={{$harga}}
-        $("#jumlahBayar").keyup(function (e) {
-            let kembalian = harga - this.value;
-            $("#kembalian").val(kembalian);
-            $("#kembalianText").html(kembalian);
-        });
-    </script>
+        // let kembalian = ((harga - this.value) < 0 ?  ((harga-this.value)*-1) : ((harga-this.value)*-1) ) ;
+        let kembalian = ((harga - this.value) * -1);
+        $("#kembalian").val(kembalian);
+        $("#kembalianText").html(commaSeparateNumber(kembalian));
+    });
+</script>
 

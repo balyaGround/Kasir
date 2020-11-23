@@ -368,7 +368,9 @@
                         {{--window.open("{{env('APP_URL')}}" + "/print/invoice/" + data);--}}
                         $('#modalCart').modal('hide');
                         dt2.ajax.reload(null, false);
-                        loadStock()
+                        loadStock();
+                        temporaryData = [];
+                        total=0;
                     },
                     error: function (data) {
                         // console.log(data);
@@ -383,7 +385,7 @@
                 alert("tolonglah lek tambah dulu menunya")
             } else {
                 temporaryEditData[0].idInvoice = $('#idInvoice').val();
-                temporaryData[0]['nomor_meja'] = $('#namaMejaEdits').val()
+                temporaryEditData[0]['nomor_meja'] = $('#namaMejaEdits').val();
                 $.ajax({
                     type: 'POST',
                     url: "{{route('bayar')}}",
@@ -392,7 +394,7 @@
                     cache: false,
                     success: (data) => {
                         $('#modalApplBayar').modal('hide');
-                        ;
+                        dt2.ajax.reload(null, false);
                     },
                     error: function (data) {
                         // console.log(data);
@@ -414,6 +416,7 @@
                     temporaryEditData[0].idInvoice = $('#invoiceIdApply').val();
                     temporaryEditData[0].kembalian = $('#kembalian').val();
                     temporaryEditData[0].jumlahBayar = $('#jumlahBayar').val();
+                    temporaryEditData[0].nomor_meja = $('#namaMejaEdits').val();
                     $.ajax({
                         type: 'POST',
                         url: "{{route('bayar-apply')}}",

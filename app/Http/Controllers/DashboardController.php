@@ -70,12 +70,13 @@ class DashboardController extends Controller
 
             $penjualanDetails = PenjualanDetail::where('penjualans_id', $dataAll[0]->idInvoice)->delete();
 
+            $penjualans = Penjualan::where('id', $dataAll[0]->idInvoice)
+                ->update(['nomor_nama_meja' => $dataAll[0]->nomor_meja]);
             foreach ($dataAll as $dt) {
                 $penjualanDetails = PenjualanDetail::create([
                     'penjualans_id' => $dataAll[0]->idInvoice,
                     'produk_id' => $dt->id,
                     'amount' => $dt->amount,
-                    'nomor_nama_meja' => $dt->nomor_nama_meja
                 ]);
 
 //                $hargaProduk = Produk::select('harga_jual')->where('id', $dt->id)->first();
@@ -86,6 +87,7 @@ class DashboardController extends Controller
 //                $updatePembukuan->save();
             }
         } else {
+
             $user = Auth::user();
             $dataAll = json_decode($request->data);
             $inv = time();
@@ -115,6 +117,9 @@ class DashboardController extends Controller
 
         $user = Auth::user();
         $penjualanDetailsDelete = PenjualanDetail::where('penjualans_id', $dataAll[0]->idInvoice)->delete();
+
+        $penjualans = Penjualan::where('id', $dataAll[0]->idInvoice)
+            ->update(['nomor_nama_meja' => $dataAll[0]->nomor_meja]);
 
         $penjualan = Penjualan::find($dataAll[0]->idInvoice);
         $penjualan->is_paid = 1;

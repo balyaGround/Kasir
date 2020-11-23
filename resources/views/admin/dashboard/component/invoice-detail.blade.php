@@ -42,6 +42,16 @@
     </div>
     <div class="row mx-1  mt-1">
         <div class="col-md-8 col-8 text-left">
+            <p class="mt-1">Nomor/Nama Meja</p>
+        </div>
+        <div class="col-md-4 col-4 text-right">
+            {{--                <div class='mx-2'></div>--}}
+            <input class="form-control text-right" name="namaMeja" id="namaMejaEdits" value="{{$data[0]->nomor_nama_meja}}"
+                   type="text">
+        </div>
+    </div>
+    <div class="row mx-1  mt-1">
+        <div class="col-md-8 col-8 text-left">
             <p>Jumlah Bayar</p>
         </div>
         <div class="col-md-4 col-4 text-right">
@@ -58,28 +68,29 @@
             <input type="text" id="kembalian" value="0" hidden>
         </div>
     </div>
-        <div class="col-md-4 col-4 text-right">
-            <div class='mx-2'></div>
-            <input class="form-control" name="namaMeja" id="namaMejaEdits" type="text">
-        </div>
+
+
 </div>
 
 
 <script>
 
 
-        function commaSeparateNumber(val) {
-            while (/(\d+)(\d{3})/.test(val.toString())) {
-                val = val.toString().replace(/(\d+)(\d{3})/, '$1' + '.' + '$2');
-            }
-            return "Rp. " + val + ",00.-";
+    function commaSeparateNumber(val) {
+        while (/(\d+)(\d{3})/.test(val.toString())) {
+            val = val.toString().replace(/(\d+)(\d{3})/, '$1' + '.' + '$2');
         }
+        return "Rp. " + val + ",00.-";
+    }
+
     $("#jumlahBayar").keyup(function (e) {
-        let harga={{$harga}}
-        // let kembalian = ((harga - this.value) < 0 ?  ((harga-this.value)*-1) : ((harga-this.value)*-1) ) ;
-        let kembalian = ((harga - this.value) * -1);
+        let harga ={{$harga}}
+            // let kembalian = ((harga - this.value) < 0 ?  ((harga-this.value)*-1) : ((harga-this.value)*-1) ) ;
+            let
+        kembalian = ((harga - this.value) * -1);
         $("#kembalian").val(kembalian);
         $("#kembalianText").html(commaSeparateNumber(kembalian));
     });
+    total ={{$harga}};
 </script>
 

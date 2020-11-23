@@ -146,7 +146,8 @@
                 {data: 'nomor_invoice', name: 'nomor_invoice', orderable: true, class: 'text-center'},
                 {data: 'user.name', name: 'user.name', orderable: true, class: 'text-center'},
                 {data: 'is_paid', name: 'is_paid', orderable: true, searchable: false, class: 'text-center'},
-                {data: 'created_at', name: "created_at", className: "text-center"},
+                {data: 'nomor_nama_meja', name: "nomor_nama_meja", className: "text-center"},
+                {data: 'updated_at', name: "updated_at", className: "text-center"},
                 {data: 'action', name: "", searchable: false, orderable: false, className: "text-center"}
             ]
         });

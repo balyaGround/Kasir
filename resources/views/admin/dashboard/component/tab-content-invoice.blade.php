@@ -6,6 +6,7 @@
             <th class="text-center">Nomor Invoice</th>
             <th class="text-center">Cashier</th>
             <th class="text-center">Status</th>
+            <th class="text-center">Nomor Meja</th>
             <th class="text-center">Last Update Time</th>
             <th class="text-center">Action</th>
         </tr>

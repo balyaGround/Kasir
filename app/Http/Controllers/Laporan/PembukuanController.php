@@ -131,7 +131,7 @@ class PembukuanController extends Controller
 
     public function tfootPembukuan($monthy)
     {
-        $from = $monthy . '-00';
+        $from = $monthy . '-01';
         $to = $monthy . '-31';
         $pembukuan = Pembukuan::whereBetween('created_at', [$from, $to]);
 

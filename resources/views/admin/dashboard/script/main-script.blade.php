@@ -301,6 +301,7 @@
 
         $('#modalApplBayar').on('show.bs.modal', function (e) {
             // e.preventDefault();
+            total = 0;
             temporaryEditData = [];
             let Id = $(e.relatedTarget).data('id');
             $('#idInvoice').val(Id);
@@ -334,6 +335,7 @@
                     }
 
                     console.table(temporaryEditData)
+
                 },
                 error: function (data) {
                     // console.log(data);
@@ -346,6 +348,7 @@
         $('#modalApplyBayar').on('show.bs.modal', function (e) {
             // alert($('#idInvoice').val());
             const idInvoice = $('#idInvoice').val();
+
             $('#invoiceIdApply').val(idInvoice);
 
 

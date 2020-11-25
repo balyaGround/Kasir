@@ -9,6 +9,7 @@ use App\Models\Pembukuan;
 use App\Models\Penjualan;
 use App\Models\PenjualanDetail;
 use App\Models\ProdukJual;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
@@ -90,7 +91,12 @@ class DashboardController extends Controller
 
             $user = Auth::user();
             $dataAll = json_decode($request->data);
-            $inv = time();
+            $datenow = Carbon::now();
+
+            $penjualanLast = Penjualan::select('nomor_invoice')->orderBy('created_at','DESC')->first();
+            $last = explode('-',$penjualanLast['nomor_invoice'])[0];
+            $inv = ($last+1).'-'.$datenow->format('M').$datenow->format('y');
+
             $penjualan = Penjualan::create([
                 'nomor_invoice' => $inv,
                 'user_id' => $user['id'],
@@ -136,6 +142,7 @@ class DashboardController extends Controller
                 'amount' => $dt->amount
             ]);
 
+
             $dataBahan = ProdukJual::where('produk_id', $dt->id)->get();
 //            mengurangi stok bahan dan menulis nya di log
             foreach ($dataBahan as $dtBhn) {
@@ -157,14 +164,17 @@ class DashboardController extends Controller
                     'user_id' => $user['id']
                 ]);
 
-                $hargaProduk = Produk::select('harga_jual')->where('id', $dt->id)->first();
-                $tambahPembukuan = Pembukuan::whereDate('created_at', date('Y-m-d'))->first();
-                $updatePembukuan = Pembukuan::find($tambahPembukuan['id']);
-                $updatePembukuan->income = $tambahPembukuan['income'] + ($hargaProduk['harga_jual'] * $dt->amount);
-                $updatePembukuan->penghasilan = ($tambahPembukuan['income'] + ($hargaProduk['harga_jual'] * $dt->amount)) - $tambahPembukuan['outcome'];
-                $updatePembukuan->save();
 
             }
+            $hargaProduk = Produk::select('harga_jual')->where('id', $dt->id)->first();
+            $tambahPembukuan = Pembukuan::whereDate('created_at', date('Y-m-d'))->first();
+
+            $updatePembukuan = Pembukuan::find($tambahPembukuan['id']);
+
+            $updatePembukuan->income = $tambahPembukuan['income'] + ($hargaProduk['harga_jual'] * $dt->amount);
+            $updatePembukuan->penghasilan = ($tambahPembukuan['income'] + ($hargaProduk['harga_jual'] * $dt->amount)) - $tambahPembukuan['outcome'];
+
+            $updatePembukuan->save();
 
         }
 
@@ -212,8 +222,7 @@ class DashboardController extends Controller
         return view('admin.dashboard.component.invoice-detail', $dataAll);
     }
 
-    public
-    function invoiceDetailJs($id)
+    public function invoiceDetailJs($id)
     {
         $data = Penjualan::with(['penjualanDetail' => function ($d) {
             $d->with(['produk']);

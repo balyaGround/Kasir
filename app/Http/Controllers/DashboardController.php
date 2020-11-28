@@ -93,9 +93,13 @@ class DashboardController extends Controller
             $dataAll = json_decode($request->data);
             $datenow = Carbon::now();
 
-            $penjualanLast = Penjualan::select('nomor_invoice')->orderBy('created_at','DESC')->first();
-            $last = explode('-',$penjualanLast['nomor_invoice'])[0];
-            $inv = ($last+1).'-'.$datenow->format('M').$datenow->format('y');
+            $penjualanLast = Penjualan::select('nomor_invoice')->orderBy('created_at', 'DESC')->first();
+            if ($penjualanLast->count() == 0) {
+                $inv = (1) . '-' . $datenow->format('M') . $datenow->format('y');
+            } else {
+                $last = explode('-', $penjualanLast['nomor_invoice'])[0];
+                $inv = ($last + 1) . '-' . $datenow->format('M') . $datenow->format('y');
+            }
 
             $penjualan = Penjualan::create([
                 'nomor_invoice' => $inv,

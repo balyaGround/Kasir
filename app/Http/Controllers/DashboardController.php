@@ -34,7 +34,7 @@ class DashboardController extends Controller
         return DataTables::eloquent($data)
             ->editColumn('action', function ($data) {
                 $button = ' <button class="btn btn-primary mx-1" style="margin-top: 12px;margin-bottom: 1px"
-                onclick="fungsiPrintInvoice(' . $data->nomor_invoice . ')"></i>
+                onclick="fungsiPrintInvoice(\'' . $data->nomor_invoice . '\')"></i>
                                     Print
                                 </button>';
                 $sign = ($data->is_paid == 0 ?

@@ -496,10 +496,11 @@
                             chartGenerate()
                         }
                     }
-                });
+                }); 
             });
             $('#monthiyerti').on('change', function (e) {
                 $(".pembukuan-dt").dataTable().fnDestroy();
+                today = this.value
                 generateDatatable(this.value);
                 pembukuan(this.value);
                 {{--$.ajax({--}}

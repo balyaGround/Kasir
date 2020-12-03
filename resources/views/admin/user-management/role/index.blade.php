@@ -127,7 +127,7 @@
 @endsection
 
 @section('js')
-    <script src="{{asset('assets')}}/vendors/js/tables/datatable/pdfmake.min.js"></script>
+{{--    <script src="{{asset('assets')}}/vendors/js/tables/datatable/pdfmake.min.js"></script>--}}
     <script src="{{asset('assets')}}/vendors/js/tables/datatable/vfs_fonts.js"></script>
     <script src="{{asset('assets')}}/vendors/js/tables/datatable/datatables.min.js"></script>
     <script src="{{asset('assets')}}/vendors/js/tables/datatable/datatables.buttons.min.js"></script>

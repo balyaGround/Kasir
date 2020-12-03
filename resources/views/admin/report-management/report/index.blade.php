@@ -424,11 +424,7 @@
                                 format: 'dd/MM/yy HH:mm'
                             },
                         },
-
-
                     }
-
-
                     var lineAreaChart = new ApexCharts(
                         document.querySelector("#line-area-chart"),
                         lineAreaOptions
@@ -492,7 +488,7 @@
                         fn: function () {
                             this.submit();
                             dt2.ajax.reload(null, false);
-                            pembukuan()
+                            pembukuan(today)
                             chartGenerate()
                         }
                     }
@@ -501,6 +497,7 @@
             $('#monthiyerti').on('change', function (e) {
                 $(".pembukuan-dt").dataTable().fnDestroy();
                 generateDatatable(this.value);
+                today = this.value;
                 pembukuan(this.value);
                 {{--$.ajax({--}}
                 {{--    url: '{{route('pembukuan.tfoot')}}',--}}

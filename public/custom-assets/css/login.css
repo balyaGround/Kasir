@@ -30,14 +30,14 @@
     }
 }
 
-@media (min-width: 2200px) { 
+@media (min-width: 2200px) {
     .content{
-        
+
         padding-top: 300px;
     }
 }
 body{
-    background: url(../../original-asset/kasir/img/background\ login.png) no-repeat center center fixed;
+    background: url(../../original-asset/kasir/img/backgroundlogin.png) no-repeat center center fixed;
     background-size: cover;
 }
 

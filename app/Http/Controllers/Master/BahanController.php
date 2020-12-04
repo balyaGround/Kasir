@@ -95,8 +95,6 @@ class BahanController extends Controller
     public function update(Request $request, $id)
     {
 
-
-
         $toUpdate = Bahan::find($id);
 
         $aksi = ($toUpdate->quantity > $request->quantity ? 2 : 1);
@@ -114,10 +112,12 @@ class BahanController extends Controller
             $img->resize(120, 120, function ($constraint) {
                 $constraint->aspectRatio();
             });
-            $img->stream(); // <-- Key point
+            $img->save(public_path('storage/images/imageBahan/small/'). $fileName);
+            $image->move(public_path('storage/images/imageBahan/big/',$fileName));
 
-            Storage::disk('local')->put('public/images/imageBahan/small' . '/' . $fileName, $img, 'public');
-            Storage::disk('local')->put('public/images/imageBahan/big' . '/' . $fileName, file_get_contents($image->getRealPath()), 'public');
+//            $img->stream(); // <-- Key point
+//            Storage::disk('local')->put('public/images/imageBahan/small' . '/' . $fileName, $img, 'public');
+//            Storage::disk('local')->put('public/images/imageBahan/big' . '/' . $fileName, file_get_contents($image->getRealPath()), 'public');
             $toUpdate->image_uri = $fileName;
         }
         $toUpdate->save();

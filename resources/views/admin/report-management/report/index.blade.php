@@ -231,7 +231,7 @@
     <script src="{{asset('assets')}}/vendors/js/tables/datatable/buttons.bootstrap.min.js"></script>
     <script src="{{asset('assets')}}/vendors/js/tables/datatable/datatables.bootstrap4.min.js"></script>
     {{--    <script src="https://markcell.github.io/jquery-tabledit/assets/js/tabledit.min.js"></script>--}}
-    <script src="http://www.misin.msu.edu/0/js/Editor-PHP-1.4.0/js/dataTables.editor.js"></script>
+    <script src="{{asset('assets')}}/js/inline-edit-datatable.js"></script>
     {{--    <script src="{{asset('assets')}}/js/scripts/charts/chart-apex.js"></script>--}}
 
 

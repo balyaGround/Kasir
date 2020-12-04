@@ -131,10 +131,10 @@ class UserController extends Controller
 
             $img->save(public_path('storage/images/imageUser/small/'). $fileName);
             $image->move(public_path('storage/images/imageUser/big/',$fileName));
-
+//            $img->stream();
 //            Storage::disk('local')->put('public/images/imageUser/small' . '/' . $fileName, $img, 'public');
 //            Storage::disk('local')->put('public/images/imageUser/big' . '/' . $fileName, file_get_contents($image->getRealPath()), 'public');
-//            $toUpdate->image_uri = $fileName;
+            $toUpdate->image_uri = $fileName;
         }
         $toUpdate->save();
     }

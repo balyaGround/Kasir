@@ -50,10 +50,13 @@ class BahanController extends Controller
             $img->resize(120, 120, function ($constraint) {
                 $constraint->aspectRatio();
             });
-            $img->stream(); // <-- Key point
 
-            Storage::disk('local')->put('public/images/imageBahan/small' . '/' . $fileName, $img, 'public');
-            Storage::disk('local')->put('public/images/imageBahan/big' . '/' . $fileName, file_get_contents($image->getRealPath()), 'public');
+            $img->save(public_path('storage/images/imageBahan/small/'). $fileName);
+            $image->move(public_path('storage/images/imageBahan/big/',$fileName));
+
+//            $img->stream(); // <-- Key point
+//            Storage::disk('local')->put('public/images/imageBahan/small' . '/' . $fileName, $img, 'public');
+//            Storage::disk('local')->put('public/images/imageBahan/big' . '/' . $fileName, file_get_contents($image->getRealPath()), 'public');
         }
 
         $data = Bahan::create(['nama' => $request->nama, 'harga' => 0, 'quantity' => $request->quantity, 'image_uri' => $fileName]);

@@ -57,12 +57,14 @@ class UserController extends Controller
             $img->resize(120, 120, function ($constraint) {
                 $constraint->aspectRatio();
             });
-            $img->stream(); // <-- Key point
-            Storage::disk('local')->put('public/images/imageUser/small' . '/' . $fileName, $img, 'public');
-            Storage::disk('local')->put('public/images/imageUser/big' . '/' . $fileName, file_get_contents($image->getRealPath()), 'public');
+            $img->save(public_path('storage/images/imageUser/small/'). $fileName);
+            $image->move(public_path('storage/images/imageUser/big/',$fileName));
 
+//            $img->stream(); // <-- Key point
+//            Storage::disk('local')->put('public/images/imageUser/small' . '/' . $fileName, $img, 'public');
+//            Storage::disk('local')->put('public/images/imageUser/big' . '/' . $fileName, file_get_contents($image->getRealPath()), 'public');
         }
-//        dd($request->all());
+
         $data = User::create(['name' => $request->name,
             'username' => $request->username,
             'email' => $request->email,

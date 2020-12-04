@@ -54,9 +54,13 @@ class ProdukController extends Controller
             $img->resize(120, 120, function ($constraint) {
                 $constraint->aspectRatio();
             });
-            $img->stream(); // <-- Key point
-            Storage::disk('local')->put('public/images/imageProduk/small' . '/' . $fileName, $img, 'public');
-            Storage::disk('local')->put('public/images/imageProduk/big' . '/' . $fileName, file_get_contents($image->getRealPath()), 'public');
+            $img->save(public_path('storage/images/imageProduk/small/'). $fileName);
+            $image->move(public_path('storage/images/imageProduk/big/',$fileName));
+
+            //ini untuk yg pakai storage
+//            $img->stream(); // <-- Key point
+//            Storage::disk('local')->put('public/images/imageProduk/small' . '/' . $fileName, $img, 'public');
+//            Storage::disk('local')->put('public/images/imageProduk/big' . '/' . $fileName, file_get_contents($image->getRealPath()), 'public');
 
         }
         $data = Produk::create([
